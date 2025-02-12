@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeProxy", "CubeProxy\CubeProxy.csproj", "{2A216C09-3AE2-4F70-B350-BCCE2E2334E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNetCube", "LibNetCube\LibNetCube.csproj", "{8CBB54E4-7451-4BE7-9905-319B293B011E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A216C09-3AE2-4F70-B350-BCCE2E2334E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A216C09-3AE2-4F70-B350-BCCE2E2334E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A216C09-3AE2-4F70-B350-BCCE2E2334E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A216C09-3AE2-4F70-B350-BCCE2E2334E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

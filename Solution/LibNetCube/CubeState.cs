@@ -1,0 +1,134 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LibNetCube
+{
+    public class CubeState
+    {
+        public const int FaceWidth = 3;
+        public const int FaceCount = 6;
+
+        private Dictionary<CubeFace, int[,]> Faces = new Dictionary<CubeFace, int[,]>();
+
+        public CubeState(List<int[,]> faces)
+        {
+            List<CubeFace> names = GetFaceNames();
+            for(int i=0; i<names.Count; i++)
+            {
+                CubeFace name = names[i];
+                Faces[name] = faces[i];
+            }
+        }
+
+        public CubeState(byte[] payload)
+        {
+            List<CubeFace> names = GetFaceNames();
+            foreach (CubeFace name in names)
+            {
+                Faces[name] = DeserializeFace(payload, name);
+            }
+        }
+
+        public List<CubeFace> GetFaceNames()
+        {
+            List<CubeFace> result = new List<CubeFace>()
+            {
+                CubeFace.Back,
+                CubeFace.Bottom,
+                CubeFace.Front,
+                CubeFace.Left,
+                CubeFace.Right,
+                CubeFace.Top,
+            };
+
+            return result;
+        }
+
+        public int[,] GetFace(CubeFace face)
+        {
+            return Faces[face];
+        }
+
+        public byte[] Serialize()
+        {
+            int m = FaceCount;
+            int n = FaceWidth * FaceWidth;
+            byte[] result = new byte[m * n];
+
+            List<CubeFace> names = GetFaceNames();
+            for(int i=0; i<m; i++)
+            {
+                CubeFace name = names[i];
+                byte[] bytes = SerializeFace(name);
+                int p = i * n;
+                for(int j=0; j<n; j++)
+                {
+                    result[p + j] = bytes[j];
+                }
+            }
+
+            return result;
+        }
+
+        private byte[] SerializeFace(CubeFace face)
+        {
+            int[,] values = Faces[face];
+            return SerializeFace(values);
+        }
+
+        private byte[] SerializeFace(int[,] face)
+        {
+            byte[] result = new byte[FaceWidth * FaceWidth];
+
+            int p = 0;
+            for(int i=0; i<FaceWidth; i++)
+            {
+                for(int j=0; j<FaceWidth; j++)
+                {
+                    byte encoding = GetFaceEncoding(face[i, j]);
+                    result[p++] = encoding;
+                }
+            }
+
+            return result;
+        }
+
+        private byte GetFaceEncoding(int value)
+        {
+            return (byte)value;
+        }
+
+        private int[,] DeserializeFace(byte[] payload, CubeFace face)
+        {
+            int n = FaceWidth * FaceWidth;
+            byte[] section = new byte[n];
+            int p = (int)face * n;
+            for(int j=0; j<n; j++)
+            {
+                section[j] = payload[p + j];
+            }
+
+            return DeserializeFace(section);
+        }
+
+        private int[,] DeserializeFace(byte[] payload)
+        {
+            int[,] result = new int[FaceWidth, FaceWidth];
+            int p = 0;
+
+            for (int i = 0; i < FaceWidth; i++)
+            {
+                for (int j = 0; j < FaceWidth; j++)
+                {
+                    byte value = payload[p++];
+                    result[i, j] = (int)value;
+                }
+            }
+
+            return result;
+        }
+    }
+}
