@@ -32,7 +32,7 @@ namespace LibNetCube
             }
         }
 
-        public List<CubeFace> GetFaceNames()
+        public static List<CubeFace> GetFaceNames()
         {
             List<CubeFace> result = new List<CubeFace>()
             {
@@ -79,7 +79,7 @@ namespace LibNetCube
             return SerializeFace(values);
         }
 
-        private byte[] SerializeFace(int[,] face)
+        public static byte[] SerializeFace(int[,] face)
         {
             byte[] result = new byte[FaceWidth * FaceWidth];
 
@@ -96,12 +96,12 @@ namespace LibNetCube
             return result;
         }
 
-        private byte GetFaceEncoding(int value)
+        private static byte GetFaceEncoding(int value)
         {
             return (byte)value;
         }
 
-        private int[,] DeserializeFace(byte[] payload, CubeFace face)
+        private static int[,] DeserializeFace(byte[] payload, CubeFace face)
         {
             int n = FaceWidth * FaceWidth;
             byte[] section = new byte[n];
@@ -114,7 +114,7 @@ namespace LibNetCube
             return DeserializeFace(section);
         }
 
-        private int[,] DeserializeFace(byte[] payload)
+        public static int[,] DeserializeFace(byte[] payload)
         {
             int[,] result = new int[FaceWidth, FaceWidth];
             int p = 0;

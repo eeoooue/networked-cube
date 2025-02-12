@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeProxy", "CubeProxy\Cube
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNetCube", "LibNetCube\LibNetCube.csproj", "{8CBB54E4-7451-4BE7-9905-319B293B011E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "TestSuite\TestSuite.csproj", "{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CBB54E4-7451-4BE7-9905-319B293B011E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
