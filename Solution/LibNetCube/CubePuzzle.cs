@@ -101,7 +101,25 @@
 
         private void RollFaceIntoTopPosition(CubeFace face)
         {
-            
+            switch (face)
+            {
+                case CubeFace.Bottom:
+                    RollForwards();
+                    RollForwards();
+                    break;
+                case CubeFace.Left:
+                    break;
+                case CubeFace.Right:
+                    break;
+                case CubeFace.Front:
+                    RollForwards();
+                    break;
+                case CubeFace.Back:
+                    RollBackwards();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void RollFaceBackFromTopPosition(CubeFace face)

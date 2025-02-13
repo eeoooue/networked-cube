@@ -13,22 +13,24 @@ namespace DummyService
         {
             TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5000);
             tcpListener.Start();
-
             TcpClient tcpClient = tcpListener.AcceptTcpClient();
-            NetworkStream nStream = tcpClient.GetStream();
 
-            string move = ReadFromStream(nStream);
-            Console.WriteLine("Received bytes: \"" + move + "\"");
+            while (true)
+            {
+                NetworkStream nStream = tcpClient.GetStream();
 
-            ApplyMove(move);
+                string move = ReadFromStream(nStream);
+                Console.WriteLine("Received bytes: \"" + move + "\"");
 
-            // SEND CUBE STATE
+                ApplyMove(move);
 
-            CubeState state = GetCubeState();
-            byte[] response = CreateCubeResponse(state);
-            nStream.Write(response, 0, response.Length);
+                // SEND CUBE STATE
 
-            Console.WriteLine($"Sent: cube state {response}");
+                CubeState state = GetCubeState();
+                byte[] response = CreateCubeResponse(state);
+                nStream.Write(response, 0, response.Length);
+                Console.WriteLine($"Sent: cube state {response}");
+            }
 
             Console.ReadKey(); // Wait for keypress before exit
         }
@@ -57,6 +59,14 @@ namespace DummyService
             {
                 char x = move[0];
                 Puzzle.PerformMove(x);
+            }
+
+            if (move.Length == 2 && move[1] == '\'')
+            {
+                string c = move[0].ToString();
+                ApplyMove(c);
+                ApplyMove(c);
+                ApplyMove(c);
             }
         }
 
