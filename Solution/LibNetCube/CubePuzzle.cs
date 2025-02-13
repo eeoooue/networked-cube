@@ -73,6 +73,17 @@
             }
         }
 
+        private void RollFaceIntoTopPosition(CubeFace face)
+        {
+            
+        }
+
+        private void RollFaceBackFromTopPosition(CubeFace face)
+        {
+
+        }
+
+
         public void RotateCube(char rotation)
         {
             switch (rotation)
