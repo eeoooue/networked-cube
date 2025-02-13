@@ -13,11 +13,6 @@
         private int[,] FrontFace = { { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } };
         private int[,] BackFace = { { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } };
 
-        public CubePuzzle()
-        {
-            RotateTopFaceClockwise();
-        }
-
         public CubeState GetState()
         {
             List<int[,]> reads = new List<int[,]>();
