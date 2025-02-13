@@ -7,6 +7,8 @@ namespace DummyService
 {
     internal class Program
     {
+        static private CubePuzzle Puzzle = new CubePuzzle();
+
         static void Main(string[] args)
         {
             TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5000);
@@ -15,13 +17,14 @@ namespace DummyService
             TcpClient tcpClient = tcpListener.AcceptTcpClient();
             NetworkStream nStream = tcpClient.GetStream();
 
-            byte[] message = ReadFromStream(nStream);
-            Console.WriteLine("Received bytes: \"" + message + "\"");
+            string move = ReadFromStream(nStream);
+            Console.WriteLine("Received bytes: \"" + move + "\"");
 
+            ApplyMove(move);
 
             // SEND CUBE STATE
 
-            CubeState state = GetExampleCubeState();
+            CubeState state = GetCubeState();
             byte[] response = CreateCubeResponse(state);
             nStream.Write(response, 0, response.Length);
 
@@ -30,12 +33,31 @@ namespace DummyService
             Console.ReadKey(); // Wait for keypress before exit
         }
 
-        static CubeState GetExampleCubeState()
+        static CubeState GetCubeState()
         {
-            CubePuzzle puzzle = new CubePuzzle();
-            puzzle.PerformMove('U');
+            return Puzzle.GetState();
+        }
 
-            return puzzle.GetState();
+
+        static void ApplyMove(byte[] bytes)
+        {
+            string move = Encoding.ASCII.GetString(bytes);
+
+            if (move.Length == 1)
+            {
+                char x = move[0];
+                Puzzle.PerformMove(x);
+            }
+        }
+
+
+        static void ApplyMove(string move)
+        {
+            if (move.Length == 1)
+            {
+                char x = move[0];
+                Puzzle.PerformMove(x);
+            }
         }
 
 
@@ -55,15 +77,13 @@ namespace DummyService
 
 
 
-        static byte[] ReadFromStream(NetworkStream stream)
+        static string ReadFromStream(NetworkStream stream)
         {
             int messageLength = stream.ReadByte();
             byte[] messageBytes = new byte[messageLength];
+            stream.Read(messageBytes, 0, messageLength);
 
-            // stream.Read(messageBytes, 0, messageLength);
-            return messageBytes;
-
-            // return Encoding.ASCII.GetString(messageBytes);
+            return Encoding.ASCII.GetString(messageBytes).ToUpper();
         }
 
     }
