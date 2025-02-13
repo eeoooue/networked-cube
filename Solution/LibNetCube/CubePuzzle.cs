@@ -60,6 +60,20 @@
             }
         }
 
+
+        public void PerformMove(char move)
+        {
+            switch (move)
+            {
+                case 'U':
+                    RotateTopFaceClockwise();
+                    return;
+                default:
+                    return;
+            }
+        }
+
+
         private void RotateTopFaceClockwise()
         {
             ReplaceFaceWithClockwiseRotation(CubeFace.Top);
