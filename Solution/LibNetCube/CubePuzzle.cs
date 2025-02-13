@@ -63,13 +63,39 @@
 
         public void PerformMove(char move)
         {
+            if (move == 'M')
+            {
+                RotateMiddle();
+                return;
+            }
+
+            CubeFace face = GetAffectedFace(move);
+            RollFaceIntoTopPosition(CubeFace.Bottom);
+            RotateTopFaceClockwise();
+            RollFaceBackFromTopPosition(CubeFace.Bottom);
+        }
+
+        private void RotateMiddle()
+        {
+
+        }
+
+        private CubeFace GetAffectedFace(char move)
+        {
             switch (move)
             {
-                case 'U':
-                    RotateTopFaceClockwise();
-                    return;
+                case 'D':
+                    return CubeFace.Bottom;
+                case 'L':
+                    return CubeFace.Left;
+                case 'R':
+                    return CubeFace.Right;
+                case 'F':
+                    return CubeFace.Front;
+                case 'B':
+                    return CubeFace.Back;
                 default:
-                    return;
+                    return CubeFace.Top;
             }
         }
 
