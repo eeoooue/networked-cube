@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using LibNetCube;
 
 namespace DummyService
 {
@@ -15,14 +16,43 @@ namespace DummyService
             NetworkStream nStream = tcpClient.GetStream();
 
             byte[] message = ReadFromStream(nStream);
-            Console.WriteLine("Received: \"" + message + "\"");
+            Console.WriteLine("Received bytes: \"" + message + "\"");
 
-            //byte[] request = Serialize(translatedMessage);
-            //nStream.Write(request, 0, request.Length);
-            //Console.WriteLine("Sent: \"" + translatedMessage + "\"");
+
+            // SEND CUBE STATE
+
+            CubeState state = GetExampleCubeState();
+            byte[] response = CreateCubeResponse(state);
+            nStream.Write(response, 0, response.Length);
+
+            Console.WriteLine($"Sent: cube state {response}");
 
             Console.ReadKey(); // Wait for keypress before exit
         }
+
+        static CubeState GetExampleCubeState()
+        {
+            CubePuzzle puzzle = new CubePuzzle();
+            puzzle.PerformMove('U');
+
+            return puzzle.GetState();
+        }
+
+
+        static byte[] CreateCubeResponse(CubeState state)
+        {
+            byte[] payload = state.Serialize();
+
+            int messageLength = payload.Length;
+
+            byte[] response = new byte[payload.Length + 1];
+
+            response[0] = (byte)messageLength;
+            payload.CopyTo(response, 1);
+
+            return response;
+        }
+
 
 
         static byte[] ReadFromStream(NetworkStream stream)
@@ -36,16 +66,5 @@ namespace DummyService
             // return Encoding.ASCII.GetString(messageBytes);
         }
 
-
-        static byte[] Serialize(string request)
-        {
-            byte[] responseBytes = Encoding.ASCII.GetBytes(request);
-            byte responseLength = (byte)responseBytes.Length;
-
-            byte[] rawData = new byte[responseLength + 1];
-            rawData[0] = responseLength;
-            responseBytes.CopyTo(rawData, 1);
-            return rawData;
-        }
     }
 }
