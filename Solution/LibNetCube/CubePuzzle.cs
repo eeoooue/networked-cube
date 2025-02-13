@@ -73,6 +73,26 @@
             }
         }
 
+        public void RotateCube(char rotation)
+        {
+            switch (rotation)
+            {
+                case 'W':
+                    RollForwards();
+                    return;
+                case 'A':
+                    RollAntiClockwise();
+                    return;
+                case 'S':
+                    RollBackwards();
+                    return;
+                case 'D':
+                    RollClockwise();
+                    return;
+                default:
+                    return;
+            }
+        }
 
         private void RotateTopFaceClockwise()
         {
@@ -157,7 +177,15 @@
 
         private void RollForwards()
         {
+            int[,] prevTop = ReadFace(CubeFace.Top);
+            int[,] prevFront = ReadFace(CubeFace.Front);
+            int[,] prevBottom = ReadFace(CubeFace.Bottom);
+            int[,] prevBack = ReadFace(CubeFace.Back);
 
+            ReplaceEntireFace(CubeFace.Top, prevFront);
+            ReplaceEntireFace(CubeFace.Front, prevBottom);
+            ReplaceEntireFace(CubeFace.Bottom, prevBack);
+            ReplaceEntireFace(CubeFace.Back, prevTop);
         }
 
         private void RollBackwards()
@@ -169,7 +197,15 @@
 
         private void RollClockwise()
         {
+            int[,] prevTop = ReadFace(CubeFace.Top);
+            int[,] prevLeft = ReadFace(CubeFace.Left);
+            int[,] prevBottom = ReadFace(CubeFace.Bottom);
+            int[,] prevRight = ReadFace(CubeFace.Right);
 
+            ReplaceEntireFace(CubeFace.Top, prevLeft);
+            ReplaceEntireFace(CubeFace.Left, prevBottom);
+            ReplaceEntireFace(CubeFace.Bottom, prevRight);
+            ReplaceEntireFace(CubeFace.Right, prevTop);
         }
 
         private void RollAntiClockwise()
