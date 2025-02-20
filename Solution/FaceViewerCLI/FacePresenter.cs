@@ -49,9 +49,9 @@ namespace FaceViewerCLI
 
         public void PresentRow(int[,] values, int i)
         {
-            foreach(int x in values)
+            for(int j=0; j<3; j++)
             {
-                PresentCell(x);
+                PresentCell(values[i,j]);
             }
             Console.WriteLine();
         }
@@ -62,6 +62,8 @@ namespace FaceViewerCLI
             Console.ForegroundColor = colour;
             Console.BackgroundColor = colour;
 
+            Console.Write('X');
+            Console.Write('X');
             Console.Write('X');
 
             Console.ForegroundColor = ConsoleColor.White;
