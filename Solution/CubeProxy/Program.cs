@@ -9,8 +9,5 @@
         {
             PuzzleCubeServer.StartServer();
         }
-
-
-
     }
 }
