@@ -28,8 +28,6 @@ namespace CubeProxy
 
                 NetworkStream nStream = tcpClient.GetStream();
 
-                Thread.Sleep(500); // Introducing a bit of serverside delay...
-
                 // Read the first 4 bytes and convert to an integer. This is the length of the proceeding endpoint message
                 byte[] endpointLengthBytes = new byte[4];
                 nStream.Read(endpointLengthBytes, 0, 4);
