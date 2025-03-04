@@ -23,20 +23,30 @@ namespace ViewProxy
 
         public void Listen()
         {
-            TCPListener.Start();
-            TcpClient tcpClient = TCPListener.AcceptTcpClient();
+            while (true)
+            {
+                try
+                {
+                    TcpClient tcpClient = TCPListener.AcceptTcpClient();
 
-            NetworkStream nStream = tcpClient.GetStream();
-            ReadFromStream(nStream);
+                    NetworkStream nStream = tcpClient.GetStream();
+                    ReadFromStream(nStream);
 
-            ApplyMove("U");
+                    ApplyMove("U");
 
-            // SEND CUBE STATE
+                    // SEND CUBE STATE
 
-            CubeState state = GetCubeState();
-            byte[] response = CreateCubeResponse(state);
-            nStream.Write(response, 0, response.Length);
-            Console.WriteLine($"Sent: cube state {response}");
+                    CubeState state = GetCubeState();
+                    byte[] response = CreateCubeResponse(state);
+                    nStream.Write(response, 0, response.Length);
+                    Console.WriteLine($"Sent: cube state {response}");
+                }
+                catch
+                {
+                    Console.WriteLine($"Error caught within ViewingHostWorker, continuing execution...");
+                }
+            }
+            
         }
 
         public CubeState GetCubeState()
