@@ -7,72 +7,34 @@ namespace DummyService
 {
     internal class Program
     {
-        static private CubePuzzle Puzzle = new CubePuzzle();
+        private static TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5000);
+
+        // Create 10 threads (max number of concurrent requests)
+        private static Thread[] serverThreads = new Thread[10];
 
         static void Main(string[] args)
         {
-            TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5000);
+            StartServer();
+        }
+
+        public static void StartServer()
+        {
             tcpListener.Start();
-            TcpClient tcpClient = tcpListener.AcceptTcpClient();
+            Console.WriteLine("[!] Server Active");
 
-            while (true)
+            // Start all of the threads
+            for (int i = 0; i < 10; i++)
             {
-                NetworkStream nStream = tcpClient.GetStream();
-
-                string move = ReadFromStream(nStream);
-                Console.WriteLine("Received bytes: \"" + move + "\"");
-
-                ApplyMove(move);
-
-                // SEND CUBE STATE
-
-                CubeState state = GetCubeState();
-                byte[] response = CreateCubeResponse(state);
-                nStream.Write(response, 0, response.Length);
-                Console.WriteLine($"Sent: cube state {response}");
+                serverThreads[i] = new Thread(ServerThread);
+                serverThreads[i].Start();
             }
         }
 
-        static CubeState GetCubeState()
+        private static void ServerThread()
         {
-            return Puzzle.GetState();
+            CubeInteractionHost worker = new CubeInteractionHost(tcpListener);
+            worker.Listen();
         }
 
-        static void ApplyMove(string move)
-        {
-            if (move.Length == 1)
-            {
-                char x = move[0];
-                Puzzle.PerformMove(x);
-            }
-
-            if (move.Length == 2 && move[1] == '\'')
-            {
-                string c = move[0].ToString();
-                ApplyMove(c);
-                ApplyMove(c);
-                ApplyMove(c);
-            }
-        }
-
-        static byte[] CreateCubeResponse(CubeState state)
-        {
-            byte[] payload = state.Serialize();
-            int messageLength = payload.Length;
-            byte[] response = new byte[payload.Length + 1];
-            response[0] = (byte)messageLength;
-            payload.CopyTo(response, 1);
-
-            return response;
-        }
-
-        static string ReadFromStream(NetworkStream stream)
-        {
-            int messageLength = stream.ReadByte();
-            byte[] messageBytes = new byte[messageLength];
-            stream.Read(messageBytes, 0, messageLength);
-
-            return Encoding.ASCII.GetString(messageBytes).ToUpper();
-        }
     }
 }
