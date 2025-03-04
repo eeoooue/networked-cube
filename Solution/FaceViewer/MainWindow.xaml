@@ -8,8 +8,9 @@
         Title="MainWindow" Height="280" Width="300">
     <Grid>
 
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
-            <TextBlock HorizontalAlignment="Center" FontSize="22" Margin="10" Text="{Binding FaceName}"></TextBlock>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+
+            <Button BorderThickness="0" FontSize="20" Content="{Binding FaceName}" Margin="10" Background="Transparent" Command="{Binding RotateFace}"></Button>
             <views:FaceView DataContext="{Binding Face}"></views:FaceView>
         </StackPanel>
     </Grid>

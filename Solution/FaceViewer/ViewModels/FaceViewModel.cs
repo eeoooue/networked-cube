@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace FaceViewer.ViewModels
 {
-    internal class FaceViewModel
+    internal class FaceViewModel : BaseViewModel
     {
         public CubeState? CubeState;
 
@@ -65,8 +65,9 @@ namespace FaceViewer.ViewModels
         }
 
 
-        public FaceViewModel()
+        public FaceViewModel(CubeFace face)
         {
+            Face = face;
             Values = new int[3, 3];
             Update();
         }
@@ -108,6 +109,12 @@ namespace FaceViewer.ViewModels
                 for(int j=0; j<3; j++)
                 {
                     Values[i, j] = GetFacePiece(i, j);
+
+                    string memberVariableNameA = $"Row{i}Col{j}";
+                    OnPropertyChanged(memberVariableNameA);
+
+                    string memberVariableNameB = $"ColourR{i}C{j}";
+                    OnPropertyChanged(memberVariableNameB);
                 }
             }
         }
