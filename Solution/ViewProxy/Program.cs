@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using System.Net;
+using LibNetCube;
 
 namespace ViewProxy
 {
@@ -10,9 +11,32 @@ namespace ViewProxy
         // Create 10 threads (max number of concurrent requests)
         private static Thread[] serverThreads = new Thread[10];
 
+        public static CubePuzzle Puzzle = new CubePuzzle();
+
         static void Main(string[] args)
         {
+            //ApplyMove("U");
+            //ApplyMove("L");
+            //ApplyMove("D");
+            //ApplyMove("R");
             StartServer();
+        }
+
+        static void ApplyMove(string move)
+        {
+            if (move.Length == 1)
+            {
+                char x = move[0];
+                Puzzle.PerformMove(x);
+            }
+
+            if (move.Length == 2 && move[1] == '\'')
+            {
+                string c = move[0].ToString();
+                ApplyMove(c);
+                ApplyMove(c);
+                ApplyMove(c);
+            }
         }
 
         public static void StartServer()

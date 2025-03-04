@@ -12,8 +12,6 @@ namespace ViewProxy
     {
         // static private CubePuzzle Puzzle = new CubePuzzle();
 
-        private static CubePuzzle Puzzle = new CubePuzzle();
-
         private TcpListener TCPListener;
 
         public CubeViewingHost(TcpListener listener)
@@ -32,8 +30,6 @@ namespace ViewProxy
                     NetworkStream nStream = tcpClient.GetStream();
                     ReadFromStream(nStream);
 
-                    ApplyMove("U");
-
                     // SEND CUBE STATE
 
                     CubeState state = GetCubeState();
@@ -51,25 +47,10 @@ namespace ViewProxy
 
         public CubeState GetCubeState()
         {
-            return Puzzle.GetState();
+            return Program.Puzzle.GetState();
         }
 
-        public void ApplyMove(string move)
-        {
-            if (move.Length == 1)
-            {
-                char x = move[0];
-                Puzzle.PerformMove(x);
-            }
-
-            if (move.Length == 2 && move[1] == '\'')
-            {
-                string c = move[0].ToString();
-                ApplyMove(c);
-                ApplyMove(c);
-                ApplyMove(c);
-            }
-        }
+        
 
         public byte[] CreateCubeResponse(CubeState state)
         {
@@ -94,8 +75,6 @@ namespace ViewProxy
             {
 
             }
-
-            // return Encoding.ASCII.GetString(messageBytes).ToUpper();
         }
     }
 }
