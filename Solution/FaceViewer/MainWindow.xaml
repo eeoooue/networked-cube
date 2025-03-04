@@ -9,9 +9,7 @@
     <Grid>
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock FontSize="22" Margin="10">FaceName</TextBlock>
-            </StackPanel>
+            <TextBlock HorizontalAlignment="Center" FontSize="22" Margin="10" Text="{Binding FaceName}"></TextBlock>
             <views:FaceView DataContext="{Binding Face}"></views:FaceView>
         </StackPanel>
     </Grid>

@@ -12,9 +12,11 @@ namespace FaceViewer.ViewModels
     internal class MainViewModel
     {
         public FaceViewModel Face { get; set; }
+        public string FaceName { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(string faceName = "Front")
         {
+            FaceName = faceName;
             Face = new FaceViewModel();
         }
 
