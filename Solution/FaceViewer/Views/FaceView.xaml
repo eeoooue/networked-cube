@@ -10,21 +10,21 @@
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col0}"></Button>
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col1}"></Button>
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col2}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col0}" Background="{Binding ColourR0C0}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col1}" Background="{Binding ColourR0C1}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col2}" Background="{Binding ColourR0C2}"></Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col0}"></Button>
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col1}"></Button>
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col2}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col0}" Background="{Binding ColourR1C0}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col1}" Background="{Binding ColourR1C1}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col2}" Background="{Binding ColourR1C2}"></Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col0}"></Button>
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col1}"></Button>
-                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col2}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col0}" Background="{Binding ColourR2C0}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col1}" Background="{Binding ColourR2C1}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col2}" Background="{Binding ColourR2C2}"></Button>
             </StackPanel>
         </StackPanel>
 
