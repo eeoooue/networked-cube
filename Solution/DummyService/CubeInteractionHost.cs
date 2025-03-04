@@ -13,7 +13,7 @@ namespace DummyService
     {
         // static private CubePuzzle Puzzle = new CubePuzzle();
 
-        private CubePuzzle Puzzle = new CubePuzzle();
+        private static CubePuzzle Puzzle = new CubePuzzle();
 
         private TcpListener TCPListener;
 
