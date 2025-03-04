@@ -26,22 +26,17 @@ namespace ViewProxy
             TCPListener.Start();
             TcpClient tcpClient = TCPListener.AcceptTcpClient();
 
-            while (true)
-            {
-                NetworkStream nStream = tcpClient.GetStream();
+            NetworkStream nStream = tcpClient.GetStream();
+            ReadFromStream(nStream);
 
-                string move = ReadFromStream(nStream);
-                // Console.WriteLine("Received bytes: \"" + move + "\"");
+            ApplyMove("U");
 
-                ApplyMove("U");
+            // SEND CUBE STATE
 
-                // SEND CUBE STATE
-
-                CubeState state = GetCubeState();
-                byte[] response = CreateCubeResponse(state);
-                nStream.Write(response, 0, response.Length);
-                Console.WriteLine($"Sent: cube state {response}");
-            }
+            CubeState state = GetCubeState();
+            byte[] response = CreateCubeResponse(state);
+            nStream.Write(response, 0, response.Length);
+            Console.WriteLine($"Sent: cube state {response}");
         }
 
         public CubeState GetCubeState()
@@ -77,13 +72,20 @@ namespace ViewProxy
             return response;
         }
 
-        public string ReadFromStream(NetworkStream stream)
+        public void ReadFromStream(NetworkStream stream)
         {
-            int messageLength = stream.ReadByte();
-            byte[] messageBytes = new byte[messageLength];
-            stream.Read(messageBytes, 0, messageLength);
+            try
+            {
+                int messageLength = stream.ReadByte();
+                byte[] messageBytes = new byte[messageLength];
+                stream.Read(messageBytes, 0, messageLength);
+            }
+            catch
+            {
 
-            return Encoding.ASCII.GetString(messageBytes).ToUpper();
+            }
+
+            // return Encoding.ASCII.GetString(messageBytes).ToUpper();
         }
     }
 }
