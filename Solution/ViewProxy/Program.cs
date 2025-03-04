@@ -1,13 +1,11 @@
 ﻿using System.Net.Sockets;
 using System.Net;
-using System.Text;
-using LibNetCube;
 
-namespace DummyService
+namespace ViewProxy
 {
     internal class Program
     {
-        private static TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5000);
+        private static TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5002);
 
         // Create 10 threads (max number of concurrent requests)
         private static Thread[] serverThreads = new Thread[10];
@@ -20,7 +18,7 @@ namespace DummyService
         public static void StartServer()
         {
             tcpListener.Start();
-            Console.WriteLine("[!] Server Active");
+            Console.WriteLine($"[!] Server Active: ViewProxy @ port = 5002");
 
             // Start all of the threads
             for (int i = 0; i < 10; i++)
@@ -32,9 +30,8 @@ namespace DummyService
 
         private static void ServerThread()
         {
-            CubeInteractionHost worker = new CubeInteractionHost(tcpListener);
+            CubeViewingHost worker = new CubeViewingHost(tcpListener);
             worker.Listen();
         }
-
     }
 }

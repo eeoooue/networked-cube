@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="FaceViewer.Views.FaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FaceViewer.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col0}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col1}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row0Col2}"></Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col0}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col1}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row1Col2}"></Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col0}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col1}"></Button>
+                <Button Height="40" Width="40" Margin="5" Content="{Binding Row2Col2}"></Button>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

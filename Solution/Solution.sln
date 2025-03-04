@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeManipulator", "CubeMani
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{6535E8DC-E080-43B7-8A44-0E1E859CE0DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewProxy", "ViewProxy\ViewProxy.csproj", "{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{6535E8DC-E080-43B7-8A44-0E1E859CE0DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6535E8DC-E080-43B7-8A44-0E1E859CE0DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6535E8DC-E080-43B7-8A44-0E1E859CE0DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
