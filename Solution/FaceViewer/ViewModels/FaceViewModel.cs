@@ -47,17 +47,17 @@ namespace FaceViewer.ViewModels
             int value = Values[i, j];
             switch (value)
             {
-                case 0:
-                    return Brushes.Crimson;
                 case 1:
-                    return Brushes.Coral;
-                case 2:
                     return Brushes.Gold;
+                case 2:
+                    return Brushes.Crimson;
                 case 3:
-                    return Brushes.LimeGreen;
-                case 4:
                     return Brushes.DodgerBlue;
+                case 4:
+                    return Brushes.LimeGreen;
                 case 5:
+                    return Brushes.Coral;
+                case 0:
                     return Brushes.White;
                 default:
                     return Brushes.White;
