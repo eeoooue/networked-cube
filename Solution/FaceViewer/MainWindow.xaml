@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FaceViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="280" Width="300">
     <Grid>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock FontSize="22" Margin="10">FaceName</TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="40" Width="40" Margin="5">A</Button>
+                <Button Height="40" Width="40" Margin="5">A</Button>
+                <Button Height="40" Width="40" Margin="5">A</Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="40" Width="40" Margin="5">A</Button>
+                <Button Height="40" Width="40" Margin="5">A</Button>
+                <Button Height="40" Width="40" Margin="5">A</Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                <Button Height="40" Width="40" Margin="5">A</Button>
+                <Button Height="40" Width="40" Margin="5">A</Button>
+                <Button Height="40" Width="40" Margin="5">A</Button>
+            </StackPanel>
+        </StackPanel>
 
     </Grid>
 </Window>

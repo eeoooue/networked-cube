@@ -1,0 +1,34 @@
+﻿<Window x:Class="CubeManipulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CubeManipulator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="450">
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <Button Margin="2" Height="50" Width="150">U</Button>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="2" Width="50" Height="150">L</Button>
+                <Button Margin="2" Width="50" Height="150">B</Button>
+                <Button Margin="2" Width="50" Height="150">M</Button>
+                <Button Margin="2" Width="50" Height="150">F</Button>
+                <Button Margin="2" Width="50" Height="150">R</Button>
+            </StackPanel>
+
+            <Button Margin="2"  Height="50" Width="150">D</Button>
+
+        </StackPanel>
+        
+        
+            
+    </StackPanel>
+        
+        
+
+</Window>

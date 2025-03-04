@@ -31,27 +31,12 @@ namespace DummyService
                 nStream.Write(response, 0, response.Length);
                 Console.WriteLine($"Sent: cube state {response}");
             }
-
-            Console.ReadKey(); // Wait for keypress before exit
         }
 
         static CubeState GetCubeState()
         {
             return Puzzle.GetState();
         }
-
-
-        static void ApplyMove(byte[] bytes)
-        {
-            string move = Encoding.ASCII.GetString(bytes);
-
-            if (move.Length == 1)
-            {
-                char x = move[0];
-                Puzzle.PerformMove(x);
-            }
-        }
-
 
         static void ApplyMove(string move)
         {
@@ -70,22 +55,16 @@ namespace DummyService
             }
         }
 
-
         static byte[] CreateCubeResponse(CubeState state)
         {
             byte[] payload = state.Serialize();
-
             int messageLength = payload.Length;
-
             byte[] response = new byte[payload.Length + 1];
-
             response[0] = (byte)messageLength;
             payload.CopyTo(response, 1);
 
             return response;
         }
-
-
 
         static string ReadFromStream(NetworkStream stream)
         {
@@ -95,6 +74,5 @@ namespace DummyService
 
             return Encoding.ASCII.GetString(messageBytes).ToUpper();
         }
-
     }
 }
