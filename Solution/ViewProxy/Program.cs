@@ -2,6 +2,7 @@
 using System.Net;
 using LibNetCube;
 using System.Text;
+using System.Threading;
 
 namespace ViewProxy
 {
@@ -28,6 +29,7 @@ namespace ViewProxy
             //ApplyMove("R");
 
             updateThread = new Thread(StateUpdateTicker);
+            updateThread.IsBackground = true;
             updateThread.Start();
 
             StartServer();
@@ -59,6 +61,7 @@ namespace ViewProxy
             for (int i = 0; i < 10; i++)
             {
                 serverThreads[i] = new Thread(ServerThread);
+                serverThreads[i].IsBackground = true;
                 serverThreads[i].Start();
             }
         }

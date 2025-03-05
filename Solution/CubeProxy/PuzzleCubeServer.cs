@@ -23,6 +23,7 @@ namespace CubeProxy
             for (int i = 0; i < 10; i++)
             {
                 serverThreads[i] = new Thread(ServerThread);
+                serverThreads[i].IsBackground = true;
                 serverThreads[i].Start();
             }
         }

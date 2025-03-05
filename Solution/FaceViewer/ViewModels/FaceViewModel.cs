@@ -47,6 +47,7 @@ namespace FaceViewer.ViewModels
             Face = face;
             Values = new int[3, 3];
             Thread thread = new Thread(StateUpdateTicker);
+            thread.IsBackground = true;
             thread.Start();
             Update();
         }
