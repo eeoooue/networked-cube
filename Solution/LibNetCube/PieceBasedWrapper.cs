@@ -13,152 +13,181 @@ namespace LibNetCube
         public List<CornerPiece> CornerPieces;
         public List<EdgePiece> EdgePieces;
 
-        public PieceBasedWrapper()
+        public PieceBasedWrapper(CubeState state)
         {
-            AnchorPieces = CreateAnchors();
-            CornerPieces = CreateCorners();
-            EdgePieces = CreateEdges();
+            AnchorPieces = CreateAnchors(state);
+            CornerPieces = CreateCorners(state);
+            EdgePieces = CreateEdges(state);
         }
 
-        public List<AnchorPiece> CreateAnchors()
+        public List<AnchorPiece> CreateAnchors(CubeState state)
         {
-            List<AnchorPiece> result = new List<AnchorPiece>();
-
-            AnchorPiece top = new AnchorPiece(CubeFace.Top, 0);
-            AnchorPiece bottom = new AnchorPiece(CubeFace.Bottom, 0);
-
-            AnchorPiece left = new AnchorPiece(CubeFace.Left, 0);
-            AnchorPiece right = new AnchorPiece(CubeFace.Right, 0);
-
-            AnchorPiece front = new AnchorPiece(CubeFace.Front, 0);
-            AnchorPiece back = new AnchorPiece(CubeFace.Back, 0);
+            List<AnchorPiece> result = new List<AnchorPiece>()
+            {
+                ReadAnchor(state, "top"),
+                ReadAnchor(state, "bottom"),
+                ReadAnchor(state, "left"),
+                ReadAnchor(state, "right"),
+                ReadAnchor(state, "front"),
+                ReadAnchor(state, "back"),
+            };
 
             return result;
         }
 
-        public List<CornerPiece> CreateCorners()
+        public AnchorPiece ReadAnchor(CubeState state, string identifier)
         {
-            List<CornerPiece> result = new List<CornerPiece>();
+            CubeFace face = CubeFace.Top;
+            int value = 0;
 
-            // top 4
+            switch (identifier)
+            {
+                case "top":
+                    face = CubeFace.Top;
+                    value = 0;
+                    break;
+                case "bottom":
+                    face = CubeFace.Bottom;
+                    value = 0;
+                    break;
+                case "left":
+                    face = CubeFace.Left;
+                    value = 0;
+                    break;
+                case "right":
+                    face = CubeFace.Right;
+                    value = 0;
+                    break;
+                case "front":
+                    face = CubeFace.Front;
+                    value = 0;
+                    break;
+                case "back":
+                    face = CubeFace.Back;
+                    value = 0;
+                    break;
+                default:
+                    break;
 
-            List<CubeFace> facesA = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesA = [0, 0, 0];
-            CornerPiece pieceA = new CornerPiece(facesA, valuesA);
-            result.Add(pieceA);
+            }
 
-            List<CubeFace> facesB = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesB = [0, 0, 0];
-            CornerPiece pieceB = new CornerPiece(facesB, valuesB);
-            result.Add(pieceB);
+            return new AnchorPiece(face, value);
+        }
 
-            List<CubeFace> facesC = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesC = [0, 0, 0];
-            CornerPiece pieceC = new CornerPiece(facesC, valuesC);
-            result.Add(pieceC);
+        public List<CornerPiece> CreateCorners(CubeState state)
+        {
+            List<CornerPiece> result = new List<CornerPiece>()
+            {
+                ReadCorner(state, "top-ne"),
+                ReadCorner(state, "top-se"),
+                ReadCorner(state, "top-sw"),
+                ReadCorner(state, "top-nw"),
 
-            List<CubeFace> facesD = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesD = [0, 0, 0];
-            CornerPiece pieceD = new CornerPiece(facesD, valuesD);
-            result.Add(pieceD);
-
-
-            // bottom 4
-
-            List<CubeFace> facesE = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesE = [0, 0, 0];
-            CornerPiece pieceE = new CornerPiece(facesE, valuesE);
-            result.Add(pieceE);
-
-            List<CubeFace> facesF = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesF = [0, 0, 0];
-            CornerPiece pieceF = new CornerPiece(facesF, valuesF);
-            result.Add(pieceF);
-
-            List<CubeFace> facesG = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesG = [0, 0, 0];
-            CornerPiece pieceG = new CornerPiece(facesG, valuesG);
-            result.Add(pieceG);
-
-            List<CubeFace> facesH = [CubeFace.Top, CubeFace.Top, CubeFace.Top];
-            List<int> valuesH = [0, 0, 0];
-            CornerPiece pieceH = new CornerPiece(facesH, valuesH);
-            result.Add(pieceH);
+                ReadCorner(state, "bottom-ne"),
+                ReadCorner(state, "bottom-se"),
+                ReadCorner(state, "bottom-sw"),
+                ReadCorner(state, "bottom-nw"),
+            };
 
             return result;
         }
 
-        public List<EdgePiece> CreateEdges()
+
+        public CornerPiece ReadCorner(CubeState state, string identifier)
         {
-            List<EdgePiece> result = new List<EdgePiece>();
+            List<CubeFace> faces = new List<CubeFace>();
+            List<int> values = new List<int>();
 
-            // top 4
+            switch (identifier)
+            {
+                case "top-ne":
+                    break;
+                case "top-se":
+                    break;
+                case "top-sw":
+                    break;
+                case "top-nw":
+                    break;
 
-            List<CubeFace> facesA = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesA = [0, 0];
-            EdgePiece pieceA = new EdgePiece(facesA, valuesA);
-            result.Add(pieceA);
+                case "bottom-ne":
+                    break;
+                case "bottom-se":
+                    break;
+                case "bottom-sw":
+                    break;
+                case "bottom-nw":
+                    break;
 
-            List<CubeFace> facesB = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesB = [0, 0];
-            EdgePiece pieceB = new EdgePiece(facesB, valuesB);
-            result.Add(pieceB);
+                default:
+                    break;
+            }
 
-            List<CubeFace> facesC = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesC = [0, 0];
-            EdgePiece pieceC = new EdgePiece(facesC, valuesC);
-            result.Add(pieceC);
+            return new CornerPiece(faces, values);
+        }
 
-            List<CubeFace> facesD = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesD = [0, 0];
-            EdgePiece pieceD = new EdgePiece(facesD, valuesD);
-            result.Add(pieceD);
 
-            // middle 4
+        public List<EdgePiece> CreateEdges(CubeState state)
+        {
+            List<EdgePiece> result = new List<EdgePiece>()
+            {
+                ReadEdge(state, "top-n"),
+                ReadEdge(state, "top-e"),
+                ReadEdge(state, "top-s"),
+                ReadEdge(state, "top-w"),
 
-            List<CubeFace> facesE = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesE = [0, 0];
-            EdgePiece pieceE = new EdgePiece(facesE, valuesE);
-            result.Add(pieceE);
+                ReadEdge(state, "middle-ne"),
+                ReadEdge(state, "middle-se"),
+                ReadEdge(state, "middle-sw"),
+                ReadEdge(state, "middle-nw"),
 
-            List<CubeFace> facesF = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesF = [0, 0];
-            EdgePiece pieceF = new EdgePiece(facesF, valuesF);
-            result.Add(pieceF);
-
-            List<CubeFace> facesG = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesG = [0, 0];
-            EdgePiece pieceG = new EdgePiece(facesG, valuesG);
-            result.Add(pieceG);
-
-            List<CubeFace> facesH = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesH = [0, 0];
-            EdgePiece pieceH = new EdgePiece(facesH, valuesH);
-            result.Add(pieceH);
-
-            // bottom 4
-
-            List<CubeFace> facesI = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesI = [0, 0];
-            EdgePiece pieceI = new EdgePiece(facesI, valuesI);
-            result.Add(pieceI);
-
-            List<CubeFace> facesJ = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesJ = [0, 0];
-            EdgePiece pieceJ = new EdgePiece(facesJ, valuesJ);
-            result.Add(pieceJ);
-
-            List<CubeFace> facesK = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesK = [0, 0];
-            EdgePiece pieceK = new EdgePiece(facesK, valuesK);
-            result.Add(pieceK);
-
-            List<CubeFace> facesL = [CubeFace.Top, CubeFace.Top];
-            List<int> valuesL = [0, 0];
-            EdgePiece pieceL = new EdgePiece(facesL, valuesL);
-            result.Add(pieceL);
+                ReadEdge(state, "bottom-n"),
+                ReadEdge(state, "bottom-e"),
+                ReadEdge(state, "bottom-s"),
+                ReadEdge(state, "bottom-w"),
+            };
 
             return result;
+        }
+
+        public EdgePiece ReadEdge(CubeState state, string identifier)
+        {
+            List<CubeFace> faces = new List<CubeFace>();
+            List<int> values = new List<int>();
+
+            switch (identifier)
+            {
+                case "top-n":
+                    break;
+                case "top-e":
+                    break;
+                case "top-s":
+                    break;
+                case "top-w":
+                    break;
+
+                case "middle-n":
+                    break;
+                case "middle-e":
+                    break;
+                case "middle-s":
+                    break;
+                case "middle-w":
+                    break;
+
+                case "bottom-n":
+                    break;
+                case "bottom-e":
+                    break;
+                case "bottom-s":
+                    break;
+                case "bottom-w":
+                    break;
+
+                default:
+                    break;
+            }
+
+            return new EdgePiece(faces, values);
         }
     }
 }
