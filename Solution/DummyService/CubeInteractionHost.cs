@@ -25,24 +25,32 @@ namespace DummyService
         public void Listen()
         {
             TCPListener.Start();
-            TcpClient tcpClient = TCPListener.AcceptTcpClient();
 
             while (true)
             {
-                NetworkStream nStream = tcpClient.GetStream();
+                try
+                {
+                    TcpClient tcpClient = TCPListener.AcceptTcpClient();
 
-                string move = ReadFromStream(nStream);
-                Console.WriteLine("Received bytes: \"" + move + "\"");
+                    NetworkStream nStream = tcpClient.GetStream();
+                    string move = ReadFromStream(nStream);
 
-                ApplyMove(move);
+                    Console.WriteLine("Received bytes: \"" + move + "\"");
+                    ApplyMove(move);
 
-                // SEND CUBE STATE
+                    // SEND CUBE STATE
 
-                CubeState state = GetCubeState();
-                byte[] response = CreateCubeResponse(state);
-                nStream.Write(response, 0, response.Length);
-                Console.WriteLine($"Sent: cube state {response}");
+                    CubeState state = GetCubeState();
+                    byte[] response = CreateCubeResponse(state);
+                    nStream.Write(response, 0, response.Length);
+                    Console.WriteLine($"Sent: cube state {response}");
+                }
+                catch
+                {
+                    Console.WriteLine($"Error caught within ViewingHostWorker, continuing execution...");
+                }
             }
+
         }
 
         public CubeState GetCubeState()
