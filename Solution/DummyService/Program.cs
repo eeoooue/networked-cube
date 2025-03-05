@@ -15,6 +15,8 @@ namespace DummyService
         static void Main(string[] args)
         {
             StartServer();
+
+            Console.ReadLine();
         }
 
         public static void StartServer()

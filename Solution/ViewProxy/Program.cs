@@ -33,6 +33,8 @@ namespace ViewProxy
             updateThread.Start();
 
             StartServer();
+
+            Console.ReadLine();
         }
 
         static void StateUpdateTicker()
