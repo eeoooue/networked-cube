@@ -1,6 +1,8 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using LibNetCube;
+using System.Text;
+using System.Threading;
 
 namespace ViewProxy
 {
@@ -11,31 +13,44 @@ namespace ViewProxy
         // Create 10 threads (max number of concurrent requests)
         private static Thread[] serverThreads = new Thread[10];
 
-        public static CubePuzzle Puzzle = new CubePuzzle();
+        private static Thread updateThread;
+
+        public static CubeState State;
 
         static void Main(string[] args)
         {
+            CubePuzzle temp = new CubePuzzle();
+            State = temp.GetState();
+
+
             //ApplyMove("U");
             //ApplyMove("L");
             //ApplyMove("D");
             //ApplyMove("R");
+
+            updateThread = new Thread(StateUpdateTicker);
+            updateThread.IsBackground = true;
+            updateThread.Start();
+
             StartServer();
+
+            Console.ReadLine();
         }
 
-        static void ApplyMove(string move)
+        static void StateUpdateTicker()
         {
-            if (move.Length == 1)
+            while (true)
             {
-                char x = move[0];
-                Puzzle.PerformMove(x);
-            }
-
-            if (move.Length == 2 && move[1] == '\'')
-            {
-                string c = move[0].ToString();
-                ApplyMove(c);
-                ApplyMove(c);
-                ApplyMove(c);
+                Thread.Sleep(500);
+                if (TryGetCubeState() is CubeState state)
+                {
+                    State = state;
+                    Console.WriteLine("Updated state successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to update state");
+                }
             }
         }
 
@@ -48,6 +63,7 @@ namespace ViewProxy
             for (int i = 0; i < 10; i++)
             {
                 serverThreads[i] = new Thread(ServerThread);
+                serverThreads[i].IsBackground = true;
                 serverThreads[i].Start();
             }
         }
@@ -57,5 +73,60 @@ namespace ViewProxy
             CubeViewingHost worker = new CubeViewingHost(tcpListener);
             worker.Listen();
         }
+
+
+        #region Reading Cube State
+
+        public static CubeState? TryGetCubeState()
+        {
+            try
+            {
+                return ReadCubeStateFromProxyServer();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static CubeState ReadCubeStateFromProxyServer()
+        {
+            using (TcpClient tcpClient = new TcpClient())
+            {
+                tcpClient.Connect("127.0.0.1", 5000);
+
+                using (NetworkStream nStream = tcpClient.GetStream())
+                {
+                    byte[] request = GetBytesToSend("X");
+                    nStream.Write(request, 0, request.Length);
+                    nStream.Flush();
+
+                    byte[] received = ReadFromStream(nStream);
+                    return new CubeState(received);
+                }
+            }
+        }
+
+        public static byte[] GetBytesToSend(string request)
+        {
+            byte[] responseBytes = Encoding.ASCII.GetBytes(request);
+            byte responseLength = (byte)responseBytes.Length;
+
+            byte[] rawData = new byte[responseLength + 1];
+            rawData[0] = responseLength;
+            responseBytes.CopyTo(rawData, 1);
+            return rawData;
+        }
+
+        static byte[] ReadFromStream(NetworkStream stream)
+        {
+            int messageLength = stream.ReadByte();
+            byte[] messageBytes = new byte[messageLength];
+            stream.Read(messageBytes, 0, messageLength);
+            return messageBytes;
+        }
+
+        #endregion
+
     }
 }

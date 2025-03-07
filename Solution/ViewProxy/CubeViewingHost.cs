@@ -47,7 +47,7 @@ namespace ViewProxy
 
         public CubeState GetCubeState()
         {
-            return Program.Puzzle.GetState();
+            return Program.State;
         }
 
         

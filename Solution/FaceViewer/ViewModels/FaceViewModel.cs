@@ -42,6 +42,26 @@ namespace FaceViewer.ViewModels
         public Brush ColourR2C2 { get { return CalcColour(2, 2); } }
 
 
+        public FaceViewModel(CubeFace face)
+        {
+            Face = face;
+            Values = new int[3, 3];
+            Thread thread = new Thread(StateUpdateTicker);
+            thread.IsBackground = true;
+            thread.Start();
+            Update();
+        }
+
+        public void StateUpdateTicker()
+        {
+            while (true)
+            {
+                Thread.Sleep(500);
+                Update();
+            }
+        }
+
+
         public Brush CalcColour(int i, int j)
         {
             int value = Values[i, j];
@@ -65,12 +85,6 @@ namespace FaceViewer.ViewModels
         }
 
 
-        public FaceViewModel(CubeFace face)
-        {
-            Face = face;
-            Values = new int[3, 3];
-            Update();
-        }
 
         public CubeState? TryGetCubeState()
         {
