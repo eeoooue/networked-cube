@@ -52,6 +52,18 @@ namespace LibNetCube
             return Faces[face];
         }
 
+        public int GetPiece(CubeFace face, int i, int j)
+        {
+            int[,] values = GetFace(face);
+            return values[i, j];
+        }
+
+        public void SetPiece(int value, CubeFace face, int i, int j)
+        {
+            int[,] values = GetFace(face);
+            values[i, j] = value;
+        }
+
         public byte[] Serialize()
         {
             int m = FaceCount;
