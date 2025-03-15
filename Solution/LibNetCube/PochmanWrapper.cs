@@ -15,49 +15,62 @@ namespace LibNetCube
             State = state;
         }
 
-        public int GetPiece(char x)
+        public List<int> GetPieceValues(List<char> positions)
         {
-            throw new NotImplementedException();
+            List<int> result = new List<int>();
+            foreach (char x in positions)
+            {
+                int value = GetPiece(x);
+                result.Add(value);
+            }
+
+            return result;
         }
 
-        public int GetPiece(CubeFace face, int i, int j)
+        public void SetPieceValues(List<char> positions, List<int> values)
         {
-            throw new NotImplementedException();
+            int n = positions.Count;
+            for (int i = 0; i < n; i++)
+            {
+                SetPiece(positions[i], values[i]);
+            }
+        }
+
+        public int GetPiece(char x)
+        {
+            GetPieceLocation(x, out CubeFace face, out int i, out int j);
+            return State.GetPiece(face, i, j);
         }
 
         public void SetPiece(char x, int value)
         {
-            throw new NotImplementedException();
+            GetPieceLocation(x, out CubeFace face, out int i, out int j);
+            State.SetPiece(value, face, i, j);
         }
 
-        public void SetPiece(CubeFace face, int i, int j, int value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GetPieceLocation(in char x, out CubeFace face, out int i, out int j)
+        private void GetPieceLocation(in char x, out CubeFace face, out int i, out int j)
         {
             if ("AaBbCcDd".Contains(x))
             {
                 GetPieceLocationOnTopFace(x, out face, out i, out j);
             }
-            else if ("EFGHefgh".Contains(x))
+            else if ("EeFfGgHh".Contains(x))
             {
                 GetPieceLocationOnFrontFace(x, out face, out i, out j);
             }
-            else if("IJKLijkl".Contains(x))
+            else if("IiJjKkLl".Contains(x))
             {
                 GetPieceLocationOnRightFace(x, out face, out i, out j);
             }
-            else if("MNOPmnop".Contains(x))
+            else if("MmNnOoPp".Contains(x))
             {
                 GetPieceLocationOnBackFace(x, out face, out i, out j);
             }
-            else if("QRSTqrst".Contains(x))
+            else if("QqRrSsTt".Contains(x))
             {
                 GetPieceLocationOnLeftFace(x, out face, out i, out j);
             }
-            else if ("UVWXuvwx".Contains(x))
+            else if ("UuVvWwXx".Contains(x))
             {
                 GetPieceLocationOnBottomFace(x, out face, out i, out j);
             }
@@ -121,16 +134,6 @@ namespace LibNetCube
             int[] jValues = [0, 1, 2, 2, 2, 1, 0, 0];
             i = iValues[index];
             j = jValues[index];
-        }
-
-        public List<int> GetPieceValues(List<char> positions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetPieceValues(List<char> positions, List<int> values)
-        {
-            throw new NotImplementedException();
         }
     }
 }
