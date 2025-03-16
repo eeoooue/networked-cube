@@ -96,27 +96,27 @@
 
             if (letter == 'U')
             {
-                CubeRotation.RotateFaceClockwise(state, CubeFace.Top);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Top);
             }
             else if (letter == 'D')
             {
-                CubeRotation.RotateFaceClockwise(state, CubeFace.Bottom);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Bottom);
             }
             else if (letter == 'F')
             {
-                CubeRotation.RotateFaceClockwise(state, CubeFace.Front);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Front);
             }
             else if (letter == 'B')
             {
-                CubeRotation.RotateFaceClockwise(state, CubeFace.Back);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Back);
             }
             else if (letter == 'L')
             {
-                CubeRotation.RotateFaceClockwise(state, CubeFace.Left);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
             }
             else if (letter == 'R')
             {
-                CubeRotation.RotateFaceClockwise(state, CubeFace.Right);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
             }
 
             SetState(state);

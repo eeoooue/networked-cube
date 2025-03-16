@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibNetCube
 {
-    internal static class CubeRotation
+    internal static class FaceRotation
     {
         public static void RotateFaceClockwise(CubeState state, CubeFace face)
         {
