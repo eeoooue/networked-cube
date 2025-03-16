@@ -74,6 +74,12 @@
             throw new NotImplementedException();
         }
 
+        public void PerformMove(string move)
+        {
+            CubeMove parsedMove = MoveParser.ParseMove(move);
+            PerformMove(parsedMove);
+        }
+
         public void PerformMove(char move)
         {
             string s = move.ToString().ToUpper();
