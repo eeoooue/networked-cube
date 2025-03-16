@@ -69,6 +69,10 @@
             }
         }
 
+        public void PerformMove(CubeMove move)
+        {
+            throw new NotImplementedException();
+        }
 
         public void PerformMove(char move)
         {
@@ -86,27 +90,27 @@
 
             if (letter == 'U')
             {
-                CubeRotation.RotateTopFaceClockwise(state);
+                CubeRotation.RotateFaceClockwise(state, CubeFace.Top);
             }
             else if (letter == 'D')
             {
-                CubeRotation.RotateBottomFaceClockwise(state);
+                CubeRotation.RotateFaceClockwise(state, CubeFace.Bottom);
             }
             else if (letter == 'F')
             {
-                CubeRotation.RotateFrontFaceClockwise(state);
+                CubeRotation.RotateFaceClockwise(state, CubeFace.Front);
             }
             else if (letter == 'B')
             {
-                CubeRotation.RotateBackFaceClockwise(state);
+                CubeRotation.RotateFaceClockwise(state, CubeFace.Back);
             }
             else if (letter == 'L')
             {
-                CubeRotation.RotateLeftFaceClockwise(state);
+                CubeRotation.RotateFaceClockwise(state, CubeFace.Left);
             }
             else if (letter == 'R')
             {
-                CubeRotation.RotateRightFaceClockwise(state);
+                CubeRotation.RotateFaceClockwise(state, CubeFace.Right);
             }
 
             SetState(state);

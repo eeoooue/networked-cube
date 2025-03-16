@@ -8,7 +8,34 @@ namespace LibNetCube
 {
     internal static class CubeRotation
     {
-        public static void RotateTopFaceClockwise(CubeState state)
+        public static void RotateFaceClockwise(CubeState state, CubeFace face)
+        {
+            switch (face)
+            {
+                case CubeFace.Top:
+                    RotateTopFaceClockwise(state);
+                    return;
+                case CubeFace.Bottom:
+                    RotateBottomFaceClockwise(state);
+                    return;
+                case CubeFace.Left:
+                    RotateLeftFaceClockwise(state);
+                    return;
+                case CubeFace.Right:
+                    RotateRightFaceClockwise(state);
+                    return;
+                case CubeFace.Front:
+                    RotateFrontFaceClockwise(state);
+                    return;
+                case CubeFace.Back:
+                    RotateBackFaceClockwise(state);
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        private static void RotateTopFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
@@ -29,7 +56,7 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-        public static void RotateBottomFaceClockwise(CubeState state)
+        private static void RotateBottomFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
@@ -50,7 +77,7 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-        public static void RotateFrontFaceClockwise(CubeState state)
+        private static void RotateFrontFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
@@ -71,7 +98,7 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-        public static void RotateBackFaceClockwise(CubeState state)
+        private static void RotateBackFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
@@ -92,7 +119,7 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-        public static void RotateLeftFaceClockwise(CubeState state)
+        private static void RotateLeftFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
@@ -113,7 +140,7 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-        public static void RotateRightFaceClockwise(CubeState state)
+        private static void RotateRightFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
