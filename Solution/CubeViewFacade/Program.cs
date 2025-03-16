@@ -1,10 +1,9 @@
-﻿using System.Net.Sockets;
+﻿using LibNetCube;
+using System.Net.Sockets;
 using System.Net;
-using LibNetCube;
 using System.Text;
-using System.Threading;
 
-namespace ViewProxy
+namespace CubeViewFacade
 {
     internal class Program
     {

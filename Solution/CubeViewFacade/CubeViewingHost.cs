@@ -6,12 +6,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewProxy
+namespace CubeViewFacade
 {
     internal class CubeViewingHost
     {
-        // static private CubePuzzle Puzzle = new CubePuzzle();
-
         private TcpListener TCPListener;
 
         public CubeViewingHost(TcpListener listener)
@@ -42,7 +40,7 @@ namespace ViewProxy
                     Console.WriteLine($"Error caught within ViewingHostWorker, continuing execution...");
                 }
             }
-            
+
         }
 
         public CubeState GetCubeState()
@@ -50,7 +48,7 @@ namespace ViewProxy
             return Program.State;
         }
 
-        
+
 
         public byte[] CreateCubeResponse(CubeState state)
         {
