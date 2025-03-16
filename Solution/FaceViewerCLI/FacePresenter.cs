@@ -77,11 +77,11 @@ namespace FaceViewerCLI
                 case 1:
                     return ConsoleColor.Yellow;
                 case 2:
-                    return ConsoleColor.Green;
+                    return ConsoleColor.Red;
                 case 3:
                     return ConsoleColor.Blue;
                 case 4:
-                    return ConsoleColor.Red;
+                    return ConsoleColor.Green;
                 case 5:
                     return ConsoleColor.Magenta;
                 default:

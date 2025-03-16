@@ -26,6 +26,15 @@
             return new CubeState(reads);
         }
 
+        public void SetState(CubeState state)
+        {
+            List<CubeFace> faces = CubeState.GetFaceNames();
+            foreach(CubeFace face in faces)
+            {
+                ReplaceEntireFace(face, state.GetFace(face));
+            }
+        }
+
         public int[,] ReadFace(CubeFace face)
         {
             int[,] result = new int[FaceWidth, FaceWidth];
@@ -68,136 +77,45 @@
 
             Console.WriteLine($"Performing move {move}");
 
+            CubeState state = GetState();
+
             if (letter == 'M')
             {
-                RotateMiddle();
-                return;
+                // RotateMiddle(); // not implemented
             }
 
-            CubeFace face = GetAffectedFace(letter);
-            Console.WriteLine($"affected face is {face}");
-
-            if ("RLUDBF".Contains(letter))
+            if (letter == 'U')
             {
-                RollFaceIntoTopPosition(face);
-                RotateTopFaceClockwise();
-                RollFaceBackFromTopPosition(face);
+                CubeRotation.RotateTopFaceClockwise(state);
             }
+            else if (letter == 'D')
+            {
+                CubeRotation.RotateBottomFaceClockwise(state);
+            }
+            else if (letter == 'F')
+            {
+                CubeRotation.RotateFrontFaceClockwise(state);
+            }
+            else if (letter == 'B')
+            {
+                CubeRotation.RotateBackFaceClockwise(state);
+            }
+            else if (letter == 'L')
+            {
+                CubeRotation.RotateLeftFaceClockwise(state);
+            }
+            else if (letter == 'R')
+            {
+                CubeRotation.RotateRightFaceClockwise(state);
+            }
+
+            SetState(state);
         }
+
 
         private void RotateMiddle()
         {
 
-        }
-
-        private CubeFace GetAffectedFace(char move)
-        {
-            switch (move)
-            {
-                case 'D':
-                    return CubeFace.Bottom;
-                case 'L':
-                    return CubeFace.Left;
-                case 'R':
-                    return CubeFace.Right;
-                case 'F':
-                    return CubeFace.Front;
-                case 'B':
-                    return CubeFace.Back;
-                default:
-                    return CubeFace.Top;
-            }
-        }
-
-        private void RollFaceIntoTopPosition(CubeFace face)
-        {
-            switch (face)
-            {
-                case CubeFace.Bottom:
-                    Console.WriteLine("Rolling to have Bottom on top");
-                    RollForwards();
-                    RollForwards();
-                    break;
-                case CubeFace.Left:
-                    Console.WriteLine("Rolling to have Left on top");
-                    RollClockwise();
-                    break;
-                case CubeFace.Right:
-                    Console.WriteLine("Rolling to have Right on top");
-                    RollAntiClockwise();
-                    break;
-                case CubeFace.Front:
-                    Console.WriteLine("Rolling to have Front on top");
-                    RollForwards();
-                    break;
-                case CubeFace.Back:
-                    Console.WriteLine("Rolling to have Back on top");
-                    RollBackwards();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void RollFaceBackFromTopPosition(CubeFace face)
-        {
-            switch (face)
-            {
-                case CubeFace.Bottom:
-                    RollBackwards();
-                    RollBackwards();
-                    break;
-                case CubeFace.Left:
-                    RollAntiClockwise();
-                    break;
-                case CubeFace.Right:
-                    RollClockwise();
-                    break;
-                case CubeFace.Front:
-                    RollBackwards();
-                    break;
-                case CubeFace.Back:
-                    RollForwards();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-
-        public void RotateCube(char rotation)
-        {
-            switch (rotation)
-            {
-                case 'W':
-                    RollForwards();
-                    return;
-                case 'A':
-                    RollAntiClockwise();
-                    return;
-                case 'S':
-                    RollBackwards();
-                    return;
-                case 'D':
-                    RollClockwise();
-                    return;
-                default:
-                    return;
-            }
-        }
-
-        private void RotateTopFaceClockwise()
-        {
-            ReplaceFaceWithClockwiseRotation(CubeFace.Top);
-            RotateTopRowsLeftwise(CubeFace.Front, CubeFace.Right, CubeFace.Back, CubeFace.Left);
-        }
-
-        private void ReplaceFaceWithClockwiseRotation(CubeFace face)
-        {
-            CubeState previous = GetState();
-            int[,] prevTopFace = previous.GetFace(face);
-            int[,] newTopFace = RotateFaceClockwise(prevTopFace);
-            ReplaceEntireFace(face, newTopFace);
         }
 
         private void ReplaceEntireFace(CubeFace face, int[,] values)
@@ -210,105 +128,6 @@
                     destination[i, j] = values[i, j];
                 }
             }
-        }
-
-        private void RotateTopRowsLeftwise(CubeFace a, CubeFace b, CubeFace c, CubeFace d)
-        {
-            int[] nextA = ReadTopRowOfFace(b);
-            int[] nextB = ReadTopRowOfFace(c);
-            int[] nextC = ReadTopRowOfFace(d);
-            int[] nextD = ReadTopRowOfFace(a);
-            ReplaceTopRowOfFace(a, nextA);
-            ReplaceTopRowOfFace(b, nextB);
-            ReplaceTopRowOfFace(c, nextC);
-            ReplaceTopRowOfFace(d, nextD);
-        }
-
-        private void ReplaceTopRowOfFace(CubeFace face, int[] values)
-        {
-            int[,] destination = GetFaceRef(face);
-            for (int j = 0; j < FaceWidth; j++)
-            {
-                destination[0, j] = values[j];
-            }
-        }
-
-        private int[] ReadTopRowOfFace(CubeFace face)
-        {
-            int[] result = new int[FaceWidth];
-            int[,] source = GetFaceRef(face);
-            for (int j = 0; j < FaceWidth; j++)
-            {
-                result[j] = source[0, j];
-            }
-
-            return result;
-        }
-
-        public static int[,] RotateFaceClockwise(int[,] values)
-        {
-            int[,] result = new int[3, 3];
-
-            // corners 
-            result[0, 0] = values[2, 0];
-            result[0, 2] = values[0, 0];
-            result[2, 2] = values[0, 2];
-            result[2, 0] = values[2, 2];
-
-            // center point
-            result[1, 1] = values[1, 1];
-
-            // edge pieces
-            result[0, 1] = values[1, 0];
-            result[1, 2] = values[0, 1];
-            result[2, 1] = values[1, 2];
-            result[1, 0] = values[2, 1];
-
-            return result;
-        }
-
-        private void RollForwards()
-        {
-            CubeState state = GetState();
-
-            int[,] prevTop = state.GetFace(CubeFace.Top);
-            int[,] prevFront = state.GetFace(CubeFace.Front);
-            int[,] prevBottom = state.GetFace(CubeFace.Bottom);
-            int[,] prevBack = state.GetFace(CubeFace.Back);
-
-            ReplaceEntireFace(CubeFace.Top, prevFront);
-            ReplaceEntireFace(CubeFace.Front, prevBottom);
-            ReplaceEntireFace(CubeFace.Bottom, prevBack);
-            ReplaceEntireFace(CubeFace.Back, prevTop);
-        }
-
-        private void RollBackwards()
-        {
-            RollForwards();
-            RollForwards();
-            RollForwards();
-        }
-
-        private void RollClockwise()
-        {
-            CubeState state = GetState();
-
-            int[,] prevTop = state.GetFace(CubeFace.Top);
-            int[,] prevLeft = state.GetFace(CubeFace.Left);
-            int[,] prevBottom = state.GetFace(CubeFace.Bottom);
-            int[,] prevRight = state.GetFace(CubeFace.Right);
-
-            ReplaceEntireFace(CubeFace.Top, prevLeft);
-            ReplaceEntireFace(CubeFace.Left, prevBottom);
-            ReplaceEntireFace(CubeFace.Bottom, prevRight);
-            ReplaceEntireFace(CubeFace.Right, prevTop);
-        }
-
-        private void RollAntiClockwise()
-        {
-            RollClockwise();
-            RollClockwise();
-            RollClockwise();
         }
     }
 }
