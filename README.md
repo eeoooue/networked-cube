@@ -1,8 +1,8 @@
 # netcube
 
-A light-hearted networking exercise with a Rubik's cube theme. 
+A light-hearted networking exercise with a puzzle cube theme. 
 
-The end goal is a suite of networked applications that can be self-hosted on a single machine to present a puzzle cube that can be scrambled and solved.
+The end goal is a suite of networked applications that can be self-hosted on a single machine to present a cube that can be scrambled and solved.
 
 The cube is presented as a dice-map in the same manner as used for [Old Pochman](https://www.speedcubereview.com/blind-solving-algorithms.html).
 
@@ -27,5 +27,5 @@ The cube is presented as a dice-map in the same manner as used for [Old Pochman]
 
 If you know me personally, you are welcome to contribute to this project.
 
-Anticipated additions to the project are listed as issues. Let me know if you spot anything that interests you, or if you have any other ideas for the project.
+Anticipated additions to the project are listed as [issues](https://github.com/eeoooue/netcube/issues). Let me know if you spot anything that interests you, or if you have any other ideas for the project.
 
