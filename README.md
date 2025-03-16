@@ -16,12 +16,12 @@ The puzzle is presented as a cube map in the same manner as used in [Old Pochman
 
 #### Usage
 
-1. Open Solution/Solution.sln in Visual Studio
-2. Run DummyService
-3. Run CubeViewFacade
-4. Run FaceViewer 6 times, launching 6 WPF applications
+1. Open ```Solution/Solution.sln``` in Visual Studio
+2. Run **DummyService**
+3. Run **CubeViewFacade**
+4. Run **FaceViewer** 6 times, launching 6 WPF applications
 5. Press the face title button in the WPF face viewers to change the displayed faces
-6. Run FaceViewerCLI, which allows supported moves to be performed: U, R, L, D, F, B
+6. Run **FaceViewerCLI**, which allows supported moves to be performed: U, R, L, D, F, B
 
 #### Contributing
 
