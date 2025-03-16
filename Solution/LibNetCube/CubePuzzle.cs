@@ -77,24 +77,27 @@
 
             Console.WriteLine($"Performing move {move}");
 
+            CubeState state = GetState();
+
             if (letter == 'M')
             {
-                RotateMiddle();
-                return;
+                // RotateMiddle(); // not implemented
             }
 
-            if ("RLUDBF".Contains(letter))
+            if (letter == 'U')
             {
-                PerformRotation(letter);
+                CubeRotation.RotateTopFaceClockwise(state);
             }
+            else if (letter == 'F')
+            {
+                CubeRotation.RotateFrontFaceClockwise(state);
+            }
+
+            SetState(state);
         }
+
 
         private void RotateMiddle()
-        {
-
-        }
-
-        private void PerformRotation(char x)
         {
 
         }
