@@ -20,11 +20,11 @@ namespace LibNetCube
             sources.Append("MmN"); // back right
 
             StringBuilder destinations = new StringBuilder();
-            sources.Append("BbCcDdAa"); // rotated top ring
-            sources.Append("MmN"); // left row becomes back row
-            sources.Append("QqR"); // front row becomes left row
-            sources.Append("EeF"); // right row becomes front row
-            sources.Append("IiJ"); // back row becomes right row
+            destinations.Append("BbCcDdAa"); // rotated top ring
+            destinations.Append("MmN"); // left row becomes back row
+            destinations.Append("QqR"); // front row becomes left row
+            destinations.Append("EeF"); // right row becomes front row
+            destinations.Append("IiJ"); // back row becomes right row
 
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
@@ -36,17 +36,17 @@ namespace LibNetCube
 
             StringBuilder sources = new StringBuilder();
             sources.Append("EeFfGgHh"); // 
-            sources.Append("DdC"); // 
-            sources.Append("IlJ"); // 
+            sources.Append("DcC"); // 
+            sources.Append("IlL"); // 
             sources.Append("VuU"); // 
             sources.Append("SrR"); // 
 
             StringBuilder destinations = new StringBuilder();
-            sources.Append("FfGgHhEe"); // 
-            sources.Append("IlJ"); // 
-            sources.Append("VuU"); // 
-            sources.Append("SrR"); // 
-            sources.Append("DdC"); // 
+            destinations.Append("FfGgHhEe"); // 
+            destinations.Append("IlL"); // 
+            destinations.Append("VuU"); // 
+            destinations.Append("SrR"); // 
+            destinations.Append("DcC"); // 
 
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
