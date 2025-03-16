@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel", "AdminPanel\Ad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewProxy", "ViewProxy\ViewProxy.csproj", "{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevConsole", "DevConsole\DevConsole.csproj", "{DABAB4C0-9562-43C3-95FB-70FA73812B6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEE25B05-69E1-4197-BF7C-B9CE79EA9CE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
