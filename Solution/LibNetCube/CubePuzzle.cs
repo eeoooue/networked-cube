@@ -88,13 +88,25 @@
             {
                 CubeRotation.RotateTopFaceClockwise(state);
             }
+            else if (letter == 'D')
+            {
+                CubeRotation.RotateBottomFaceClockwise(state);
+            }
             else if (letter == 'F')
             {
                 CubeRotation.RotateFrontFaceClockwise(state);
             }
-            else if (letter == 'D')
+            else if (letter == 'B')
             {
-                CubeRotation.RotateBottomFaceClockwise(state);
+                CubeRotation.RotateBackFaceClockwise(state);
+            }
+            else if (letter == 'L')
+            {
+                CubeRotation.RotateLeftFaceClockwise(state);
+            }
+            else if (letter == 'R')
+            {
+                CubeRotation.RotateRightFaceClockwise(state);
             }
 
             SetState(state);
