@@ -92,6 +92,10 @@
             {
                 CubeRotation.RotateFrontFaceClockwise(state);
             }
+            else if (letter == 'D')
+            {
+                CubeRotation.RotateBottomFaceClockwise(state);
+            }
 
             SetState(state);
         }
