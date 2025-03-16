@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibNetCube
 {
-    internal static class CubeOrientation
+    internal static class PuzzleRotation
     {
-        public static void OrientCubeToHaveFaceOnTop(CubeState state, CubeFace face)
+        public static void RotateEntirePuzzle(CubeState state, string direction)
         {
             throw new NotImplementedException();
         }
