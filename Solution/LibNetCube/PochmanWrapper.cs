@@ -15,7 +15,13 @@ namespace LibNetCube
             State = state;
         }
 
-        public List<int> GetPieceValues(List<char> positions)
+        public void ApplyMove(string sources, string destinations)
+        {
+            List<int> values = GetPieceValues(sources);
+            SetPieceValues(destinations, values);
+        }
+
+        public List<int> GetPieceValues(string positions)
         {
             List<int> result = new List<int>();
             foreach (char x in positions)
@@ -27,9 +33,9 @@ namespace LibNetCube
             return result;
         }
 
-        public void SetPieceValues(List<char> positions, List<int> values)
+        public void SetPieceValues(string positions, List<int> values)
         {
-            int n = positions.Count;
+            int n = positions.Length;
             for (int i = 0; i < n; i++)
             {
                 SetPiece(positions[i], values[i]);
