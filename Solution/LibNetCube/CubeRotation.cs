@@ -8,8 +8,6 @@ namespace LibNetCube
 {
     internal static class CubeRotation
     {
-
-
         public static void RotateTopFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
@@ -32,5 +30,25 @@ namespace LibNetCube
         }
 
 
+        public static void RotateFrontFaceClockwise(CubeState state)
+        {
+            PochmanWrapper wrapper = new PochmanWrapper(state);
+
+            StringBuilder sources = new StringBuilder();
+            sources.Append("EeFfGgHh"); // 
+            sources.Append("DdC"); // 
+            sources.Append("IlJ"); // 
+            sources.Append("VuU"); // 
+            sources.Append("SrR"); // 
+
+            StringBuilder destinations = new StringBuilder();
+            sources.Append("FfGgHhEe"); // 
+            sources.Append("IlJ"); // 
+            sources.Append("VuU"); // 
+            sources.Append("SrR"); // 
+            sources.Append("DdC"); // 
+
+            wrapper.ApplyMove(sources.ToString(), destinations.ToString());
+        }
     }
 }
