@@ -50,8 +50,6 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-
-
         public static void RotateFrontFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
@@ -73,48 +71,67 @@ namespace LibNetCube
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
 
-
         public static void RotateBackFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
             StringBuilder sources = new StringBuilder();
-            sources.Append(""); // 
+            sources.Append("MmNnOoPp"); // 
+            sources.Append("QtT"); // 
+            sources.Append("XwW"); // 
+            sources.Append("KjJ"); // 
+            sources.Append("BaA"); // 
 
             StringBuilder destinations = new StringBuilder();
-            destinations.Append(""); // 
+            destinations.Append("PpMmNnOo"); // 
+            destinations.Append("XwW"); // 
+            destinations.Append("KjJ"); // 
+            destinations.Append("BaA"); // 
+            destinations.Append("QtT"); // 
 
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
-
-
 
         public static void RotateLeftFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
             StringBuilder sources = new StringBuilder();
-            sources.Append(""); // 
+            sources.Append("QqRrSsTt"); // 
+            sources.Append("AdD"); // 
+            sources.Append("EhH"); // 
+            sources.Append("UxX"); // 
+            sources.Append("OnN"); // 
 
             StringBuilder destinations = new StringBuilder();
-            destinations.Append(""); // 
+            destinations.Append("RrSsTtQq"); // 
+            destinations.Append("EhH"); // 
+            destinations.Append("UxX"); // 
+            destinations.Append("OnN"); // 
+            destinations.Append("AdD"); // 
 
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
-
 
         public static void RotateRightFaceClockwise(CubeState state)
         {
             PochmanWrapper wrapper = new PochmanWrapper(state);
 
             StringBuilder sources = new StringBuilder();
-            sources.Append(""); // 
+            sources.Append("IiJjKkLl"); // 
+            sources.Append("CbB"); // 
+            sources.Append("MpP"); // 
+            sources.Append("WvV"); // 
+            sources.Append("GfF"); // 
 
             StringBuilder destinations = new StringBuilder();
-            destinations.Append(""); // 
+            destinations.Append("JjKkLlIi"); // 
+            destinations.Append("MpP"); // 
+            destinations.Append("WvV"); // 
+            destinations.Append("GfF"); // 
+            destinations.Append("CbB"); // 
 
             wrapper.ApplyMove(sources.ToString(), destinations.ToString());
         }
-
     }
 }
