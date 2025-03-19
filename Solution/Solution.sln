@@ -3,25 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNetCube", "LibNetCube\LibNetCube.csproj", "{8CBB54E4-7451-4BE7-9905-319B293B011E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibNetCube", "LibNetCube\LibNetCube.csproj", "{8CBB54E4-7451-4BE7-9905-319B293B011E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSuite", "TestSuite\TestSuite.csproj", "{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSuite", "TestSuite\TestSuite.csproj", "{2B3AD6B0-E4DE-4ABE-98E5-5FC033594B57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyService", "DummyService\DummyService.csproj", "{F4AB3235-409D-48D0-A1F8-6E0F84E1BABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyService", "DummyService\DummyService.csproj", "{F4AB3235-409D-48D0-A1F8-6E0F84E1BABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceViewer", "FaceViewer\FaceViewer.csproj", "{8A0BD635-6D8D-4DD0-A811-BA947BBC0D1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaceViewer", "FaceViewer\FaceViewer.csproj", "{8A0BD635-6D8D-4DD0-A811-BA947BBC0D1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceViewerCLI", "FaceViewerCLI\FaceViewerCLI.csproj", "{3B38F6EF-80E7-4CCC-8AB0-B917E679EE7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaceViewerCLI", "FaceViewerCLI\FaceViewerCLI.csproj", "{3B38F6EF-80E7-4CCC-8AB0-B917E679EE7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRotator", "CubeRotator\CubeRotator.csproj", "{271B0CB7-25A2-4E4F-9C8C-311966A25E1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeRotator", "CubeRotator\CubeRotator.csproj", "{271B0CB7-25A2-4E4F-9C8C-311966A25E1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeManipulator", "CubeManipulator\CubeManipulator.csproj", "{43021A1A-5126-4B5D-9842-0EEB4A6F93BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeManipulator", "CubeManipulator\CubeManipulator.csproj", "{43021A1A-5126-4B5D-9842-0EEB4A6F93BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{6535E8DC-E080-43B7-8A44-0E1E859CE0DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminPanel", "AdminPanel\AdminPanel.csproj", "{6535E8DC-E080-43B7-8A44-0E1E859CE0DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevConsole", "DevConsole\DevConsole.csproj", "{DABAB4C0-9562-43C3-95FB-70FA73812B6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevConsole", "DevConsole\DevConsole.csproj", "{DABAB4C0-9562-43C3-95FB-70FA73812B6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeViewFacade", "CubeViewFacade\CubeViewFacade.csproj", "{D9605332-4F55-4B71-948C-D0999155D576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeViewFacade", "CubeViewFacade\CubeViewFacade.csproj", "{D9605332-4F55-4B71-948C-D0999155D576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeService", "CubeService\CubeService.csproj", "{A712A9A3-55BA-4683-90DA-6C568DCCF698}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,8 +71,15 @@ Global
 		{D9605332-4F55-4B71-948C-D0999155D576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9605332-4F55-4B71-948C-D0999155D576}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9605332-4F55-4B71-948C-D0999155D576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C891BAA4-4EF6-4655-81A9-54CA2372C51E}
 	EndGlobalSection
 EndGlobal
