@@ -1,44 +1,45 @@
-﻿using CubeService.Models;
-using LibNetCube;
+﻿using LibNetCube;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CubeService.Controllers
 {
-    public class CubeController : BaseController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CubeController : Controller
     {
         readonly CubePuzzle _cubePuzzle;
-        public CubeController(SharedError error, CubePuzzle cubePuzzle) : base(error) 
+        public CubeController(CubePuzzle cubePuzzle) : base() 
         { 
             _cubePuzzle = cubePuzzle; 
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public IActionResult Reset()
         {
             return Ok();
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public IActionResult ApplyShuffle([FromQuery] string? shuffle = null)
         {
             return Ok();
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public IActionResult PerformMove([FromQuery] string? move = null)
         {
             //attempt to parse move as Enum
             if (String.IsNullOrEmpty(move) || !Enum.TryParse<CubeMove>(move, out var parsedMove))
             {
                 //Not a valid move
-                Error.StatusCode = 400;
-                Error.Message = "Bad request";
-                return new EmptyResult();
+                return BadRequest();
             }
             //Is a valid move
             _cubePuzzle.PerformMove(move);
             return Ok();
         }
         [HttpGet]
+        [Route("")] //follows base route of api/[controller]
+        [Route("[action]")]
         public IActionResult State()
         {
             CubeState state = _cubePuzzle.GetState();
@@ -51,25 +52,21 @@ namespace CubeService.Controllers
             }
             return Ok(faces);
         }
-        [HttpGet]
+        [HttpGet("[action]")]
         public IActionResult Face([FromQuery] string? face = null)
         {
             //attempt to parse face as Enum
             if (String.IsNullOrEmpty(face))
             {
                 //Not a valid face
-                Error.StatusCode = 400;
-                Error.Message = "Bad request";
-                return new EmptyResult();
+                return BadRequest();
             }
             //Face value exists
             face = Helper.FirstCharToUpper(face);
             if (!Enum.TryParse<CubeFace>(face, out var parsedFace))
             {
                 //Not a valid face
-                Error.StatusCode = 400;
-                Error.Message = "Bad request";
-                return new EmptyResult();
+                return BadRequest();
             }
             //Is a valid face
             CubeState state = _cubePuzzle.GetState();
