@@ -71,8 +71,106 @@
 
         public void PerformMove(CubeMove move)
         {
-            throw new NotImplementedException();
+            // double moves
+
+            if (IsTwoMove(move))
+            {
+                CubeMove baseMove = SimplifyComplexMove(move);
+                PerformMove(baseMove);
+                PerformMove(baseMove);
+            }
+
+            if (IsPrimeMove(move))
+            {
+                CubeMove baseMove = SimplifyComplexMove(move);
+                PerformMove(baseMove);
+                PerformMove(baseMove);
+                PerformMove(baseMove);
+            }
+
+            CubeState state = GetState();
+
+            if (move == CubeMove.M)
+            {
+                PuzzleRotation.RotateEntirePuzzle(state, "up");
+                PerformMove(CubeMove.RPrime);
+                PerformMove(CubeMove.L);
+            }
+
+            if (move == CubeMove.U)
+            {
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Top);
+            }
+
+            if (move == CubeMove.D)
+            {
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Bottom);
+            }
+
+            if (move == CubeMove.L)
+            {
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
+            }
+
+            if (move == CubeMove.R)
+            {
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
+            }
+
+            if (move == CubeMove.F)
+            {
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Front);
+            }
+
+            if (move == CubeMove.B)
+            {
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Back);
+            }
         }
+
+        private bool IsTwoMove(CubeMove move)
+        {
+            List<CubeMove> moves = [CubeMove.TwoU, CubeMove.TwoD, CubeMove.TwoL, CubeMove.TwoR, CubeMove.TwoF, CubeMove.TwoB, CubeMove.TwoM];
+            return moves.Contains(move);
+        }
+
+        private bool IsPrimeMove(CubeMove move)
+        {
+            List<CubeMove> moves = [CubeMove.UPrime, CubeMove.DPrime, CubeMove.LPrime, CubeMove.RPrime, CubeMove.FPrime, CubeMove.BPrime, CubeMove.MPrime];
+            return moves.Contains(move);
+        }
+
+        private CubeMove SimplifyComplexMove(CubeMove move)
+        {
+            switch (move)
+            {
+                case CubeMove.TwoU:
+                case CubeMove.UPrime:
+                    return CubeMove.U;
+                case CubeMove.TwoD:
+                case CubeMove.DPrime:
+                    return CubeMove.D;
+                case CubeMove.TwoL:
+                case CubeMove.LPrime:
+                    return CubeMove.L;
+                case CubeMove.TwoR:
+                case CubeMove.RPrime:
+                    return CubeMove.R;
+                case CubeMove.TwoF:
+                case CubeMove.FPrime:
+                    return CubeMove.F;
+                case CubeMove.TwoB:
+                case CubeMove.BPrime:
+                    return CubeMove.B;
+                case CubeMove.TwoM:
+                case CubeMove.MPrime:
+                    return CubeMove.M;
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+
 
         public void PerformMove(string move)
         {
@@ -91,7 +189,13 @@
 
             if (letter == 'M')
             {
-                // RotateMiddle(); // not implemented
+                PuzzleRotation.RotateEntirePuzzle(state, "up");
+
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
+
+                FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
             }
 
             if (letter == 'U')
