@@ -71,8 +71,6 @@
 
         public void PerformMove(CubeMove move)
         {
-            // double moves
-
             if (IsTwoMove(move))
             {
                 CubeMove baseMove = SimplifyComplexMove(move);
@@ -93,8 +91,10 @@
             if (move == CubeMove.M)
             {
                 PuzzleRotation.RotateEntirePuzzle(state, "up");
+                SetState(state);
                 PerformMove(CubeMove.RPrime);
                 PerformMove(CubeMove.L);
+                return;
             }
 
             if (move == CubeMove.U)
@@ -126,6 +126,8 @@
             {
                 FaceRotation.RotateFaceClockwise(state, CubeFace.Back);
             }
+
+            SetState(state);
         }
 
         private bool IsTwoMove(CubeMove move)
