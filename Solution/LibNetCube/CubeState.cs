@@ -19,7 +19,7 @@ namespace LibNetCube
             for (int i = 0; i < names.Count; i++)
             {
                 CubeFace name = names[i];
-                Faces[name] = (int[,])state.GetFace(name).Clone();
+                Faces[name] = state.ReadFace(name);
             }
         }
 
@@ -60,6 +60,21 @@ namespace LibNetCube
         public int[,] GetFace(CubeFace face)
         {
             return Faces[face];
+        }
+
+        public int[,] ReadFace(CubeFace face)
+        {
+            int[,] result = new int[FaceWidth, FaceWidth];
+            int[,] source = GetFace(face);
+            for (int i = 0; i < FaceWidth; i++)
+            {
+                for (int j = 0; j < FaceWidth; j++)
+                {
+                    result[i, j] = source[i, j];
+                }
+            }
+
+            return result;
         }
 
         public int GetPiece(CubeFace face, int i, int j)
