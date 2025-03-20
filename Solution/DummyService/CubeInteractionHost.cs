@@ -60,19 +60,7 @@ namespace DummyService
 
         public void ApplyMove(string move)
         {
-            if (move.Length == 1)
-            {
-                char x = move[0];
-                Puzzle.PerformMove(x);
-            }
-
-            if (move.Length == 2 && move[1] == '\'')
-            {
-                string c = move[0].ToString();
-                ApplyMove(c);
-                ApplyMove(c);
-                ApplyMove(c);
-            }
+            Puzzle.PerformMove(move);
         }
 
         public byte[] CreateCubeResponse(CubeState state)
