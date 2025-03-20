@@ -19,7 +19,7 @@ namespace LibNetCube
             for (int i = 0; i < names.Count; i++)
             {
                 CubeFace name = names[i];
-                Faces[name] = state.GetFace(name);
+                Faces[name] = (int[,])state.GetFace(name).Clone();
             }
         }
 
