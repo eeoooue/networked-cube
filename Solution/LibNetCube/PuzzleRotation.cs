@@ -39,27 +39,29 @@ namespace LibNetCube
 
             for(int i=0; i<3; i++)
             {
-                for (int j = 0; j < 3; j++)
-                {
-                    int value;
+                int value;
 
-                    // set new top
-                    value = original.GetPiece(CubeFace.Front, i, j);
-                    state.SetPiece(value, CubeFace.Top, i, j); // either i or 2 - i
+                // set new top
+                value = original.GetPiece(CubeFace.Front, i, 1);
+                state.SetPiece(value, CubeFace.Top, i, 1); // either i or 2 - i
 
-                    // set new back
-                    value = original.GetPiece(CubeFace.Top, i, j);
-                    state.SetPiece(value, CubeFace.Back, 2 - i, j); // either i or 2 - i
+                // set new back
+                value = original.GetPiece(CubeFace.Top, i, 1);
+                state.SetPiece(value, CubeFace.Back, 2 - i, 1); // either i or 2 - i
 
-                    // set new bottom
-                    value = original.GetPiece(CubeFace.Back, i, j);
-                    state.SetPiece(value, CubeFace.Bottom, i, j); // either i or 2 - i
+                // set new bottom
+                value = original.GetPiece(CubeFace.Back, i, 1);
+                state.SetPiece(value, CubeFace.Bottom, 2 - i, 1); // either i or 2 - i
 
-                    // set new front
-                    value = original.GetPiece(CubeFace.Bottom, i, j);
-                    state.SetPiece(value, CubeFace.Front, i, j); // either i or 2 - i
-                }
+                // set new front
+                value = original.GetPiece(CubeFace.Bottom, i, 1);
+                state.SetPiece(value, CubeFace.Front, i, 1); // either i or 2 - i
             }
+
+            FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
+            FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
+            FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
+            FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
         }
 
         private static void RotateLeftwise(CubeState state)
