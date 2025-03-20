@@ -60,7 +60,14 @@ namespace DummyService
 
         public void ApplyMove(string move)
         {
-            Puzzle.PerformMove(move);
+            try
+            {
+                Puzzle.PerformMove(move);
+            }
+            catch
+            {
+                return;
+            }
         }
 
         public byte[] CreateCubeResponse(CubeState state)
