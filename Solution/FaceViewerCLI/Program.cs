@@ -35,9 +35,7 @@ namespace FaceViewerCLI
                 Presenter.PresentCube(CubeState);
 
                 Console.WriteLine("Enter a move to be performed...");
-                string? message = Console.ReadLine();
-
-                if (message != null)
+                if (Console.ReadLine() is string message)
                 {
                     PerformMoveStrategy.PerformMove(message);
                 }
