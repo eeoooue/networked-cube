@@ -13,6 +13,16 @@ namespace LibNetCube
 
         private Dictionary<CubeFace, int[,]> Faces = new Dictionary<CubeFace, int[,]>();
 
+        public CubeState(CubeState state)
+        {
+            List<CubeFace> names = GetFaceNames();
+            for (int i = 0; i < names.Count; i++)
+            {
+                CubeFace name = names[i];
+                Faces[name] = state.ReadFace(name);
+            }
+        }
+
         public CubeState(List<int[,]> faces)
         {
             List<CubeFace> names = GetFaceNames();
@@ -50,6 +60,21 @@ namespace LibNetCube
         public int[,] GetFace(CubeFace face)
         {
             return Faces[face];
+        }
+
+        public int[,] ReadFace(CubeFace face)
+        {
+            int[,] result = new int[FaceWidth, FaceWidth];
+            int[,] source = GetFace(face);
+            for (int i = 0; i < FaceWidth; i++)
+            {
+                for (int j = 0; j < FaceWidth; j++)
+                {
+                    result[i, j] = source[i, j];
+                }
+            }
+
+            return result;
         }
 
         public int GetPiece(CubeFace face, int i, int j)

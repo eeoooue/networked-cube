@@ -60,18 +60,13 @@ namespace DummyService
 
         public void ApplyMove(string move)
         {
-            if (move.Length == 1)
+            try
             {
-                char x = move[0];
-                Puzzle.PerformMove(x);
+                Puzzle.PerformMove(move);
             }
-
-            if (move.Length == 2 && move[1] == '\'')
+            catch
             {
-                string c = move[0].ToString();
-                ApplyMove(c);
-                ApplyMove(c);
-                ApplyMove(c);
+                return;
             }
         }
 
