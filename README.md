@@ -5,25 +5,42 @@ A light-hearted networking exercise with a puzzle cube theme.
 The end goal is a suite of networked applications that can be self-hosted on a single machine to present a cube that can be scrambled and solved.
 
 The puzzle is presented as a cube map in the same manner as in [Old Pochman](https://www.speedcubereview.com/blind-solving-algorithms.html).
-
-#### Screenshot
+ 
+## Screenshot
 
 ![Image](./misc/example-screenshot.png)
 
-#### Design
+## Design
 
 ![Image](./misc/netcube-system-design.png)
 
-#### Usage
+## Usage
 
+### Setup
 1. Open ```Solution/Solution.sln``` in Visual Studio
 2. Run **DummyService**
 3. Run **CubeViewFacade**
 4. Run **FaceViewer** 6 times, launching 6 WPF applications
 5. Press the face title button in the WPF face viewers to change the displayed faces
-6. Run **FaceViewerCLI**, which allows supported moves to be performed: U, R, L, D, F, B
+6. Run **FaceViewerCLI**
 
-#### Contributing
+### Moves
+You can use standard cube notation to input moves. These are:
+- **U** will rotate the top row right.
+- **D** will rotate the bottom row right.
+- **R** will rotate the right column upwards.
+- **L** will rotate the left column downwards.
+- **F** will rotate the front face clockwise.
+- **B** will rotate the back face counter-clockwise.
+- **M** will rotate the middle column downwards.
+
+You can use the **{move}'** notation to do a move in reverse. An example would be **U'** to rotate the top row left.
+
+You can use the **{move}2** notation to do a move twice. An example would be **U2** to rotate the top row left two times.
+
+*Each move uses the **front** face as reference* 
+
+## Contributing
 
 If you know me personally, you are welcome to contribute to this project.
 
