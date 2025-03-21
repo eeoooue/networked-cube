@@ -64,12 +64,12 @@ namespace FaceViewerCLI.GetCubeStrategies
                 string[] values = response.Split(',');
                 int[,] result = new int[3, 3];
 
-                int p = 0;
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        result[i, j] = int.Parse(values[p++]);
+                        int p = (i*3) + j;
+                        result[i, j] = int.Parse(values[p]);
                     }
                 }
 
