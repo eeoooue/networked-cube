@@ -13,8 +13,8 @@ namespace FaceViewerCLI
         private static FacePresenter Presenter = new FacePresenter();
         private static CubeState CubeState = new CubeState(new CubePuzzle().GetState());
 
-        private static IPerformMoveStrategy PerformMoveStrategy = new MoveViaSocketStrategy();
-        private static IGetCubeStrategy GetCubeStrategy = new GetCubeViaSocketStrategy();
+        private static IPerformMoveStrategy PerformMoveStrategy = new MoveViaAPIStrategy();
+        private static IGetCubeStrategy GetCubeStrategy = new GetCubeViaAPIStrategy();
 
         static void Main(string[] args)
         {
