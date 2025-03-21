@@ -12,7 +12,6 @@ namespace FaceViewerCLI.PerformMoveStrategies
     {
         private static readonly string _hostname = "127.0.0.1";
         private static readonly int _port = 5000;
-        private static TcpClient Client = new TcpClient();
 
         public void PerformMove(string move)
         {
@@ -23,13 +22,19 @@ namespace FaceViewerCLI.PerformMoveStrategies
         {
             try
             {
-                Client.Connect(_hostname, _port);
-                NetworkStream nStream = Client.GetStream();
+                TcpClient client = new TcpClient();
+
+                client.Connect(_hostname, _port);
+                NetworkStream nStream = client.GetStream();
 
                 byte[] request = Serialize(message);
                 nStream.Write(request, 0, request.Length);
 
                 byte[] received = ReadFromStream(nStream);
+
+                client.Close();
+                client.Dispose();
+
                 return new CubeState(received);
             }
             catch
