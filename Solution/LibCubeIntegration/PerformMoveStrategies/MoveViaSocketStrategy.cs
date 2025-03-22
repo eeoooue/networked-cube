@@ -8,27 +8,22 @@ class MoveViaSocketStrategy : IPerformMoveStrategy
     const string Hostname = "127.0.0.1";
     const int Port = 5000;
 
-    public void PerformMove(string move)
+    public async Task PerformMove(string move)
     {
-        SendMoveRequest(move);
+        _ = await SendMoveRequest(move);
     }
 
-    public static CubeState? SendMoveRequest(string message)
+    public static async Task<CubeState?> SendMoveRequest(string message)
     {
         try
         {
-            var client = new TcpClient();
-
-            client.Connect(Hostname, Port);
+            using var client = new TcpClient();
+            await client.ConnectAsync(Hostname, Port);
             var nStream = client.GetStream();
 
             var request = Serialize(message);
             nStream.Write(request, 0, request.Length);
-
-            var received = ReadFromStream(nStream);
-
-            client.Close();
-            client.Dispose();
+            var received = await ReadFromStreamAsync(nStream);
 
             return new CubeState(received);
         }
@@ -38,15 +33,31 @@ class MoveViaSocketStrategy : IPerformMoveStrategy
         }
     }
 
-    public static byte[] ReadFromStream(NetworkStream stream)
+    static async Task<byte[]> ReadFromStreamAsync(NetworkStream stream)
     {
-        var messageLength = stream.ReadByte();
+        var lengthBuffer = new byte[1];
+        var bytesRead = await stream.ReadAsync(lengthBuffer.AsMemory(0, 1));
+        if (bytesRead == 0)
+        {
+            throw new Exception("no data received");
+        }
+
+        int messageLength = lengthBuffer[0];
         var messageBytes = new byte[messageLength];
-        stream.ReadExactly(messageBytes, 0, messageLength);
+        var offset = 0;
+        while (offset < messageLength)
+        {
+            var read = await stream.ReadAsync(messageBytes.AsMemory(offset, messageLength - offset));
+            if (read == 0)
+            {
+                throw new Exception("stream closed unexpectedly");
+            }
+            offset += read;
+        }
         return messageBytes;
     }
 
-    public static byte[] Serialize(string request)
+    static byte[] Serialize(string request)
     {
         var responseBytes = Encoding.ASCII.GetBytes(request);
         var responseLength = (byte)responseBytes.Length;

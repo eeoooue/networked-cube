@@ -4,10 +4,8 @@ using PerformMoveStrategies;
 
 class GetCubeViaSocketStrategy : IGetCubeStrategy
 {
-    public CubeState? GetCube()
+    public async Task<CubeState?> GetCube()
     {
-        var result = MoveViaSocketStrategy.SendMoveRequest("X");
-
-        return result;
+        return await MoveViaSocketStrategy.SendMoveRequest("X");
     }
 }
