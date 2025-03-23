@@ -4,23 +4,27 @@ using System.Net;
 using System.Net.Sockets;
 
 namespace CubeViewFacade;
+using LibCubeIntegration.PerformMoveStrategies;
+using LibCubeIntegration.Services;
+
 class Program
 {
     static readonly TcpListener TcpListener = new(IPAddress.Parse("127.0.0.1"), 5002);
     static readonly Thread[] ServerThreads = new Thread[10];
 
-    static GetCubeViaApiStrategy? _getCubeStrategy;
+    static readonly CubeService CubeService = new(
+        new GetCubeViaApiStrategy(),
+        new MoveViaApiStrategy());
+
     static readonly CancellationTokenSource Cts = new();
 
     public static CubeState? State;
 
     static async Task Main()
     {
-        _getCubeStrategy = new GetCubeViaApiStrategy();
-
         try
         {
-            State = await _getCubeStrategy.GetCube()
+            State = await CubeService.GetStateAsync()
                     ?? throw new InvalidOperationException("CubeState couldn't be retrieved");
 
             _ = Task.Run(() => StateUpdateTicker(Cts.Token));
@@ -30,7 +34,7 @@ class Program
             Console.WriteLine("Press Enter to exit...");
             Console.ReadLine();
 
-            Cts.Cancel();
+            await Cts.CancelAsync();
         }
         catch (Exception ex)
         {
@@ -44,9 +48,7 @@ class Program
         {
             try
             {
-                if (_getCubeStrategy is not null)
-                {
-                    var newState = await _getCubeStrategy.GetCube();
+                    var newState = await CubeService.GetStateAsync();
 
                     if (newState is null)
                     {
@@ -57,7 +59,6 @@ class Program
                         State = newState;
                         Console.WriteLine("Updated state successfully");
                     }
-                }
             }
             catch (Exception ex)
             {

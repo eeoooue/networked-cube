@@ -3,15 +3,10 @@ using LibNetCube;
 
 public class GetCubeViaApiStrategy : IGetCubeStrategy
 {
-    static readonly HttpClient Client = new();
     const string ServerAddress = "http://localhost:5295";
+    static readonly HttpClient Client = new();
 
-    public async Task<CubeState?> GetCube()
-    {
-        return await GetCubeAsync();
-    }
-
-    static async Task<CubeState?> GetCubeAsync()
+    public async Task<CubeState?> GetCubeStateAsync()
     {
         List<string> faces = ["Back", "Bottom", "Front", "Left", "Right", "Top"];
         var faceMatrices = new List<int[,]>();
@@ -28,7 +23,7 @@ public class GetCubeViaApiStrategy : IGetCubeStrategy
         return faceMatrices.Count == 6 ? new CubeState(faceMatrices) : null;
     }
 
-    static async Task<int[,]?> GetFaceAsync(string face)
+    async Task<int[,]?> GetFaceAsync(string face)
     {
         var requestUri = $"{ServerAddress}/api/Cube/Face?face={face}";
         var response = await Client.GetAsync(requestUri);

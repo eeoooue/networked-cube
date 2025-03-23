@@ -8,9 +8,10 @@ class MoveViaSocketStrategy : IPerformMoveStrategy
     const string Hostname = "127.0.0.1";
     const int Port = 5000;
 
-    public async Task PerformMove(string move)
+    public async Task<bool> PerformMoveAsync(string move)
     {
-        _ = await SendMoveRequest(move);
+        var response = await SendMoveRequest(move);
+        return response is not null;
     }
 
     public static async Task<CubeState?> SendMoveRequest(string message)
