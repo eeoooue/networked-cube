@@ -1,131 +1,88 @@
 ﻿using LibNetCube;
-using System.Net.Sockets;
+using LibCubeIntegration.GetCubeStrategies;
 using System.Net;
-using System.Text;
+using System.Net.Sockets;
 
-namespace CubeViewFacade
+namespace CubeViewFacade;
+class Program
 {
-    internal class Program
+    static readonly TcpListener TcpListener = new(IPAddress.Parse("127.0.0.1"), 5002);
+    static readonly Thread[] ServerThreads = new Thread[10];
+
+    static GetCubeViaApiStrategy? _getCubeStrategy;
+    static readonly CancellationTokenSource Cts = new();
+
+    public static CubeState? State;
+
+    static async Task Main()
     {
-        private static TcpListener tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5002);
+        _getCubeStrategy = new GetCubeViaApiStrategy();
 
-        // Create 10 threads (max number of concurrent requests)
-        private static Thread[] serverThreads = new Thread[10];
-
-        private static Thread updateThread;
-
-        public static CubeState State;
-
-        static void Main(string[] args)
+        try
         {
-            CubePuzzle temp = new CubePuzzle();
-            State = temp.GetState();
+            State = await _getCubeStrategy.GetCube()
+                    ?? throw new InvalidOperationException("CubeState couldn't be retrieved");
 
-
-            //ApplyMove("U");
-            //ApplyMove("L");
-            //ApplyMove("D");
-            //ApplyMove("R");
-
-            updateThread = new Thread(StateUpdateTicker);
-            updateThread.IsBackground = true;
-            updateThread.Start();
+            _ = Task.Run(() => StateUpdateTicker(Cts.Token));
 
             StartServer();
 
+            Console.WriteLine("Press Enter to exit...");
             Console.ReadLine();
-        }
 
-        static void StateUpdateTicker()
+            Cts.Cancel();
+        }
+        catch (Exception ex)
         {
-            while (true)
-            {
-                Thread.Sleep(500);
-                if (TryGetCubeState() is CubeState state)
-                {
-                    State = state;
-                    Console.WriteLine("Updated state successfully");
-                }
-                else
-                {
-                    Console.WriteLine("Failed to update state");
-                }
-            }
+            Console.WriteLine($"Exception in Main: {ex.Message}");
         }
+    }
 
-        public static void StartServer()
-        {
-            tcpListener.Start();
-            Console.WriteLine($"[!] Server Active: ViewProxy @ port = 5002");
-
-            // Start all of the threads
-            for (int i = 0; i < 10; i++)
-            {
-                serverThreads[i] = new Thread(ServerThread);
-                serverThreads[i].IsBackground = true;
-                serverThreads[i].Start();
-            }
-        }
-
-        private static void ServerThread()
-        {
-            CubeViewingHost worker = new CubeViewingHost(tcpListener);
-            worker.Listen();
-        }
-
-
-        #region Reading Cube State
-
-        public static CubeState? TryGetCubeState()
+    static async Task StateUpdateTicker(CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
-                return ReadCubeStateFromProxyServer();
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public static CubeState ReadCubeStateFromProxyServer()
-        {
-            using (TcpClient tcpClient = new TcpClient())
-            {
-                tcpClient.Connect("127.0.0.1", 5000);
-
-                using (NetworkStream nStream = tcpClient.GetStream())
+                if (_getCubeStrategy is not null)
                 {
-                    byte[] request = GetBytesToSend("X");
-                    nStream.Write(request, 0, request.Length);
-                    nStream.Flush();
+                    var newState = await _getCubeStrategy.GetCube();
 
-                    byte[] received = ReadFromStream(nStream);
-                    return new CubeState(received);
+                    if (newState is null)
+                    {
+                        Console.WriteLine("Failed to update state");
+                    }
+                    else
+                    {
+                        State = newState;
+                        Console.WriteLine("Updated state successfully");
+                    }
                 }
             }
-        }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception during state update: {ex.Message}");
+            }
 
-        public static byte[] GetBytesToSend(string request)
+            await Task.Delay(500, cancellationToken);
+        }
+    }
+
+    static void StartServer()
+    {
+        TcpListener.Start();
+        Console.WriteLine("[!] Server Active: ViewProxy @ port = 5002");
+
+        for (var i = 0; i < ServerThreads.Length; i++)
         {
-            byte[] responseBytes = Encoding.ASCII.GetBytes(request);
-            byte responseLength = (byte)responseBytes.Length;
-
-            byte[] rawData = new byte[responseLength + 1];
-            rawData[0] = responseLength;
-            responseBytes.CopyTo(rawData, 1);
-            return rawData;
+            ServerThreads[i] = new Thread(ServerThread) { IsBackground = true };
+            ServerThreads[i].Start();
         }
+    }
 
-        static byte[] ReadFromStream(NetworkStream stream)
-        {
-            int messageLength = stream.ReadByte();
-            byte[] messageBytes = new byte[messageLength];
-            stream.Read(messageBytes, 0, messageLength);
-            return messageBytes;
-        }
-
-        #endregion
-
+    static void ServerThread()
+    {
+        var worker = new CubeViewingHost(TcpListener);
+        worker.Listen();
     }
 }
