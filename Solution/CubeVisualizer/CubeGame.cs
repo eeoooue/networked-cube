@@ -1,26 +1,31 @@
 ﻿using LibNetCube;
+using LibCubeIntegration.GetCubeStrategies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CubeVisualizer;
 
 public class CubeGame : Game
 {
+    static private readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
+    private Task _UpdateTask;
+    private bool _IsRunning = true;
+
     private GraphicsDeviceManager _graphics;
     private Camera _Camera;
     private RubiksCube _RubiksCube;
-    private CubeState _CubeState;
 
     private readonly Color _BackgroundColour;
-
     private float _DistanceFromCube;
 
     private float _YRotation;
     private float _XRotation;
     private float _XRotationFactor; // Factor to control the speed of rotation, also used to keep rotation within 30 and 150 degrees
 
-    public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour, CubeState pCubeState)
+    public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour)
     {
         Content.RootDirectory = "Content";
         Window.Title = pWindowName;
@@ -29,7 +34,6 @@ public class CubeGame : Game
         _graphics.PreferredBackBufferHeight = pWindowHeight;
         _graphics.PreferredBackBufferWidth = pWindowWidth;
         _BackgroundColour = pBGColour;
-        _CubeState = pCubeState;
     }
 
     protected override void Initialize()
@@ -45,7 +49,26 @@ public class CubeGame : Game
     protected override void LoadContent()
     {
         Model cube = Content.Load<Model>("3D Objects/Cube");
-        _RubiksCube = new RubiksCube(cube, _CubeState);
+
+        byte[] bytes = new byte[6 * 9];
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            bytes[i] = 2;
+        }
+        _RubiksCube = new RubiksCube(cube, new CubeState(bytes));
+        _UpdateTask = Task.Run(CubeStateThread);
+    }
+
+    protected async void CubeStateThread()
+    {
+        while (_IsRunning)
+        {
+            if (await GetCubeStrategy.GetCube() is { } state)
+            {
+                _RubiksCube.SetCubeState(state);
+            }
+            Thread.Sleep(1000);
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -80,5 +103,12 @@ public class CubeGame : Game
         _RubiksCube.Draw(_Camera);
 
         base.Draw(gameTime);
+    }
+
+    protected override void EndRun()
+    {
+        _IsRunning = false;
+        _UpdateTask.Wait();
+        base.EndRun();
     }
 }

@@ -19,6 +19,11 @@ namespace CubeVisualizer
             _CubeState = pCubeState;
         }
 
+        public void SetCubeState(CubeState pCubeState)
+        {
+            _CubeState = pCubeState;
+        }
+
         private void DrawCubes(Camera pCamera)
         {
             _Cube.SetColor(Color.Black);
