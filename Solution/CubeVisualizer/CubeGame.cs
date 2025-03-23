@@ -1,19 +1,25 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LibNetCube;
+using LibCubeIntegration.GetCubeStrategies;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CubeVisualizer;
 
 public class CubeGame : Game
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    static private readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
+    private Task _UpdateTask;
+    private bool _IsRunning = true;
+    private CubeState _ErrorState;
 
+    private GraphicsDeviceManager _graphics;
     private Camera _Camera;
     private RubiksCube _RubiksCube;
 
     private readonly Color _BackgroundColour;
-
     private float _DistanceFromCube;
 
     private float _YRotation;
@@ -38,15 +44,41 @@ public class CubeGame : Game
         _YRotation = 0.0f;
         _XRotation = MathHelper.ToRadians(30);
         _XRotationFactor = 0.25f;
+        _ErrorState = new CubeState(new byte[6 * 9]);
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-
         Model cube = Content.Load<Model>("3D Objects/Cube");
-        _RubiksCube = new RubiksCube(cube);
+
+
+        _RubiksCube = new RubiksCube(cube, _ErrorState);
+        _UpdateTask = Task.Run(CubeStateThread);
+    }
+
+    protected async void CubeStateThread()
+    {
+        while (_IsRunning)
+        {
+            try
+            {
+                if (await GetCubeStrategy.GetCube() is { } state)
+                {
+                    _RubiksCube.SetCubeState(state);
+                }
+                else
+                {
+                    _RubiksCube.SetCubeState(_ErrorState);
+                }
+            }
+
+            catch
+            {
+                _RubiksCube.SetCubeState(_ErrorState);
+            }
+            Thread.Sleep(250);
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -81,5 +113,12 @@ public class CubeGame : Game
         _RubiksCube.Draw(_Camera);
 
         base.Draw(gameTime);
+    }
+
+    protected override void EndRun()
+    {
+        _IsRunning = false;
+        _UpdateTask.Wait();
+        base.EndRun();
     }
 }
