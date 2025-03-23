@@ -13,6 +13,7 @@ public class CubeGame : Game
     static private readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
     private Task _UpdateTask;
     private bool _IsRunning = true;
+    private CubeState _ErrorState;
 
     private GraphicsDeviceManager _graphics;
     private Camera _Camera;
@@ -43,6 +44,7 @@ public class CubeGame : Game
         _YRotation = 0.0f;
         _XRotation = MathHelper.ToRadians(30);
         _XRotationFactor = 0.25f;
+        _ErrorState = new CubeState(new byte[6 * 9]);
         base.Initialize();
     }
 
@@ -50,12 +52,8 @@ public class CubeGame : Game
     {
         Model cube = Content.Load<Model>("3D Objects/Cube");
 
-        byte[] bytes = new byte[6 * 9];
-        for (int i = 0; i < bytes.Length; i++)
-        {
-            bytes[i] = 2;
-        }
-        _RubiksCube = new RubiksCube(cube, new CubeState(bytes));
+
+        _RubiksCube = new RubiksCube(cube, _ErrorState);
         _UpdateTask = Task.Run(CubeStateThread);
     }
 
@@ -63,11 +61,23 @@ public class CubeGame : Game
     {
         while (_IsRunning)
         {
-            if (await GetCubeStrategy.GetCube() is { } state)
+            try
             {
-                _RubiksCube.SetCubeState(state);
+                if (await GetCubeStrategy.GetCube() is { } state)
+                {
+                    _RubiksCube.SetCubeState(state);
+                }
+                else
+                {
+                    _RubiksCube.SetCubeState(_ErrorState);
+                }
             }
-            Thread.Sleep(1000);
+
+            catch
+            {
+                _RubiksCube.SetCubeState(_ErrorState);
+            }
+            Thread.Sleep(250);
         }
     }
 
