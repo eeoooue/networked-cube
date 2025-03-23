@@ -1,67 +1,36 @@
-﻿using System.IO;
-using System.Net.Http;
-using System.Net.Sockets;
-using System.Text;
+﻿namespace FaceViewerCLI;
+using LibCubeIntegration.GetCubeStrategies;
+using LibCubeIntegration.PerformMoveStrategies;
 using LibNetCube;
 
-namespace FaceViewerCLI
+class Program
 {
-    internal class Program
+    static readonly FacePresenter Presenter = new();
+    static CubeState _cubeState = new(new CubePuzzle().GetState());
+
+    static readonly IPerformMoveStrategy PerformMoveStrategy = new MoveViaApiStrategy();
+    static readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
+
+    static async Task Main()
     {
-        private static FacePresenter Presenter = new FacePresenter();
-
-        static void Main(string[] args)
+        while (true)
         {
-            while (true)
+            if (await GetCubeStrategy.GetCube() is { } state)
             {
-                Console.WriteLine("Enter a move to be performed...");
-                string? message = Console.ReadLine();
-
-                if (message != null)
-                {
-                    SendMoveRequest(message);
-                }
+                _cubeState = state;
             }
-        }
-
-        static void SendMoveRequest(string message)
-        {
-            TcpClient tcpClient = new TcpClient();
-            tcpClient.Connect("127.0.0.1", 5000);
-
-            NetworkStream nStream = tcpClient.GetStream();
-
-            if (message != null)
+            else
             {
-                byte[] request = Serialize(message);
-                nStream.Write(request, 0, request.Length);
-                // TODO: Read response from stream and display to user
-                byte[] received = ReadFromStream(nStream);
-
-                CubeState state = new CubeState(received);
-                Presenter.PresentCube(state);
+                Console.WriteLine("Lost connection to server.");
+                Thread.Sleep(500);
+                Console.WriteLine("Attempting to reconnect...");
+                continue;
             }
+
+            Presenter.PresentCube(_cubeState);
+
+            Console.WriteLine("Enter a move to be performed...");
+            if (Console.ReadLine() is { } message) await PerformMoveStrategy.PerformMove(message);
         }
-
-        static byte[] ReadFromStream(NetworkStream stream)
-        {
-            int messageLength = stream.ReadByte();
-            byte[] messageBytes = new byte[messageLength];
-            stream.Read(messageBytes, 0, messageLength);
-            return messageBytes;
-        }
-
-        static byte[] Serialize(string request)
-        {
-            byte[] responseBytes = Encoding.ASCII.GetBytes(request);
-            byte responseLength = (byte)responseBytes.Length;
-
-            byte[] rawData = new byte[responseLength + 1];
-            rawData[0] = responseLength;
-            responseBytes.CopyTo(rawData, 1);
-            return rawData;
-        }
-
-
     }
 }
