@@ -4,11 +4,10 @@ public class MoveViaApiStrategy : IPerformMoveStrategy
     static readonly HttpClient Client = new();
     const string ServerAddress = "http://localhost:5295";
 
-    public void PerformMove(string move)
+    public async Task PerformMove(string move)
     {
-        var task = PerformMoveAsync(move);
-        task.Wait();
-        Console.WriteLine($"verdict: {task.Result}");
+        var result = await PerformMoveAsync(move);
+        Console.WriteLine($"verdict: {result}");
     }
 
     static async Task<bool> PerformMoveAsync(string move)

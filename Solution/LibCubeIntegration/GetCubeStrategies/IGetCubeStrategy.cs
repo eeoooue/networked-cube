@@ -3,5 +3,5 @@ using LibNetCube;
 
 public interface IGetCubeStrategy
 {
-    public CubeState? GetCube();
+    public Task<CubeState?> GetCube();
 }

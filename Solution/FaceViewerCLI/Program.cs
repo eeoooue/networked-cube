@@ -11,11 +11,11 @@ class Program
     static readonly IPerformMoveStrategy PerformMoveStrategy = new MoveViaApiStrategy();
     static readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
 
-    static void Main()
+    static async Task Main()
     {
         while (true)
         {
-            if (GetCubeStrategy.GetCube() is { } state)
+            if (await GetCubeStrategy.GetCube() is { } state)
             {
                 _cubeState = state;
             }
@@ -30,7 +30,7 @@ class Program
             Presenter.PresentCube(_cubeState);
 
             Console.WriteLine("Enter a move to be performed...");
-            if (Console.ReadLine() is { } message) PerformMoveStrategy.PerformMove(message);
+            if (Console.ReadLine() is { } message) await PerformMoveStrategy.PerformMove(message);
         }
     }
 }

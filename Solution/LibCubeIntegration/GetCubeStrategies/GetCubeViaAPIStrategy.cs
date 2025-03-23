@@ -6,12 +6,9 @@ public class GetCubeViaApiStrategy : IGetCubeStrategy
     static readonly HttpClient Client = new();
     const string ServerAddress = "http://localhost:5295";
 
-    public CubeState? GetCube()
+    public async Task<CubeState?> GetCube()
     {
-        var task = GetCubeAsync();
-        task.Wait();
-
-        return task.Result;
+        return await GetCubeAsync();
     }
 
     static async Task<CubeState?> GetCubeAsync()
