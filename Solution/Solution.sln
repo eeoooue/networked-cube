@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevConsole", "DevConsole\De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeViewFacade", "CubeViewFacade\CubeViewFacade.csproj", "{D9605332-4F55-4B71-948C-D0999155D576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeService", "CubeService\CubeService.csproj", "{A712A9A3-55BA-4683-90DA-6C568DCCF698}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeService", "CubeService\CubeService.csproj", "{A712A9A3-55BA-4683-90DA-6C568DCCF698}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeVisualizer", "CubeVisualizer\CubeVisualizer.csproj", "{BD061B60-579A-4301-825D-EB073FC40355}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD061B60-579A-4301-825D-EB073FC40355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD061B60-579A-4301-825D-EB073FC40355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD061B60-579A-4301-825D-EB073FC40355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD061B60-579A-4301-825D-EB073FC40355}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
