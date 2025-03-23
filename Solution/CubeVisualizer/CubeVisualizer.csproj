@@ -29,6 +29,9 @@
   <ItemGroup>
     <Folder Include="Content\3D Objects\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibNetCube\LibNetCube.csproj" />
+  </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LibNetCube;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -6,24 +7,16 @@ namespace CubeVisualizer
 {
     class RubiksCube
     {
-        readonly Object3D _Cube;
-
-        private enum Colours { White, Yellow, Red, Blue, Green, Orange }
         static private readonly Color[] COLOURS = { Color.White, Color.Yellow, Color.Red, Color.Blue, Color.Green, Color.Orange };
-        Colours[,] _CubeState = new Colours[9, 6];
+        static private readonly CubeFace[] FACES = { CubeFace.Front, CubeFace.Back, CubeFace.Left, CubeFace.Right, CubeFace.Bottom, CubeFace.Top };
 
-        public RubiksCube(Model pCube)
+        readonly Object3D _Cube;
+        private CubeState _CubeState;
+
+        public RubiksCube(Model pCube, CubeState pCubeState)
         {
             _Cube = new Object3D(pCube, Color.White);
-
-            // Set the initial state of the cube
-            for (int i = 0; i < 6; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    _CubeState[j, i] = (Colours)i;
-                }
-            }
+            _CubeState = pCubeState;
         }
 
         private void DrawCubes(Camera pCamera)
@@ -66,6 +59,7 @@ namespace CubeVisualizer
                         break;
                 }
 
+                int[,] face = _CubeState.GetFace(FACES[i]);
                 for (int j = 0; j < 9; j++)
                 {
                     // up direction stays the same, but other two components change
@@ -73,32 +67,32 @@ namespace CubeVisualizer
                     // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
                     switch (i)
                     {
-                        case 0:
+                        case 0: // Front
                             x = -1;
                             y = j / 3;
                             z = j % 3;
                             break;
-                        case 1:
+                        case 1: // Back
                             x = 2;
                             y = j / 3;
                             z = j % 3;
                             break;
-                        case 2:
+                        case 2: // Left
                             x = j % 3;
                             y = j / 3;
                             z = -1;
                             break;
-                        case 3:
+                        case 3: // Right
                             x = j % 3;
                             y = j / 3;
                             z = 2;
                             break;
-                        case 4:
+                        case 4: // Bottom
                             x = j % 3;
                             y = -1;
                             z = j / 3;
                             break;
-                        case 5:
+                        case 5: // Top
                             x = j % 3;
                             y = 2;
                             z = j / 3;
@@ -107,7 +101,7 @@ namespace CubeVisualizer
                     _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
 
                     // Set the face colour based on the cube state
-                    _Cube.SetColor(COLOURS[(int)_CubeState[j, i]]);
+                    _Cube.SetColor(COLOURS[face[j / 3, j % 3]]);
 
                     // Scale cube so that the width is 0.2 in up direction
                     _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);

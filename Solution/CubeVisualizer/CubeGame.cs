@@ -46,7 +46,19 @@ public class CubeGame : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Model cube = Content.Load<Model>("3D Objects/Cube");
-        _RubiksCube = new RubiksCube(cube);
+
+
+        // Set the initial state of the cube
+        byte[] bytes = new byte[6 * 9];
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                bytes[(i * 9) + j] = (byte)i;
+            }
+        }
+
+        _RubiksCube = new RubiksCube(cube, new LibNetCube.CubeState(bytes));
     }
 
     protected override void Update(GameTime gameTime)
