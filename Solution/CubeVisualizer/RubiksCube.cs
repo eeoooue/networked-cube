@@ -93,14 +93,14 @@ namespace CubeVisualizer
                             z = 2;
                             break;
                         case 4: // Bottom
-                            x = j % 3;
+                            x = j / 3;
                             y = -1;
-                            z = j / 3;
+                            z = j % 3;
                             break;
                         case 5: // Top
-                            x = j % 3;
+                            x = j / 3;
                             y = 2;
-                            z = j / 3;
+                            z = j % 3;
                             break;
                     }
                     _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
