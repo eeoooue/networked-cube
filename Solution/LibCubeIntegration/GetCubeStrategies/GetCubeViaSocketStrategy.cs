@@ -2,7 +2,7 @@
 using LibNetCube;
 using PerformMoveStrategies;
 
-class GetCubeViaSocketStrategy : IGetCubeStrategy
+public class GetCubeViaSocketStrategy : IGetCubeStrategy
 {
     public async Task<CubeState?> GetCube()
     {

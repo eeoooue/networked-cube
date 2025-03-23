@@ -1,166 +1,112 @@
-﻿using LibNetCube;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace FaceViewer.ViewModels;
 using System.Windows.Media;
+using LibCubeIntegration.GetCubeStrategies;
+using LibNetCube;
 
-namespace FaceViewer.ViewModels
+public class FaceViewModel : BaseViewModel
 {
-    internal class FaceViewModel : BaseViewModel
+    readonly IGetCubeStrategy _getCubeStrategy;
+    readonly int[,] _values;
+    CubeState? _cubeState;
+    public CubeFace Face;
+
+    public FaceViewModel(CubeFace face, IGetCubeStrategy getCubeStrategy)
     {
-        public CubeState? CubeState;
+        Face = face;
+        _getCubeStrategy = getCubeStrategy;
 
-        public CubeFace Face;
-
-        public int[,] Values;
-
-        public int Row0Col0 { get { return Values[0, 0]; } }
-        public int Row0Col1 { get { return Values[0, 1]; } }
-        public int Row0Col2 { get { return Values[0, 2]; } }
-
-        public int Row1Col0 { get { return Values[1, 0]; } }
-        public int Row1Col1 { get { return Values[1, 1]; } }
-        public int Row1Col2 { get { return Values[1, 2]; } }
-
-        public int Row2Col0 { get { return Values[2, 0]; } }
-        public int Row2Col1 { get { return Values[2, 1]; } }
-        public int Row2Col2 { get { return Values[2, 2]; } }
-
-        public Brush ColourR0C0 { get { return CalcColour(0, 0); } }
-        public Brush ColourR0C1 { get { return CalcColour(0, 1); } }
-        public Brush ColourR0C2 { get { return CalcColour(0, 2); } }
-
-        public Brush ColourR1C0 { get { return CalcColour(1, 0); } }
-        public Brush ColourR1C1 { get { return CalcColour(1, 1); } }
-        public Brush ColourR1C2 { get { return CalcColour(1, 2); } }
-
-        public Brush ColourR2C0 { get { return CalcColour(2, 0); } }
-        public Brush ColourR2C1 { get { return CalcColour(2, 1); } }
-        public Brush ColourR2C2 { get { return CalcColour(2, 2); } }
-
-
-        public FaceViewModel(CubeFace face)
+        _values = new int[3, 3];
+        var thread = new Thread(StateUpdateTicker)
         {
-            Face = face;
-            Values = new int[3, 3];
-            Thread thread = new Thread(StateUpdateTicker);
-            thread.IsBackground = true;
-            thread.Start();
-            Update();
-        }
+            IsBackground = true
+        };
 
-        public void StateUpdateTicker()
+        thread.Start();
+        _ = Update();
+    }
+
+    public int Row0Col0 => _values[0, 0];
+    public int Row0Col1 => _values[0, 1];
+    public int Row0Col2 => _values[0, 2];
+
+    public int Row1Col0 => _values[1, 0];
+    public int Row1Col1 => _values[1, 1];
+    public int Row1Col2 => _values[1, 2];
+
+    public int Row2Col0 => _values[2, 0];
+    public int Row2Col1 => _values[2, 1];
+    public int Row2Col2 => _values[2, 2];
+
+    public Brush ColourR0C0 => CalcColour(0, 0);
+    public Brush ColourR0C1 => CalcColour(0, 1);
+    public Brush ColourR0C2 => CalcColour(0, 2);
+
+    public Brush ColourR1C0 => CalcColour(1, 0);
+    public Brush ColourR1C1 => CalcColour(1, 1);
+    public Brush ColourR1C2 => CalcColour(1, 2);
+
+    public Brush ColourR2C0 => CalcColour(2, 0);
+    public Brush ColourR2C1 => CalcColour(2, 1);
+    public Brush ColourR2C2 => CalcColour(2, 2);
+
+    void StateUpdateTicker()
+    {
+        while (true)
         {
-            while (true)
-            {
-                Thread.Sleep(500);
-                Update();
-            }
+            Thread.Sleep(500);
+            _ = Update();
         }
+    }
 
-
-        public Brush CalcColour(int i, int j)
+    SolidColorBrush CalcColour(int i, int j)
+    {
+        var value = _values[i, j];
+        return value switch
         {
-            int value = Values[i, j];
-            switch (value)
-            {
-                case 1:
-                    return Brushes.Gold;
-                case 2:
-                    return Brushes.Crimson;
-                case 3:
-                    return Brushes.DodgerBlue;
-                case 4:
-                    return Brushes.LimeGreen;
-                case 5:
-                    return Brushes.Coral;
-                case 0:
-                    return Brushes.White;
-                default:
-                    return Brushes.White;
-            }
-        }
+            1 => Brushes.Gold,
+            2 => Brushes.Crimson,
+            3 => Brushes.DodgerBlue,
+            4 => Brushes.LimeGreen,
+            5 => Brushes.Coral,
+            0 => Brushes.White,
+            _ => Brushes.White
+        };
+    }
 
-
-
-        public CubeState? TryGetCubeState()
+    async Task<CubeState?> TryGetCubeState()
+    {
+        try
         {
-            try
-            {
-                return ReadCubeStateFromProxyServer();
-            }
-            catch
-            {
-                return null;
-            }
+            return await _getCubeStrategy.GetCube();
         }
-
-        public CubeState ReadCubeStateFromProxyServer()
+        catch
         {
-            using (TcpClient tcpClient = new TcpClient())
-            {
-                tcpClient.Connect("127.0.0.1", 5002);
-
-                using (NetworkStream nStream = tcpClient.GetStream())
-                {
-                    byte[] request = GetBytesToSend("U");
-                    nStream.Write(request, 0, request.Length);
-                    byte[] received = ReadFromStream(nStream);
-                    return new CubeState(received);
-                }
-            }
+            return null;
         }
+    }
 
-        public void Update()
+    public async Task Update()
+    {
+        _cubeState = await TryGetCubeState();
+
+        for (var i = 0; i < 3; i++)
+        for (var j = 0; j < 3; j++)
         {
-            CubeState = TryGetCubeState();
+            _values[i, j] = GetFacePiece(i, j);
 
-            for(int i=0; i<3; i++)
-            {
-                for(int j=0; j<3; j++)
-                {
-                    Values[i, j] = GetFacePiece(i, j);
+            var memberVariableNameA = $"Row{i}Col{j}";
+            OnPropertyChanged(memberVariableNameA);
 
-                    string memberVariableNameA = $"Row{i}Col{j}";
-                    OnPropertyChanged(memberVariableNameA);
-
-                    string memberVariableNameB = $"ColourR{i}C{j}";
-                    OnPropertyChanged(memberVariableNameB);
-                }
-            }
+            var memberVariableNameB = $"ColourR{i}C{j}";
+            OnPropertyChanged(memberVariableNameB);
         }
+    }
 
-        public int GetFacePiece(int i, int j)
-        {
-            if (CubeState is CubeState state)
-            {
-                int[,] values = state.GetFace(Face);
-                return values[i, j];
-            }
+    int GetFacePiece(int i, int j)
+    {
+        if (_cubeState is not { } state) return 0;
 
-            return 0;
-        }
-
-        public byte[] GetBytesToSend(string request)
-        {
-            byte[] responseBytes = Encoding.ASCII.GetBytes(request);
-            byte responseLength = (byte)responseBytes.Length;
-
-            byte[] rawData = new byte[responseLength + 1];
-            rawData[0] = responseLength;
-            responseBytes.CopyTo(rawData, 1);
-            return rawData;
-        }
-
-        static byte[] ReadFromStream(NetworkStream stream)
-        {
-            int messageLength = stream.ReadByte();
-            byte[] messageBytes = new byte[messageLength];
-            stream.Read(messageBytes, 0, messageLength);
-            return messageBytes;
-        }
+        var values = state.GetFace(Face);
+        return values[i, j];
     }
 }
