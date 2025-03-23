@@ -46,3 +46,15 @@ If you know me personally, you are welcome to contribute to this project.
 
 Anticipated additions to the project are listed as [issues](https://github.com/eeoooue/netcube/issues). Let me know if you spot anything that interests you, or if you have any other ideas for the project.
 
+
+
+## Development
+
+```bash
+# Install dependencies
+npm install || pip install -r requirements.txt || composer install || bundle install
+# Run tests
+npm test || pytest || mvn test || bundle exec rake test
+# Security Audit
+npm audit || safety check
+```
