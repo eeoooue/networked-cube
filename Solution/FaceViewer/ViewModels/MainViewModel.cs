@@ -1,65 +1,49 @@
-﻿using LibNetCube;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+﻿namespace FaceViewer.ViewModels;
 using System.Windows.Input;
+using LibCubeIntegration.GetCubeStrategies;
+using LibNetCube;
 
-namespace FaceViewer.ViewModels
+public class MainViewModel : BaseViewModel
 {
-    internal class MainViewModel : BaseViewModel
+    int _faceIndex;
+
+    readonly List<string> Faces = ["Front", "Right", "Back", "Left", "Top", "Bottom"];
+
+    public MainViewModel(IGetCubeStrategy getCubeStrategy)
     {
-        public FaceViewModel Face { get; set; }
-        public string FaceName { get { return Faces[FaceIndex]; } }
+        var faceVal = GetFaceEnum();
+        Face = new FaceViewModel(faceVal, getCubeStrategy);
+        RotateFace = new RelayCommand(RotateFaceDisplayed);
+    }
 
-        public ICommand RotateFace { get; }
+    public FaceViewModel Face { get; set; }
+    public string FaceName => Faces[_faceIndex];
 
-        private int FaceIndex = 0;
+    public ICommand RotateFace { get; }
 
-        private List<string> Faces = ["Front", "Right", "Back", "Left", "Top", "Bottom"];
+    void UpdateFace()
+    {
+        Face.Face = GetFaceEnum();
+        _ = Face.Update();
+    }
 
-        public MainViewModel()
+    CubeFace GetFaceEnum()
+    {
+        return FaceName switch
         {
-            CubeFace faceVal = GetFaceEnum();
-            Face = new FaceViewModel(faceVal);
-            RotateFace = new RelayCommand(RotateFaceDisplayed);
-        }
+            "Front" => CubeFace.Front,
+            "Right" => CubeFace.Right,
+            "Back" => CubeFace.Back,
+            "Left" => CubeFace.Left,
+            "Top" => CubeFace.Top,
+            _ => CubeFace.Bottom
+        };
+    }
 
-        public void UpdateFace()
-        {
-            Face.Face = GetFaceEnum();
-            Face.Update();
-        }
-
-        public CubeFace GetFaceEnum()
-        {
-            switch (FaceName)
-            {
-                case "Front":
-                    return CubeFace.Front;
-                case "Right":
-                    return CubeFace.Right;
-                case "Back":
-                    return CubeFace.Back;
-                case "Left":
-                    return CubeFace.Left;
-                case "Top":
-                    return CubeFace.Top;
-                default:
-                    return CubeFace.Bottom;
-            }
-        }
-
-        public void RotateFaceDisplayed()
-        {
-            FaceIndex = (FaceIndex + 1) % Faces.Count;
-            UpdateFace();
-            OnPropertyChanged("FaceName");
-        }
+    void RotateFaceDisplayed()
+    {
+        _faceIndex = (_faceIndex + 1) % Faces.Count;
+        UpdateFace();
+        OnPropertyChanged("FaceName");
     }
 }
