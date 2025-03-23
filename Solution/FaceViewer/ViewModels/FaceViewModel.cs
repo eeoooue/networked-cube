@@ -10,19 +10,16 @@ public class FaceViewModel : BaseViewModel
     CubeState? _cubeState;
     public CubeFace Face;
 
+    readonly CancellationTokenSource _cts = new();
+
     public FaceViewModel(CubeFace face, IGetCubeStrategy getCubeStrategy)
     {
         Face = face;
         _getCubeStrategy = getCubeStrategy;
 
         _values = new int[3, 3];
-        var thread = new Thread(StateUpdateTicker)
-        {
-            IsBackground = true
-        };
 
-        thread.Start();
-        _ = Update();
+        Task.Run(StateUpdateTicker, _cts.Token);
     }
 
     public int Row0Col0 => _values[0, 0];
@@ -48,6 +45,23 @@ public class FaceViewModel : BaseViewModel
     public Brush ColourR2C0 => CalcColour(2, 0);
     public Brush ColourR2C1 => CalcColour(2, 1);
     public Brush ColourR2C2 => CalcColour(2, 2);
+
+    public async Task Update()
+    {
+        _cubeState = await TryGetCubeState();
+
+        for (var i = 0; i < 3; i++)
+        for (var j = 0; j < 3; j++)
+        {
+            _values[i, j] = GetFacePiece(i, j);
+
+            var memberVariableNameA = $"Row{i}Col{j}";
+            OnPropertyChanged(memberVariableNameA);
+
+            var memberVariableNameB = $"ColourR{i}C{j}";
+            OnPropertyChanged(memberVariableNameB);
+        }
+    }
 
     void StateUpdateTicker()
     {
@@ -82,23 +96,6 @@ public class FaceViewModel : BaseViewModel
         catch
         {
             return null;
-        }
-    }
-
-    public async Task Update()
-    {
-        _cubeState = await TryGetCubeState();
-
-        for (var i = 0; i < 3; i++)
-        for (var j = 0; j < 3; j++)
-        {
-            _values[i, j] = GetFacePiece(i, j);
-
-            var memberVariableNameA = $"Row{i}Col{j}";
-            OnPropertyChanged(memberVariableNameA);
-
-            var memberVariableNameB = $"ColourR{i}C{j}";
-            OnPropertyChanged(memberVariableNameB);
         }
     }
 
