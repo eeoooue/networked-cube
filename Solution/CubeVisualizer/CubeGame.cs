@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LibNetCube;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,10 +8,9 @@ namespace CubeVisualizer;
 public class CubeGame : Game
 {
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
     private Camera _Camera;
     private RubiksCube _RubiksCube;
+    private CubeState _CubeState;
 
     private readonly Color _BackgroundColour;
 
@@ -20,7 +20,7 @@ public class CubeGame : Game
     private float _XRotation;
     private float _XRotationFactor; // Factor to control the speed of rotation, also used to keep rotation within 30 and 150 degrees
 
-    public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour)
+    public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour, CubeState pCubeState)
     {
         Content.RootDirectory = "Content";
         Window.Title = pWindowName;
@@ -29,6 +29,7 @@ public class CubeGame : Game
         _graphics.PreferredBackBufferHeight = pWindowHeight;
         _graphics.PreferredBackBufferWidth = pWindowWidth;
         _BackgroundColour = pBGColour;
+        _CubeState = pCubeState;
     }
 
     protected override void Initialize()
@@ -43,22 +44,8 @@ public class CubeGame : Game
 
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-
         Model cube = Content.Load<Model>("3D Objects/Cube");
-
-
-        // Set the initial state of the cube
-        byte[] bytes = new byte[6 * 9];
-        for (int i = 0; i < 6; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                bytes[(i * 9) + j] = (byte)i;
-            }
-        }
-
-        _RubiksCube = new RubiksCube(cube, new LibNetCube.CubeState(bytes));
+        _RubiksCube = new RubiksCube(cube, _CubeState);
     }
 
     protected override void Update(GameTime gameTime)

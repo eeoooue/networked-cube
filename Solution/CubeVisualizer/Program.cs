@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using LibCubeIntegration.GetCubeStrategies;
+using Microsoft.Xna.Framework;
+using System.Threading.Tasks;
 
 namespace CubeVisualizer
 {
@@ -9,10 +11,15 @@ namespace CubeVisualizer
         private const int WINDOW_WIDTH = 400;
         private static Color BG_COLOUR = Color.White;
 
-        static void Main()
+        static readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
+
+        static async Task Main()
         {
-            using var game = new CubeGame(WINDOW_NAME, WINDOW_HEIGHT, WINDOW_WIDTH, BG_COLOUR);
-            game.Run();
+            if (await GetCubeStrategy.GetCube() is { } state)
+            {
+                using var game = new CubeGame(WINDOW_NAME, WINDOW_HEIGHT, WINDOW_WIDTH, BG_COLOUR, state);
+                game.Run();
+            }
         }
     }
 }
