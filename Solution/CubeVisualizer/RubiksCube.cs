@@ -79,18 +79,22 @@ namespace CubeVisualizer
             }
         }
 
+        static private CubeFace[] stuff = { CubeFace.Front, CubeFace.Back, CubeFace.Left, CubeFace.Right, CubeFace.Bottom, CubeFace.Top };
+
         private Vector3 GetRelativeUpVector(int i)
         {
-            switch (i)
+            CubeFace face = FACES[i];
+
+            switch (face)
             {
-                case 0:
-                case 1:
+                case CubeFace.Front:
+                case CubeFace.Back:
                     return Vector3.UnitX;
-                case 2:
-                case 3:
+                case CubeFace.Left:
+                case CubeFace.Right:
                     return Vector3.UnitZ;
-                case 4:
-                case 5:
+                case CubeFace.Bottom:
+                case CubeFace.Top:
                     return Vector3.UnitY;
                 default:
                     return Vector3.UnitX;
@@ -99,19 +103,21 @@ namespace CubeVisualizer
 
         public float SetXValue(int i, int j)
         {
-            switch (i)
+            CubeFace face = FACES[i];
+
+            switch (face)
             {
-                case 0: // Front
+                case CubeFace.Front: // Front
                     return -1;
-                case 1: // Back
+                case CubeFace.Back: // Back
                     return 2;
-                case 2: // Left
+                case CubeFace.Left: // Left
                     return j % 3;
-                case 3: // Right
+                case CubeFace.Right: // Right
                     return j % 3;
-                case 4: // Bottom
+                case CubeFace.Bottom: // Bottom
                     return j / 3;
-                case 5: // Top
+                case CubeFace.Top: // Top
                 default:
                     return j / 3;
             }
@@ -119,19 +125,21 @@ namespace CubeVisualizer
 
         public float SetYValue(int i, int j)
         {
-            switch (i)
+            CubeFace face = FACES[i];
+
+            switch (face)
             {
-                case 0: // Front
+                case CubeFace.Front: // Front
                     return j / 3;
-                case 1: // Back
+                case CubeFace.Back: // Back
                     return j / 3;
-                case 2: // Left
+                case CubeFace.Left: // Left
                     return j / 3;
-                case 3: // Right
+                case CubeFace.Right: // Right
                     return j / 3;
-                case 4: // Bottom
+                case CubeFace.Bottom: // Bottom
                     return -1;
-                case 5: // Top
+                case CubeFace.Top: // Top
                 default:
                     return 2;
             }
@@ -139,19 +147,21 @@ namespace CubeVisualizer
 
         public float SetZValue(int i, int j)
         {
-            switch (i)
+            CubeFace face = FACES[i];
+
+            switch (face)
             {
-                case 0: // Front
+                case CubeFace.Front: // Front
                     return j % 3;
-                case 1: // Back
+                case CubeFace.Back: // Back
                     return j % 3;
-                case 2: // Left
+                case CubeFace.Left: // Left
                     return -1;
-                case 3: // Right
+                case CubeFace.Right: // Right
                     return 2;
-                case 4: // Bottom
+                case CubeFace.Bottom: // Bottom
                     return j % 3;
-                case 5: // Top
+                case CubeFace.Top: // Top
                 default:
                     return j % 3;
             }
