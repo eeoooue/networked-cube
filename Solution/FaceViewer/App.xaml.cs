@@ -23,8 +23,8 @@ public partial class App : Application
         services.AddSingleton<IGetCubeStrategy, GetCubeViaApiStrategy>();
         services.AddSingleton<IPerformMoveStrategy, MoveViaApiStrategy>();
 
-        services.AddSingleton<CubeService>(provider =>
-            new CubeService(
+        services.AddSingleton<CubeServiceFacade>(provider =>
+            new CubeServiceFacade(
                 provider.GetRequiredService<IGetCubeStrategy>(),
                 provider.GetRequiredService<IPerformMoveStrategy>()));
 

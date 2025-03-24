@@ -10,7 +10,7 @@ public class MainViewModel : BaseViewModel
 
     readonly List<string> Faces = ["Front", "Right", "Back", "Left", "Top", "Bottom"];
 
-    public MainViewModel(CubeService cubeService)
+    public MainViewModel(CubeServiceFacade cubeService)
     {
         var faceVal = GetFaceEnum();
         Face = new FaceViewModel(faceVal, cubeService);

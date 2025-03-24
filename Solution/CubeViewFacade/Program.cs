@@ -12,19 +12,19 @@ class Program
     static readonly TcpListener TcpListener = new(IPAddress.Parse("127.0.0.1"), 5002);
     static readonly Thread[] ServerThreads = new Thread[10];
 
-    static readonly CubeService CubeService = new(
+    static readonly CubeServiceFacade _cubeService = new(
         new GetCubeViaApiStrategy(),
         new MoveViaApiStrategy());
 
     static readonly CancellationTokenSource Cts = new();
 
-    public static CubeState? State;
+    public static CubeState? _cubeState;
 
     static async Task Main()
     {
         try
         {
-            State = await CubeService.GetStateAsync()
+            _cubeState = await _cubeService.GetStateAsync()
                     ?? throw new InvalidOperationException("CubeState couldn't be retrieved");
 
             _ = Task.Run(() => StateUpdateTicker(Cts.Token));
@@ -48,7 +48,7 @@ class Program
         {
             try
             {
-                    var newState = await CubeService.GetStateAsync();
+                    var newState = await _cubeService.GetStateAsync();
 
                     if (newState is null)
                     {
@@ -56,7 +56,7 @@ class Program
                     }
                     else
                     {
-                        State = newState;
+                        _cubeState = newState;
                         Console.WriteLine("Updated state successfully");
                     }
             }
