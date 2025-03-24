@@ -3,7 +3,7 @@ using GetCubeStrategies;
 using LibNetCube;
 using PerformMoveStrategies;
 
-public class CubeService(IGetCubeStrategy getCubeStrategy, IPerformMoveStrategy performMoveStrategy)
+public class CubeServiceFacade(IGetCubeStrategy getCubeStrategy, IPerformMoveStrategy performMoveStrategy)
 {
     public async Task<CubeState?> GetStateAsync()
     {
