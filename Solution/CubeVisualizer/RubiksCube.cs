@@ -57,8 +57,7 @@ namespace CubeVisualizer
             // Get up vector
             Vector3 up = GetRelativeUpVector(currentFace);
             int[,] face = _CubeState.GetFace(currentFace);
-            int rotationsNeeded = GetClockwiseRotationsNeeded(currentFace);
-            face = RotateClockwiseNTimes(face, rotationsNeeded);
+            face = ManipulateIfNeeded(currentFace, face);
 
             for (int j = 0; j < 9; j++)
             {
@@ -81,20 +80,23 @@ namespace CubeVisualizer
             }
         }
 
-        private int GetClockwiseRotationsNeeded(CubeFace face)
+        private int[,] ManipulateIfNeeded(CubeFace face, int[,] values)
         {
-            return 0;
-        }
-
-        private int[,] RotateClockwiseNTimes(int[,] face, int times)
-        {
-            int[,] result = face;
-            for(int i=0; i<times; i++)
+            switch (face)
             {
-                result = RotateFaceClockwise(result);
+                case CubeFace.Left:
+                    return MirrorFaceTopToBottom(values);
+                case CubeFace.Front:
+                    return MirrorFaceTopToBottom(values);
+                case CubeFace.Back:
+                    return MirrorFaceTopToBottom(values);
+                case CubeFace.Right:
+                    return MirrorFaceTopToBottom(values);
+                case CubeFace.Top:
+                    return values;
+                default:
+                    return values;
             }
-
-            return result;
         }
 
         private int[,] RotateFaceClockwise(int[,] face)
@@ -110,6 +112,38 @@ namespace CubeVisualizer
 
             return result;
         }
+
+        private int[,] MirrorFaceTopToBottom(int[,] face)
+        {
+            int[,] result = new int[3, 3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    result[2 - i, j] = face[i, j];
+                }
+            }
+
+            return result;
+        }
+
+
+        private int[,] MirrorFaceLeftToRight(int[,] face)
+        {
+            int[,] result = new int[3, 3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    result[i, 2 - j] = face[i, j];
+                }
+            }
+
+            return result;
+        }
+
 
         private Vector3 GetRelativeUpVector(CubeFace face)
         {
