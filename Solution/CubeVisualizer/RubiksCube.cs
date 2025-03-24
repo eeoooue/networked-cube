@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace CubeVisualizer
 {
@@ -44,74 +46,167 @@ namespace CubeVisualizer
         //TODO: refactor this method so it isn't using ugly switch statements
         private void DrawFaces(Camera pCamera) // Copilot wrote the inner switch, it works but it is disgusting
         {
-            for (int i = 0; i < 6; i++)
+            foreach(CubeFace face in FACES)
             {
-                // Get up vector
-                Vector3 up = Vector3.Zero;
-                switch (i)
+                DrawFace(pCamera, face);
+            }
+        }
+
+        private void DrawFace(Camera pCamera, CubeFace currentFace)
+        {
+            // Get up vector
+            Vector3 up = GetRelativeUpVector(currentFace);
+            int[,] face = _CubeState.GetFace(currentFace);
+            face = ManipulateIfNeeded(currentFace, face);
+
+            for (int j = 0; j < 9; j++)
+            {
+                // up direction stays the same, but other two components change
+                // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
+
+                float x = SetXValue(currentFace, j);
+                float y = SetYValue(currentFace, j);
+                float z = SetZValue(currentFace, j);
+
+                _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
+
+                // Set the face colour based on the cube state
+                int pieceValue = face[j / 3, j % 3];
+                _Cube.SetColor(COLOURS[pieceValue]);
+
+                // Scale cube so that the width is 0.2 in up direction
+                _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);
+                _Cube.Draw(pCamera);
+            }
+        }
+
+        private int[,] ManipulateIfNeeded(CubeFace face, int[,] values)
+        {
+            switch (face)
+            {
+                case CubeFace.Left:
+                    values = MirrorFaceTopToBottom(values);
+                    return MirrorFaceLeftToRight(values);
+                case CubeFace.Front:
+                    return MirrorFaceTopToBottom(values);
+                case CubeFace.Back:
+                    values = MirrorFaceTopToBottom(values);
+                    return MirrorFaceLeftToRight(values);
+                case CubeFace.Right:
+                    return MirrorFaceTopToBottom(values);
+                case CubeFace.Top:
+                    return MirrorFaceTopToBottom(values);
+                default:
+                    return values;
+            }
+        }
+
+        private int[,] MirrorFaceTopToBottom(int[,] face)
+        {
+            int[,] result = new int[3, 3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
                 {
-                    case 0:
-                    case 1:
-                        up = Vector3.UnitX;
-                        break;
-                    case 2:
-                    case 3:
-                        up = Vector3.UnitZ;
-                        break;
-                    case 4:
-                    case 5:
-                        up = Vector3.UnitY;
-                        break;
+                    result[2 - i, j] = face[i, j];
                 }
+            }
 
-                int[,] face = _CubeState.GetFace(FACES[i]);
-                for (int j = 0; j < 9; j++)
+            return result;
+        }
+
+        private int[,] MirrorFaceLeftToRight(int[,] face)
+        {
+            int[,] result = new int[3, 3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
                 {
-                    // up direction stays the same, but other two components change
-                    float x = 0, y = 0, z = 0;
-                    // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
-                    switch (i)
-                    {
-                        case 0: // Front
-                            x = -1;
-                            y = j / 3;
-                            z = j % 3;
-                            break;
-                        case 1: // Back
-                            x = 2;
-                            y = j / 3;
-                            z = j % 3;
-                            break;
-                        case 2: // Left
-                            x = j % 3;
-                            y = j / 3;
-                            z = -1;
-                            break;
-                        case 3: // Right
-                            x = j % 3;
-                            y = j / 3;
-                            z = 2;
-                            break;
-                        case 4: // Bottom
-                            x = j / 3;
-                            y = -1;
-                            z = j % 3;
-                            break;
-                        case 5: // Top
-                            x = j / 3;
-                            y = 2;
-                            z = j % 3;
-                            break;
-                    }
-                    _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
-
-                    // Set the face colour based on the cube state
-                    _Cube.SetColor(COLOURS[face[j / 3, j % 3]]);
-
-                    // Scale cube so that the width is 0.2 in up direction
-                    _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);
-                    _Cube.Draw(pCamera);
+                    result[i, 2 - j] = face[i, j];
                 }
+            }
+
+            return result;
+        }
+
+
+        private Vector3 GetRelativeUpVector(CubeFace face)
+        {
+            switch (face)
+            {
+                case CubeFace.Front:
+                case CubeFace.Back:
+                    return Vector3.UnitX;
+                case CubeFace.Left:
+                case CubeFace.Right:
+                    return Vector3.UnitZ;
+                case CubeFace.Bottom:
+                case CubeFace.Top:
+                    return Vector3.UnitY;
+                default:
+                    return Vector3.UnitX;
+            }
+        }
+
+        public float SetXValue(CubeFace face, int j)
+        {
+            switch (face)
+            {
+                case CubeFace.Front: // Front
+                    return -1;
+                case CubeFace.Back: // Back
+                    return 2;
+                case CubeFace.Left: // Left
+                    return j % 3;
+                case CubeFace.Right: // Right
+                    return j % 3;
+                case CubeFace.Bottom: // Bottom
+                    return j / 3;
+                case CubeFace.Top: // Top
+                default:
+                    return j / 3;
+            }
+        }
+
+        public float SetYValue(CubeFace face, int j)
+        {
+            switch (face)
+            {
+                case CubeFace.Front: // Front
+                    return j / 3;
+                case CubeFace.Back: // Back
+                    return j / 3;
+                case CubeFace.Left: // Left
+                    return j / 3;
+                case CubeFace.Right: // Right
+                    return j / 3;
+                case CubeFace.Bottom: // Bottom
+                    return -1;
+                case CubeFace.Top: // Top
+                default:
+                    return 2;
+            }
+        }
+
+        public float SetZValue(CubeFace face, int j)
+        {
+            switch (face)
+            {
+                case CubeFace.Front: // Front
+                    return j % 3;
+                case CubeFace.Back: // Back
+                    return j % 3;
+                case CubeFace.Left: // Left
+                    return -1;
+                case CubeFace.Right: // Right
+                    return 2;
+                case CubeFace.Bottom: // Bottom
+                    return j % 3;
+                case CubeFace.Top: // Top
+                default:
+                    return j % 3;
             }
         }
 
