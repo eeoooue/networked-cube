@@ -19,24 +19,35 @@ namespace CubeService.Controllers
         {
             return Ok();
         }
+
         [HttpPost("[action]")]
         public IActionResult ApplyShuffle([FromQuery] string? shuffle = null)
         {
             return Ok();
         }
+
         [HttpPost("[action]")]
         public IActionResult PerformMove([FromQuery] string? move = null)
         {
-            //attempt to parse move as Enum
-            if (String.IsNullOrEmpty(move) || !Enum.TryParse<CubeMove>(move, out var parsedMove))
+            if (move is string)
             {
-                //Not a valid move
-                return BadRequest();
+                try
+                {
+                    //attempt to parse move as Enum
+                    CubeMove parsedMove = MoveParser.ParseMove(move)!;
+                    _cubePuzzle.PerformMove(move);
+                    return Ok();
+                }
+                catch
+                {
+                    //Not a valid move
+                    return BadRequest();
+                }
             }
-            //Is a valid move
-            _cubePuzzle.PerformMove(move);
-            return Ok();
+
+            return BadRequest();
         }
+
         [HttpGet]
         [Route("")] //follows base route of api/[controller]
         [Route("[action]")]
