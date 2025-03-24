@@ -58,14 +58,16 @@ namespace CubeVisualizer
             Vector3 up = GetRelativeUpVector(i);
 
             int[,] face = _CubeState.GetFace(FACES[i]);
+            CubeFace currentFace = FACES[i];
+
             for (int j = 0; j < 9; j++)
             {
                 // up direction stays the same, but other two components change
                 // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
 
-                float x = SetXValue(i, j);
-                float y = SetYValue(i, j);
-                float z = SetZValue(i, j);
+                float x = SetXValue(currentFace, j);
+                float y = SetYValue(currentFace, j);
+                float z = SetZValue(currentFace, j);
 
                 _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
 
@@ -101,10 +103,8 @@ namespace CubeVisualizer
             }
         }
 
-        public float SetXValue(int i, int j)
+        public float SetXValue(CubeFace face, int j)
         {
-            CubeFace face = FACES[i];
-
             switch (face)
             {
                 case CubeFace.Front: // Front
@@ -123,10 +123,8 @@ namespace CubeVisualizer
             }
         }
 
-        public float SetYValue(int i, int j)
+        public float SetYValue(CubeFace face, int j)
         {
-            CubeFace face = FACES[i];
-
             switch (face)
             {
                 case CubeFace.Front: // Front
@@ -145,10 +143,8 @@ namespace CubeVisualizer
             }
         }
 
-        public float SetZValue(int i, int j)
+        public float SetZValue(CubeFace face, int j)
         {
-            CubeFace face = FACES[i];
-
             switch (face)
             {
                 case CubeFace.Front: // Front
