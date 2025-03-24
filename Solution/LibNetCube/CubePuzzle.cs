@@ -76,6 +76,7 @@
                 CubeMove baseMove = SimplifyComplexMove(move);
                 PerformMove(baseMove);
                 PerformMove(baseMove);
+                return;
             }
 
             if (IsPrimeMove(move))
@@ -84,12 +85,12 @@
                 PerformMove(baseMove);
                 PerformMove(baseMove);
                 PerformMove(baseMove);
+                return;
             }
-
-            CubeState state = GetState();
 
             if (move == CubeMove.M)
             {
+                CubeState state = GetState();
                 PuzzleRotation.RotateEntirePuzzle(state, "up");
                 SetState(state);
                 PerformMove(CubeMove.RPrime);
@@ -97,37 +98,18 @@
                 return;
             }
 
-            if (move == CubeMove.U)
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Top);
-            }
+            List<CubeFace> faces = [CubeFace.Top, CubeFace.Bottom, CubeFace.Left, CubeFace.Right, CubeFace.Front, CubeFace.Back];
+            List<CubeMove> moves = [CubeMove.U, CubeMove.D, CubeMove.L, CubeMove.R, CubeMove.F, CubeMove.B];
 
-            if (move == CubeMove.D)
+            for(int i=0; i<6; i++)
             {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Bottom);
+                if (move == moves[i])
+                {
+                    CubeState state = GetState();
+                    FaceRotation.RotateFaceClockwise(state, faces[i]);
+                    SetState(state);
+                }
             }
-
-            if (move == CubeMove.L)
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
-            }
-
-            if (move == CubeMove.R)
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
-            }
-
-            if (move == CubeMove.F)
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Front);
-            }
-
-            if (move == CubeMove.B)
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Back);
-            }
-
-            SetState(state);
         }
 
         private bool IsTwoMove(CubeMove move)
