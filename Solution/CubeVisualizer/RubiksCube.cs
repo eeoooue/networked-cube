@@ -70,7 +70,8 @@ namespace CubeVisualizer
                 _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
 
                 // Set the face colour based on the cube state
-                _Cube.SetColor(COLOURS[face[j / 3, j % 3]]);
+                int pieceValue = face[j / 3, j % 3];
+                _Cube.SetColor(COLOURS[pieceValue]);
 
                 // Scale cube so that the width is 0.2 in up direction
                 _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);
