@@ -70,39 +70,11 @@ namespace CubeVisualizer
                     // up direction stays the same, but other two components change
                     float x = 0, y = 0, z = 0;
                     // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
-                    switch (i)
-                    {
-                        case 0: // Front
-                            x = -1;
-                            y = j / 3;
-                            z = j % 3;
-                            break;
-                        case 1: // Back
-                            x = 2;
-                            y = j / 3;
-                            z = j % 3;
-                            break;
-                        case 2: // Left
-                            x = j % 3;
-                            y = j / 3;
-                            z = -1;
-                            break;
-                        case 3: // Right
-                            x = j % 3;
-                            y = j / 3;
-                            z = 2;
-                            break;
-                        case 4: // Bottom
-                            x = j / 3;
-                            y = -1;
-                            z = j % 3;
-                            break;
-                        case 5: // Top
-                            x = j / 3;
-                            y = 2;
-                            z = j % 3;
-                            break;
-                    }
+
+                    x = SetXValue(i, j);
+                    y = SetYValue(i, j);
+                    z = SetZValue(i, j);
+
                     _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
 
                     // Set the face colour based on the cube state
@@ -113,6 +85,69 @@ namespace CubeVisualizer
                     _Cube.Draw(pCamera);
                 }
             }
+        }
+
+        public float SetXValue(int i, int j)
+        {
+            switch (i)
+            {
+                case 0: // Front
+                    return -1;
+                case 1: // Back
+                    return 2;
+                case 2: // Left
+                    return j % 3;
+                case 3: // Right
+                    return j % 3;
+                case 4: // Bottom
+                    return j / 3;
+                case 5: // Top
+                    return j / 3;
+            }
+
+            return 0;
+        }
+
+        public float SetYValue(int i, int j)
+        {
+            switch (i)
+            {
+                case 0: // Front
+                    return j / 3;
+                case 1: // Back
+                    return j / 3;
+                case 2: // Left
+                    return j / 3;
+                case 3: // Right
+                    return j / 3;
+                case 4: // Bottom
+                    return -1;
+                case 5: // Top
+                    return 2;
+            }
+
+            return 0;
+        }
+
+        public float SetZValue(int i, int j)
+        {
+            switch (i)
+            {
+                case 0: // Front
+                    return j % 3;
+                case 1: // Back
+                    return j % 3;
+                case 2: // Left
+                    return -1;
+                case 3: // Right
+                    return 2;
+                case 4: // Bottom
+                    return j % 3;
+                case 5: // Top
+                    return j % 3;
+            }
+
+            return 0;
         }
 
         public void Draw(Camera pCamera)
