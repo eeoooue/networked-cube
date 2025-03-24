@@ -46,19 +46,17 @@ namespace CubeVisualizer
         //TODO: refactor this method so it isn't using ugly switch statements
         private void DrawFaces(Camera pCamera) // Copilot wrote the inner switch, it works but it is disgusting
         {
-            for (int i = 0; i < 6; i++)
+            foreach(CubeFace face in FACES)
             {
-                DrawFace(pCamera, i);
+                DrawFace(pCamera, face);
             }
         }
 
-        private void DrawFace(Camera pCamera, int i)
+        private void DrawFace(Camera pCamera, CubeFace currentFace)
         {
             // Get up vector
-            Vector3 up = GetRelativeUpVector(i);
-
-            int[,] face = _CubeState.GetFace(FACES[i]);
-            CubeFace currentFace = FACES[i];
+            Vector3 up = GetRelativeUpVector(currentFace);
+            int[,] face = _CubeState.GetFace(currentFace);
 
             for (int j = 0; j < 9; j++)
             {
@@ -81,12 +79,8 @@ namespace CubeVisualizer
             }
         }
 
-        static private CubeFace[] stuff = { CubeFace.Front, CubeFace.Back, CubeFace.Left, CubeFace.Right, CubeFace.Bottom, CubeFace.Top };
-
-        private Vector3 GetRelativeUpVector(int i)
+        private Vector3 GetRelativeUpVector(CubeFace face)
         {
-            CubeFace face = FACES[i];
-
             switch (face)
             {
                 case CubeFace.Front:
