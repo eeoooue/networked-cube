@@ -57,6 +57,8 @@ namespace CubeVisualizer
             // Get up vector
             Vector3 up = GetRelativeUpVector(currentFace);
             int[,] face = _CubeState.GetFace(currentFace);
+            int rotationsNeeded = GetClockwiseRotationsNeeded(currentFace);
+            face = RotateClockwiseNTimes(face, rotationsNeeded);
 
             for (int j = 0; j < 9; j++)
             {
@@ -77,6 +79,36 @@ namespace CubeVisualizer
                 _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);
                 _Cube.Draw(pCamera);
             }
+        }
+
+        private int GetClockwiseRotationsNeeded(CubeFace face)
+        {
+            return 0;
+        }
+
+        private int[,] RotateClockwiseNTimes(int[,] face, int times)
+        {
+            int[,] result = face;
+            for(int i=0; i<times; i++)
+            {
+                result = RotateFaceClockwise(result);
+            }
+
+            return result;
+        }
+
+        private int[,] RotateFaceClockwise(int[,] face)
+        {
+            int[,] result = new int[3, 3];
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    result[j, 2 - i] = face[i, j];
+                }
+            }
+
+            return result;
         }
 
         private Vector3 GetRelativeUpVector(CubeFace face)
