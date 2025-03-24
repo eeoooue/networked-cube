@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace CubeVisualizer
 {
@@ -46,44 +48,51 @@ namespace CubeVisualizer
         {
             for (int i = 0; i < 6; i++)
             {
-                // Get up vector
-                Vector3 up = Vector3.Zero;
-                switch (i)
-                {
-                    case 0:
-                    case 1:
-                        up = Vector3.UnitX;
-                        break;
-                    case 2:
-                    case 3:
-                        up = Vector3.UnitZ;
-                        break;
-                    case 4:
-                    case 5:
-                        up = Vector3.UnitY;
-                        break;
-                }
+                DrawFace(pCamera, i);
+            }
+        }
 
-                int[,] face = _CubeState.GetFace(FACES[i]);
-                for (int j = 0; j < 9; j++)
-                {
-                    // up direction stays the same, but other two components change
-                    float x = 0, y = 0, z = 0;
-                    // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
+        private void DrawFace(Camera pCamera, int i)
+        {
+            // Get up vector
+            Vector3 up = GetRelativeUpVector(i);
 
-                    x = SetXValue(i, j);
-                    y = SetYValue(i, j);
-                    z = SetZValue(i, j);
+            int[,] face = _CubeState.GetFace(FACES[i]);
+            for (int j = 0; j < 9; j++)
+            {
+                // up direction stays the same, but other two components change
+                // Set the position of the face (cube is 3x3x3 with first cube at 0,0,0 and the opposite cube at 2,2,2)
 
-                    _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
+                float x = SetXValue(i, j);
+                float y = SetYValue(i, j);
+                float z = SetZValue(i, j);
 
-                    // Set the face colour based on the cube state
-                    _Cube.SetColor(COLOURS[face[j / 3, j % 3]]);
+                _Cube.SetPosition(new Vector3(x, y, z) + (0.5f * up));
 
-                    // Scale cube so that the width is 0.2 in up direction
-                    _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);
-                    _Cube.Draw(pCamera);
-                }
+                // Set the face colour based on the cube state
+                _Cube.SetColor(COLOURS[face[j / 3, j % 3]]);
+
+                // Scale cube so that the width is 0.2 in up direction
+                _Cube.SetScale((Vector3.One - (0.95f * up)) * 0.80f);
+                _Cube.Draw(pCamera);
+            }
+        }
+
+        private Vector3 GetRelativeUpVector(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                case 1:
+                    return Vector3.UnitX;
+                case 2:
+                case 3:
+                    return Vector3.UnitZ;
+                case 4:
+                case 5:
+                    return Vector3.UnitY;
+                default:
+                    return Vector3.UnitX;
             }
         }
 
@@ -102,10 +111,9 @@ namespace CubeVisualizer
                 case 4: // Bottom
                     return j / 3;
                 case 5: // Top
+                default:
                     return j / 3;
             }
-
-            return 0;
         }
 
         public float SetYValue(int i, int j)
@@ -123,10 +131,9 @@ namespace CubeVisualizer
                 case 4: // Bottom
                     return -1;
                 case 5: // Top
+                default:
                     return 2;
             }
-
-            return 0;
         }
 
         public float SetZValue(int i, int j)
@@ -144,10 +151,9 @@ namespace CubeVisualizer
                 case 4: // Bottom
                     return j % 3;
                 case 5: // Top
+                default:
                     return j % 3;
             }
-
-            return 0;
         }
 
         public void Draw(Camera pCamera)
