@@ -85,32 +85,20 @@ namespace CubeVisualizer
             switch (face)
             {
                 case CubeFace.Left:
-                    return MirrorFaceTopToBottom(values);
+                    values = MirrorFaceTopToBottom(values);
+                    return MirrorFaceLeftToRight(values);
                 case CubeFace.Front:
                     return MirrorFaceTopToBottom(values);
                 case CubeFace.Back:
-                    return MirrorFaceTopToBottom(values);
+                    values = MirrorFaceTopToBottom(values);
+                    return MirrorFaceLeftToRight(values);
                 case CubeFace.Right:
                     return MirrorFaceTopToBottom(values);
                 case CubeFace.Top:
-                    return values;
+                    return MirrorFaceTopToBottom(values);
                 default:
                     return values;
             }
-        }
-
-        private int[,] RotateFaceClockwise(int[,] face)
-        {
-            int[,] result = new int[3, 3];
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    result[j, 2 - i] = face[i, j];
-                }
-            }
-
-            return result;
         }
 
         private int[,] MirrorFaceTopToBottom(int[,] face)
@@ -127,7 +115,6 @@ namespace CubeVisualizer
 
             return result;
         }
-
 
         private int[,] MirrorFaceLeftToRight(int[,] face)
         {
