@@ -9,7 +9,7 @@ class Program
     static readonly FacePresenter Presenter = new();
     static CubeState _cubeState = new(new CubePuzzle().GetState());
 
-    static readonly CubeService CubeService = new(
+    static readonly CubeServiceFacade _cubeService = new(
         new GetCubeViaApiStrategy(),
         new MoveViaApiStrategy()
     );
@@ -18,7 +18,7 @@ class Program
     {
         while (true)
         {
-            if (await CubeService.GetStateAsync() is { } state)
+            if (await _cubeService.GetStateAsync() is { } state)
             {
                 _cubeState = state;
             }
@@ -33,7 +33,7 @@ class Program
             Presenter.PresentCube(_cubeState);
 
             Console.WriteLine("Enter a move to be performed...");
-            if (Console.ReadLine() is { } message) await CubeService.PerformMoveAsync(message);
+            if (Console.ReadLine() is { } message) await _cubeService.PerformMoveAsync(message);
         }
     }
 }

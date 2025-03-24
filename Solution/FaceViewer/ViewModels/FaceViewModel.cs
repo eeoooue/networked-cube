@@ -6,14 +6,14 @@ using LibNetCube;
 
 public class FaceViewModel : BaseViewModel
 {
-    readonly CubeService _cubeService;
+    readonly CubeServiceFacade _cubeService;
     readonly int[,] _values;
     CubeState? _cubeState;
     public CubeFace Face;
 
     readonly CancellationTokenSource _cts = new();
 
-    public FaceViewModel(CubeFace face, CubeService cubeService)
+    public FaceViewModel(CubeFace face, CubeServiceFacade cubeService)
     {
         Face = face;
         _cubeService = cubeService;

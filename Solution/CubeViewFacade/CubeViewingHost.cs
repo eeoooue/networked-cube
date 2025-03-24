@@ -45,10 +45,8 @@ namespace CubeViewFacade
 
         public CubeState GetCubeState()
         {
-            return Program.State;
+            return Program._cubeState;
         }
-
-
 
         public byte[] CreateCubeResponse(CubeState state)
         {

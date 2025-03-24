@@ -12,7 +12,7 @@ using LibCubeIntegration.Services;
 
 public class CubeGame : Game
 {
-    readonly CubeService _cubeService =
+    readonly CubeServiceFacade _cubeService =
         new(new GetCubeViaApiStrategy(), new MoveViaApiStrategy());
 
     Task _UpdateTask;
