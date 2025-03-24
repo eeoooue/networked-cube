@@ -1,6 +1,7 @@
 ﻿namespace FaceViewer.ViewModels;
 using System.Windows.Input;
 using LibCubeIntegration.GetCubeStrategies;
+using LibCubeIntegration.Services;
 using LibNetCube;
 
 public class MainViewModel : BaseViewModel
@@ -9,10 +10,10 @@ public class MainViewModel : BaseViewModel
 
     readonly List<string> Faces = ["Front", "Right", "Back", "Left", "Top", "Bottom"];
 
-    public MainViewModel(IGetCubeStrategy getCubeStrategy)
+    public MainViewModel(CubeService cubeService)
     {
         var faceVal = GetFaceEnum();
-        Face = new FaceViewModel(faceVal, getCubeStrategy);
+        Face = new FaceViewModel(faceVal, cubeService);
         RotateFace = new RelayCommand(RotateFaceDisplayed);
     }
 

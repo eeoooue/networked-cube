@@ -1,21 +1,22 @@
 ﻿namespace FaceViewer.ViewModels;
 using System.Windows.Media;
 using LibCubeIntegration.GetCubeStrategies;
+using LibCubeIntegration.Services;
 using LibNetCube;
 
 public class FaceViewModel : BaseViewModel
 {
-    readonly IGetCubeStrategy _getCubeStrategy;
+    readonly CubeService _cubeService;
     readonly int[,] _values;
     CubeState? _cubeState;
     public CubeFace Face;
 
     readonly CancellationTokenSource _cts = new();
 
-    public FaceViewModel(CubeFace face, IGetCubeStrategy getCubeStrategy)
+    public FaceViewModel(CubeFace face, CubeService cubeService)
     {
         Face = face;
-        _getCubeStrategy = getCubeStrategy;
+        _cubeService = cubeService;
 
         _values = new int[3, 3];
 
@@ -91,7 +92,7 @@ public class FaceViewModel : BaseViewModel
     {
         try
         {
-            return await _getCubeStrategy.GetCube();
+            return await _cubeService.GetStateAsync();
         }
         catch
         {

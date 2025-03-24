@@ -7,24 +7,30 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace CubeVisualizer;
+using LibCubeIntegration.PerformMoveStrategies;
+using LibCubeIntegration.Services;
 
 public class CubeGame : Game
 {
-    static private readonly IGetCubeStrategy GetCubeStrategy = new GetCubeViaApiStrategy();
-    private Task _UpdateTask;
-    private bool _IsRunning = true;
-    private CubeState _ErrorState;
+    readonly CubeService _cubeService =
+        new(new GetCubeViaApiStrategy(), new MoveViaApiStrategy());
 
-    private GraphicsDeviceManager _graphics;
-    private Camera _Camera;
-    private RubiksCube _RubiksCube;
+    Task _UpdateTask;
+    bool _IsRunning = true;
+    CubeState _ErrorState;
 
-    private readonly Color _BackgroundColour;
-    private float _DistanceFromCube;
+    GraphicsDeviceManager _graphics;
+    Camera _Camera;
+    RubiksCube _RubiksCube;
 
-    private float _YRotation;
-    private float _XRotation;
-    private float _XRotationFactor; // Factor to control the speed of rotation, also used to keep rotation within 30 and 150 degrees
+    readonly Color _BackgroundColour;
+    float _DistanceFromCube;
+
+    float _YRotation;
+    float _XRotation;
+
+    float
+        _XRotationFactor; // Factor to control the speed of rotation, also used to keep rotation within 30 and 150 degrees
 
     public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour)
     {
@@ -39,7 +45,8 @@ public class CubeGame : Game
 
     protected override void Initialize()
     {
-        _Camera = new Camera(new Vector3(1, 1, 1), new Vector3(1, 1, 1), GraphicsDevice.Viewport.AspectRatio, MathHelper.PiOver4);
+        _Camera = new Camera(new Vector3(1, 1, 1), new Vector3(1, 1, 1), GraphicsDevice.Viewport.AspectRatio,
+            MathHelper.PiOver4);
         _DistanceFromCube = 7.5f;
         _YRotation = 0.0f;
         _XRotation = MathHelper.ToRadians(30);
@@ -50,7 +57,7 @@ public class CubeGame : Game
 
     protected override void LoadContent()
     {
-        Model cube = Content.Load<Model>("3D Objects/Cube");
+        var cube = Content.Load<Model>("3D Objects/Cube");
 
 
         _RubiksCube = new RubiksCube(cube, _ErrorState);
@@ -63,20 +70,17 @@ public class CubeGame : Game
         {
             try
             {
-                if (await GetCubeStrategy.GetCube() is { } state)
-                {
+                if (await _cubeService.GetStateAsync() is { } state)
                     _RubiksCube.SetCubeState(state);
-                }
                 else
-                {
                     _RubiksCube.SetCubeState(_ErrorState);
-                }
             }
 
             catch
             {
                 _RubiksCube.SetCubeState(_ErrorState);
             }
+
             Thread.Sleep(250);
         }
     }
@@ -89,7 +93,7 @@ public class CubeGame : Game
         _YRotation += 1.00f * (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
         _XRotation += _XRotationFactor * (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
 
-        Vector3 cameraPos = _Camera.Position;
+        var cameraPos = _Camera.Position;
         cameraPos.X = _DistanceFromCube * (float)System.Math.Sin(_YRotation);
         cameraPos.X += 1; // As centre of cube is (1,1,1)
         cameraPos.Z = _DistanceFromCube * (float)System.Math.Cos(_YRotation) * (float)System.Math.Sin(_XRotation);
@@ -98,10 +102,7 @@ public class CubeGame : Game
         cameraPos.Y += 1;
         _Camera.Position = cameraPos;
 
-        if (_XRotation > MathHelper.ToRadians(150) || _XRotation < MathHelper.ToRadians(30))
-        {
-            _XRotationFactor *= -1;
-        }
+        if (_XRotation > MathHelper.ToRadians(150) || _XRotation < MathHelper.ToRadians(30)) _XRotationFactor *= -1;
 
         base.Update(gameTime);
     }

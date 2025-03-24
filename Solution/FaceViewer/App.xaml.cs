@@ -4,6 +4,9 @@ using LibCubeIntegration.GetCubeStrategies;
 using System.Windows;
 
 namespace FaceViewer;
+using LibCubeIntegration.PerformMoveStrategies;
+using LibCubeIntegration.Services;
+
 public partial class App : Application
 {
     readonly ServiceProvider _serviceProvider;
@@ -18,6 +21,13 @@ public partial class App : Application
     static void ConfigureServices(ServiceCollection services)
     {
         services.AddSingleton<IGetCubeStrategy, GetCubeViaApiStrategy>();
+        services.AddSingleton<IPerformMoveStrategy, MoveViaApiStrategy>();
+
+        services.AddSingleton<CubeService>(provider =>
+            new CubeService(
+                provider.GetRequiredService<IGetCubeStrategy>(),
+                provider.GetRequiredService<IPerformMoveStrategy>()));
+
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
     }
