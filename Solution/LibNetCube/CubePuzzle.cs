@@ -154,66 +154,10 @@
             }
         }
 
-
-
         public void PerformMove(string move)
         {
             CubeMove parsedMove = MoveParser.ParseMove(move);
             PerformMove(parsedMove);
-        }
-
-        public void PerformMove(char move)
-        {
-            string s = move.ToString().ToUpper();
-            char letter = s[0];
-
-            Console.WriteLine($"Performing move {move}");
-
-            CubeState state = GetState();
-
-            if (letter == 'M')
-            {
-                PuzzleRotation.RotateEntirePuzzle(state, "up");
-
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
-
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
-            }
-
-            if (letter == 'U')
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Top);
-            }
-            else if (letter == 'D')
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Bottom);
-            }
-            else if (letter == 'F')
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Front);
-            }
-            else if (letter == 'B')
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Back);
-            }
-            else if (letter == 'L')
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Left);
-            }
-            else if (letter == 'R')
-            {
-                FaceRotation.RotateFaceClockwise(state, CubeFace.Right);
-            }
-
-            SetState(state);
-        }
-
-
-        private void RotateMiddle()
-        {
-
         }
 
         private void ReplaceEntireFace(CubeFace face, int[,] values)
