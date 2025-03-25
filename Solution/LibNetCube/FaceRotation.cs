@@ -110,7 +110,7 @@ namespace LibNetCube
             sources.Append("BaA"); // 
 
             StringBuilder destinations = new StringBuilder();
-            destinations.Append("PpMmNnOo"); // 
+            destinations.Append("NnOoPpMm"); // 
             destinations.Append("XwW"); // 
             destinations.Append("KjJ"); // 
             destinations.Append("BaA"); // 
