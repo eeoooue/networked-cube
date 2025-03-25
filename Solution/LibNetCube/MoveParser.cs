@@ -26,5 +26,10 @@ namespace LibNetCube
             
             throw new ArgumentException($"Invalid move format: {move}", nameof(move));
         }
+
+        public static List<CubeMove> ParseMoveSeries(string moveSeries)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
