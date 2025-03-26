@@ -17,19 +17,33 @@ namespace LibNetCube
 
             // Trim whitespace and convert to uppercase
             string normalizedMove = move.Trim().ToUpper();
-            
+
             // Single dictionary lookup - O(1) operation
             if (CubeMoveMap.MoveMap.TryGetValue(normalizedMove, out CubeMove result))
             {
                 return result;
             }
-            
+
             throw new ArgumentException($"Invalid move format: {move}", nameof(move));
         }
 
         public static List<CubeMove> ParseMoveSequence(string sequence)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(sequence))
+            {
+                throw new ArgumentException("Move sequence string cannot be null or empty", nameof(sequence));
+            }
+
+            List<CubeMove> result = new List<CubeMove>();
+
+            foreach (var move in sequence.Split(' ')) //Splitting the string by spaces
+            {
+                CubeMove currentMove = ParseMove(move);
+
+                result.Add(currentMove);
+            }
+
+            return result;
         }
     }
 }
