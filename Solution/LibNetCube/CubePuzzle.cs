@@ -13,6 +13,16 @@
         private int[,] FrontFace = { { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } };
         private int[,] BackFace = { { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } };
 
+        public void Reset()
+        {
+            TopFace = new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+            BottomFace = new int[,] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
+            LeftFace = new int[,] { { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } };
+            RightFace = new int[,] { { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } };
+            FrontFace = new int[,] { { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } };
+            BackFace = new int[,] { { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } };
+        }
+
         public CubeState GetState()
         {
             List<int[,]> reads = new List<int[,]>();
