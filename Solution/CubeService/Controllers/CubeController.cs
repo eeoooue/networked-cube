@@ -17,6 +17,7 @@ namespace CubeService.Controllers
         [HttpPost("[action]")]
         public IActionResult Reset()
         {
+            _cubePuzzle.Reset();
             return Ok();
         }
 
