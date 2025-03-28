@@ -11,17 +11,17 @@
 
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Button Margin="2" Height="50" Width="150">U</Button>
+            <Button Command="{Binding MoveCommand}" CommandParameter="U" Margin="2" Height="50" Width="150">U</Button>
 
             <StackPanel Orientation="Horizontal">
-                <Button Margin="2" Width="50" Height="150">L</Button>
-                <Button Margin="2" Width="50" Height="150">B</Button>
-                <Button Margin="2" Width="50" Height="150">M</Button>
-                <Button Margin="2" Width="50" Height="150">F</Button>
-                <Button Margin="2" Width="50" Height="150">R</Button>
+                <Button Command="{Binding MoveCommand}" CommandParameter="L" Margin="2" Width="50" Height="150">L</Button>
+                <Button Command="{Binding MoveCommand}" CommandParameter="B" Margin="2" Width="50" Height="150">B</Button>
+                <Button Command="{Binding MoveCommand}" CommandParameter="M" Margin="2" Width="50" Height="150">M</Button>
+                <Button Command="{Binding MoveCommand}" CommandParameter="F" Margin="2" Width="50" Height="150">F</Button>
+                <Button Command="{Binding MoveCommand}" CommandParameter="R" Margin="2" Width="50" Height="150">R</Button>
             </StackPanel>
 
-            <Button Margin="2"  Height="50" Width="150">D</Button>
+            <Button Command="{Binding MoveCommand}" CommandParameter="D" Margin="2"  Height="50" Width="150">D</Button>
 
         </StackPanel>
         
