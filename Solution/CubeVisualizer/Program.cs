@@ -4,7 +4,7 @@ namespace CubeVisualizer
 {
     public static class Program
     {
-        private const string WINDOW_NAME = "3D CUBE";
+        private const string WINDOW_NAME = "Cube Visualizer";
         private const int WINDOW_HEIGHT = 400;
         private const int WINDOW_WIDTH = 400;
         private static Color BG_COLOUR = Color.White;
