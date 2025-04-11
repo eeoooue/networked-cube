@@ -3,6 +3,7 @@ using LibCubeIntegration.GetCubeStrategies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,13 +25,12 @@ public class CubeGame : Game
     RubiksCube _RubiksCube;
 
     readonly Color _BackgroundColour;
-    float _DistanceFromCube;
+    const float DistanceFromCube = 7.5f;
+    const float MouseSpeed = 0.5f;
 
-    float _YRotation;
-    float _XRotation;
-
-    float
-        _XRotationFactor; // Factor to control the speed of rotation, also used to keep rotation within 30 and 150 degrees
+    MouseState _PrevMouseState = Mouse.GetState();
+    float _YRotation = MathHelper.ToRadians(225);
+    float _XRotation = MathHelper.ToRadians(45);
 
     public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour)
     {
@@ -47,10 +47,6 @@ public class CubeGame : Game
     {
         _Camera = new Camera(new Vector3(1, 1, 1), new Vector3(1, 1, 1), GraphicsDevice.Viewport.AspectRatio,
             MathHelper.PiOver4);
-        _DistanceFromCube = 7.5f;
-        _YRotation = 0.0f;
-        _XRotation = MathHelper.ToRadians(30);
-        _XRotationFactor = 0.25f;
         _ErrorState = new CubeState(new byte[6 * 9]);
         base.Initialize();
     }
@@ -90,19 +86,31 @@ public class CubeGame : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        _YRotation += 1.00f * (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
-        _XRotation += _XRotationFactor * (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
+        float xDelta = 0.0f;
+        float yDelta = 0.0f;
+        float rotation = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
 
-        var cameraPos = _Camera.Position;
-        cameraPos.X = _DistanceFromCube * (float)System.Math.Sin(_YRotation);
-        cameraPos.X += 1; // As centre of cube is (1,1,1)
-        cameraPos.Z = _DistanceFromCube * (float)System.Math.Cos(_YRotation) * (float)System.Math.Sin(_XRotation);
-        cameraPos.Z += 1;
-        cameraPos.Y = _DistanceFromCube * (float)System.Math.Cos(_XRotation);
-        cameraPos.Y += 1;
+        MouseState mouseState = Mouse.GetState();
+        if (mouseState.LeftButton == ButtonState.Pressed && _PrevMouseState.LeftButton == ButtonState.Pressed)
+        {
+            xDelta = mouseState.X - _PrevMouseState.X;
+            yDelta = _PrevMouseState.Y - mouseState.Y;
+        }
+        _PrevMouseState = mouseState;
+
+        _YRotation += xDelta * rotation * MouseSpeed;
+        _XRotation += yDelta * rotation * MouseSpeed;
+        _XRotation = MathHelper.Clamp(_XRotation, MathHelper.ToRadians(20), MathHelper.ToRadians(160));
+
+        var cameraPos = new Vector3
+        {
+            X = DistanceFromCube * (float)(Math.Sin(_XRotation) * Math.Cos(_YRotation)),
+            Y = DistanceFromCube * (float)Math.Cos(_XRotation),
+            Z = DistanceFromCube * (float)(Math.Sin(_XRotation) * Math.Sin(_YRotation))
+        };
+
+        cameraPos += new Vector3(1, 1, 1); // As center of cube is (1,1,1)
         _Camera.Position = cameraPos;
-
-        if (_XRotation > MathHelper.ToRadians(150) || _XRotation < MathHelper.ToRadians(30)) _XRotationFactor *= -1;
 
         base.Update(gameTime);
     }
