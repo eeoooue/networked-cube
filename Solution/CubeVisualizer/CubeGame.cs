@@ -83,6 +83,9 @@ public class CubeGame : Game
 
     protected override void Update(GameTime gameTime)
     {
+        if (!IsActive)
+            return;
+
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
