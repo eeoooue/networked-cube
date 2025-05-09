@@ -23,17 +23,19 @@ public class FaceViewModel : BaseViewModel
         Task.Run(StateUpdateTicker, _cts.Token);
     }
 
-    public int Row0Col0 => _values[0, 0];
-    public int Row0Col1 => _values[0, 1];
-    public int Row0Col2 => _values[0, 2];
+    //Commented on as unnecessary ex the value in the cell
 
-    public int Row1Col0 => _values[1, 0];
-    public int Row1Col1 => _values[1, 1];
-    public int Row1Col2 => _values[1, 2];
+    //public int Row0Col0 => _values[0, 0];
+    //public int Row0Col1 => _values[0, 1];
+    //public int Row0Col2 => _values[0, 2];
 
-    public int Row2Col0 => _values[2, 0];
-    public int Row2Col1 => _values[2, 1];
-    public int Row2Col2 => _values[2, 2];
+    //public int Row1Col0 => _values[1, 0];
+    //public int Row1Col1 => _values[1, 1];
+    //public int Row1Col2 => _values[1, 2];
+
+    //public int Row2Col0 => _values[2, 0];
+    //public int Row2Col1 => _values[2, 1];
+    //public int Row2Col2 => _values[2, 2];
 
     public Brush ColourR0C0 => CalcColour(0, 0);
     public Brush ColourR0C1 => CalcColour(0, 1);
