@@ -3,8 +3,13 @@ using LibNetCube;
 
 public class GetCubeViaApiStrategy : IGetCubeStrategy
 {
-    const string ServerAddress = "http://localhost:5295";
+    private string ServerAddress;
     static readonly HttpClient Client = new();
+
+    public GetCubeViaApiStrategy(string serviceName = "CubeService")
+    {
+        ServerAddress = NetworkingConfiguration.GetFullAddressForServer(serviceName);
+    }
 
     public async Task<CubeState?> GetCubeStateAsync()
     {

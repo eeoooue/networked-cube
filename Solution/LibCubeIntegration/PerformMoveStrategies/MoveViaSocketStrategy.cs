@@ -5,8 +5,14 @@ using LibNetCube;
 
 class MoveViaSocketStrategy : IPerformMoveStrategy
 {
-    const string Hostname = "127.0.0.1";
-    const int Port = 5000;
+    private string Hostname;
+    private int Port;
+
+    public MoveViaSocketStrategy(string serviceName = "DummyService")
+    {
+        Hostname = NetworkingConfiguration.GetBaseAddressForProject(serviceName);
+        Port = NetworkingConfiguration.GetPortForServer(serviceName);
+    }
 
     public async Task<bool> PerformMoveAsync(string move)
     {
@@ -14,7 +20,7 @@ class MoveViaSocketStrategy : IPerformMoveStrategy
         return response is not null;
     }
 
-    public static async Task<CubeState?> SendMoveRequest(string message)
+    public async Task<CubeState?> SendMoveRequest(string message)
     {
         try
         {

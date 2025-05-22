@@ -12,8 +12,7 @@
 
         <Button Margin="5" Height="30" Width="150">Reset Cube</Button>
         <Button Margin="5" Height="30" Width="150">Shuffle Cube</Button>
-        <Button Margin="5" Height="30" Width="150">Clear Actions</Button>
-        
+
     </StackPanel>
 
 </Window>

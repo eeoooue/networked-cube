@@ -14,15 +14,20 @@ The puzzle is presented as a cube map in the same manner as in [Old Pochman](htt
 
 ![Image](./misc/netcube-system-design.png)
 
+> The above diagram depicts the end goal, rather than the current state of the system.
+
+> Yet to be implemented: AdminPanel, CubeStatePublisher, CubeProxy
+
 ## Usage
 
 ### Setup
 1. Open ```Solution/Solution.sln``` in Visual Studio
-2. Run **DummyService**
-3. Run **CubeViewFacade**
-4. Run **FaceViewer** 6 times, launching 6 WPF applications
-5. Press the face title button in the WPF face viewers to change the displayed faces
-6. Run **FaceViewerCLI**
+2. Run **CubeService** to make the cube available via the API.
+3. Run front end application(s) of your choosing to view the cube and interact with it:
+    - Try **CubeVisualizer** to view the cube in 3D
+    - Try **FaceViewer** instances to view individual faces of the cube
+    - Try **FaceViewerCLI** to view the cube within the command line and input moves
+    - Try **CubeManipulator** to submit moves without any cube visuals
 
 ### Moves
 You can use standard cube notation to input moves. These are:
