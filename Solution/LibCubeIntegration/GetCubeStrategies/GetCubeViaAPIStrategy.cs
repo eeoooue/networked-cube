@@ -8,7 +8,7 @@ public class GetCubeViaApiStrategy : IGetCubeStrategy
 
     public GetCubeViaApiStrategy(string serviceName = "CubeService")
     {
-        ServerAddress = NetworkingConfiguration.GetAddressForServer(serviceName);
+        ServerAddress = NetworkingConfiguration.GetFullAddressForServer(serviceName);
     }
 
     public async Task<CubeState?> GetCubeStateAsync()

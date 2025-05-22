@@ -6,7 +6,7 @@ public class MoveViaApiStrategy : IPerformMoveStrategy
 
     public MoveViaApiStrategy(string serviceName = "CubeService")
     {
-        ServerAddress = NetworkingConfiguration.GetAddressForServer(serviceName);
+        ServerAddress = NetworkingConfiguration.GetFullAddressForServer(serviceName);
     }
 
     public async Task<bool> PerformMoveAsync(string move)

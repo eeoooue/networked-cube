@@ -10,10 +10,21 @@ namespace LibCubeIntegration
     {
         public static string BaseAddress = "http://localhost";
 
-        public static string GetAddressForServer(string project)
+        public static string GetFullAddressForServer(string project)
         {
             int port = GetPortForServer(project);
             return $"{BaseAddress}:{port}";
+        }
+
+        public static string GetBaseAddressForProject(string project)
+        {
+            switch (project)
+            {
+                case "DummyService":
+                    return "127.0.0.1";
+                default:
+                    return "http://localhost";
+            }
         }
 
         public static int GetPortForClient(string project)

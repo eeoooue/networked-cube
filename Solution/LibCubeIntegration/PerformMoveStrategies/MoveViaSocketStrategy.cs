@@ -10,7 +10,7 @@ class MoveViaSocketStrategy : IPerformMoveStrategy
 
     public MoveViaSocketStrategy(string serviceName = "DummyService")
     {
-        Hostname = NetworkingConfiguration.BaseAddress;
+        Hostname = NetworkingConfiguration.GetBaseAddressForProject(serviceName);
         Port = NetworkingConfiguration.GetPortForServer(serviceName);
     }
 
