@@ -8,17 +8,29 @@ namespace LibCubeIntegration
 {
     public static class NetworkingConfiguration
     {
-        private static string BaseAddress = "";
+        private static string BaseAddress = "http://localhost";
 
-        public static string GetAddressForService(string service)
+        public static string GetAddressForServer(string project)
         {
-            return "";
+            int port = GetPortForServer(project);
+            return $"{BaseAddress}:{port}";
         }
 
-        public static int GetPortForService(string service)
+        public static int GetPortForClient(string project)
         {
-            switch (service)
+            switch (project)
             {
+                default:
+                    return 0;
+            }
+        }
+
+        public static int GetPortForServer(string project)
+        {
+            switch (project)
+            {
+                case "CubeService":
+                    return 5295;
                 default:
                     return 0;
             }
