@@ -1,8 +1,13 @@
 ﻿namespace LibCubeIntegration.PerformMoveStrategies;
 public class MoveViaApiStrategy : IPerformMoveStrategy
 {
+    private string ServerAddress;
     static readonly HttpClient Client = new();
-    const string ServerAddress = "http://localhost:5295";
+
+    public MoveViaApiStrategy(string serviceName = "CubeService")
+    {
+        ServerAddress = NetworkingConfiguration.GetAddressForServer(serviceName);
+    }
 
     public async Task<bool> PerformMoveAsync(string move)
     {
