@@ -8,7 +8,7 @@ namespace LibCubeIntegration
 {
     public static class NetworkingConfiguration
     {
-        private static string BaseAddress = "http://localhost";
+        public static string BaseAddress = "http://localhost";
 
         public static string GetAddressForServer(string project)
         {
@@ -29,6 +29,8 @@ namespace LibCubeIntegration
         {
             switch (project)
             {
+                case "DummyService":
+                    return 5000;
                 case "CubeService":
                     return 5295;
                 default:
