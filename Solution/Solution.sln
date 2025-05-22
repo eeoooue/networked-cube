@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminPanel", "AdminPanel\Ad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevConsole", "DevConsole\DevConsole.csproj", "{DABAB4C0-9562-43C3-95FB-70FA73812B6D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeViewFacade", "CubeViewFacade\CubeViewFacade.csproj", "{D9605332-4F55-4B71-948C-D0999155D576}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeService", "CubeService\CubeService.csproj", "{A712A9A3-55BA-4683-90DA-6C568DCCF698}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibCubeIntegration", "LibCubeIntegration\LibCubeIntegration.csproj", "{4ED6B347-5ECB-4E19-BC7D-0C9A2573E40B}"
@@ -69,10 +67,6 @@ Global
 		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DABAB4C0-9562-43C3-95FB-70FA73812B6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9605332-4F55-4B71-948C-D0999155D576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9605332-4F55-4B71-948C-D0999155D576}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9605332-4F55-4B71-948C-D0999155D576}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9605332-4F55-4B71-948C-D0999155D576}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A712A9A3-55BA-4683-90DA-6C568DCCF698}.Release|Any CPU.ActiveCfg = Release|Any CPU
