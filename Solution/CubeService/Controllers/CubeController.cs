@@ -1,6 +1,7 @@
 ﻿using LibNetCube;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace CubeService.Controllers
 {
@@ -21,11 +22,38 @@ namespace CubeService.Controllers
             return Ok();
         }
 
+
         [HttpPost("[action]")]
         public IActionResult ApplyShuffle([FromQuery] string? shuffle = null)
         {
+            List<CubeMove> moves = new List<CubeMove>();
+
+            if (shuffle is string moveString)
+            {
+                try
+                {
+                    moves = MoveParser.ParseMoveSequence(moveString);
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            }
+
+            if (moves.Count == 0)
+            {
+                moves = ScrambleAlgorithm.GenerateScramble();
+            }
+
+            _cubePuzzle.Reset();
+            foreach(CubeMove move in moves)
+            {
+                _cubePuzzle.PerformMove(move);
+            }
+
             return Ok();
         }
+
 
         [HttpPost("[action]")]
         public IActionResult PerformMove([FromQuery] string? move = null)
