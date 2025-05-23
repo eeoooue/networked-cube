@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeVisualizer", "CubeVisua
 		{8CBB54E4-7451-4BE7-9905-319B293B011E} = {8CBB54E4-7451-4BE7-9905-319B293B011E}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeStatePublisher", "CubeStatePublisher\CubeStatePublisher.csproj", "{7D02ECFC-C216-4E83-928A-08C7CBE652DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{BD061B60-579A-4301-825D-EB073FC40355}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD061B60-579A-4301-825D-EB073FC40355}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD061B60-579A-4301-825D-EB073FC40355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D02ECFC-C216-4E83-928A-08C7CBE652DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D02ECFC-C216-4E83-928A-08C7CBE652DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D02ECFC-C216-4E83-928A-08C7CBE652DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D02ECFC-C216-4E83-928A-08C7CBE652DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

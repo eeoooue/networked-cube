@@ -22,6 +22,8 @@ namespace LibCubeIntegration
             {
                 case "DummyService":
                     return "127.0.0.1";
+                case "CubeStatePublisher":
+                case "CubeService":
                 default:
                     return "http://localhost";
             }
@@ -44,6 +46,8 @@ namespace LibCubeIntegration
                     return 5000;
                 case "CubeService":
                     return 5295;
+                case "CubeStatePublisher":
+                    return 5002;
                 default:
                     return 0;
             }
