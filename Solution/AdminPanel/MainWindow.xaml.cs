@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using LibCubeIntegration.GetCubeStrategies;
+using LibCubeIntegration.ResetCubeStrategies;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +18,16 @@ namespace AdminPanel
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IResetCubeStrategy ResetStrategy = new ResetCubeViaAPIStrategy("CubeProxy");
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private async void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            await ResetStrategy.ResetCubeAsync();
         }
     }
 }
