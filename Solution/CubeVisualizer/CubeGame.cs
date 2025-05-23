@@ -8,15 +8,19 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace CubeVisualizer;
+
+using LibCubeIntegration;
 using LibCubeIntegration.PerformMoveStrategies;
 using LibCubeIntegration.Services;
+using Microsoft.AspNetCore.SignalR.Client;
+using System.Data.Common;
 
 public class CubeGame : Game
 {
     readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
 
-    Task _UpdateTask;
-    bool _IsRunning = true;
+    //Task _UpdateTask;
+    //bool _IsRunning = true;
     CubeState _ErrorState;
 
     GraphicsDeviceManager _graphics;
@@ -30,6 +34,8 @@ public class CubeGame : Game
     MouseState _PrevMouseState = Mouse.GetState();
     float _YRotation = MathHelper.ToRadians(225);
     float _XRotation = MathHelper.ToRadians(45);
+
+    private HubConnection _connection;
 
     public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour)
     {
@@ -50,34 +56,53 @@ public class CubeGame : Game
         base.Initialize();
     }
 
-    protected override void LoadContent()
+    protected override async void LoadContent()
     {
         var cube = Content.Load<Model>("3D Objects/Cube");
 
-
         _RubiksCube = new RubiksCube(cube, _ErrorState);
-        _UpdateTask = Task.Run(CubeStateThread);
+        await InitializeSignalRConnection();
     }
 
-    protected async void CubeStateThread()
+    private async Task InitializeSignalRConnection()
     {
-        while (_IsRunning)
+        _connection = GetHubConnection();
+        bool initialConnectionMade = false;
+
+        while (!initialConnectionMade)
         {
             try
             {
-                if (await _cubeService.GetStateAsync() is { } state)
-                    _RubiksCube.SetCubeState(state);
-                else
-                    _RubiksCube.SetCubeState(_ErrorState);
+                await _connection.StartAsync();
+                initialConnectionMade = true;
             }
-
             catch
             {
-                _RubiksCube.SetCubeState(_ErrorState);
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
-
-            Thread.Sleep(250);
         }
+    }
+
+    private HubConnection GetHubConnection()
+    {
+        IHubConnectionBuilder builder = new HubConnectionBuilder();
+        builder = builder.WithUrl("http://localhost:5002/cubehub");
+        builder = builder.WithAutomaticReconnect();
+
+        HubConnection connection = builder.Build();
+        connection.On<JsonFriendlyCubeState>("CubeStateUpdated", dto =>
+        {
+            var realState = dto.ToCubeState();
+            _RubiksCube.SetCubeState(realState);
+        });
+
+        connection.Reconnecting += error =>
+        {
+            _RubiksCube.SetCubeState(_ErrorState);
+            return Task.CompletedTask;
+        };
+
+        return connection;
     }
 
     protected override void Update(GameTime gameTime)
@@ -126,10 +151,13 @@ public class CubeGame : Game
         base.Draw(gameTime);
     }
 
-    protected override void EndRun()
+    protected override async void EndRun()
     {
-        _IsRunning = false;
-        _UpdateTask.Wait();
+        await _connection.StopAsync();
+        await _connection.DisposeAsync();
+
+        //_IsRunning = false;
+        //_UpdateTask.Wait();
         base.EndRun();
     }
 }
