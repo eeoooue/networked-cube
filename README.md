@@ -24,8 +24,9 @@ The puzzle is presented as a cube map in the same manner as in [Old Pochman](htt
 
 1. Open ```Solution/Solution.sln``` in Visual Studio
 2. Run **CubeService** to make the cube available via the API.
-3. Run **CubeStatePublisher** to make the cube state available to frontends over SignalR.
-4. Run front end application(s) of your choosing to view the cube and interact with it:
+3. Run **CubeProxy** to make the CubeService API available to other components.
+4. Run **CubeStatePublisher** to make the cube state available to frontends over SignalR.
+5. Run front end application(s) of your choosing to view the cube and interact with it:
     - Try **CubeVisualizer** to view the cube in 3D
     - Try **FaceViewer** instances to view individual faces of the cube
     - Try **FaceViewerCLI** to view the cube within the command line and input moves
