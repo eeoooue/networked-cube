@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibCubeIntegration.ResetCubeStrategies
 {
-    internal class ResetCubeViaAPIStrategy : IResetCubeStrategy
+    public class ResetCubeViaAPIStrategy : IResetCubeStrategy
     {
         private string ServerAddress;
         static readonly HttpClient Client = new();
