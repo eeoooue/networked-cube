@@ -1,4 +1,5 @@
-﻿using LibCubeIntegration.Services;
+﻿using LibCubeIntegration.ResetCubeStrategies;
+using LibCubeIntegration.Services;
 using LibNetCube;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace CubeProxy.Controllers
     public class CubeController : Controller
     {
         readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
+        readonly IResetCubeStrategy ResetStrategy = new ResetCubeViaAPIStrategy("CubeService");
 
         [HttpPost("[action]")]
-        public IActionResult Reset()
+        public async Task<IActionResult> Reset()
         {
+            await ResetStrategy.ResetCubeAsync();
             return Ok();
         }
 
