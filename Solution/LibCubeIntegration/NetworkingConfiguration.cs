@@ -44,6 +44,8 @@ namespace LibCubeIntegration
             {
                 case "DummyService":
                     return 5000;
+                case "CubeProxy":
+                    return 5290;
                 case "CubeService":
                     return 5295;
                 case "CubeStatePublisher":
