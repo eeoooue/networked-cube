@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibCubeIntegration.ResetCubeStrategies
 {
-    internal interface IResetCubeStrategy
+    public interface IResetCubeStrategy
     {
         public Task<bool> ResetCubeAsync();
     }
