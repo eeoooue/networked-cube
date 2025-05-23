@@ -1,5 +1,6 @@
 ﻿using LibCubeIntegration.ResetCubeStrategies;
 using LibCubeIntegration.Services;
+using LibCubeIntegration.ShuffleCubeStrategies;
 using LibNetCube;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace CubeProxy.Controllers
     {
         readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
         readonly IResetCubeStrategy ResetStrategy = new ResetCubeViaAPIStrategy("CubeService");
+        readonly IShuffleCubeStrategy ShuffleStrategy = new ShuffleCubeViaAPIStrategy("CubeService");
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Reset()
@@ -21,9 +23,26 @@ namespace CubeProxy.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult ApplyShuffle([FromQuery] string? shuffle = null)
+        public async Task<IActionResult> ApplyShuffle([FromQuery] string? shuffle = null)
         {
-            return Ok();
+            if (shuffle is string moveString)
+            {
+                try
+                {
+                    List<CubeMove> moves = MoveParser.ParseMoveSequence(moveString);
+                    await ShuffleStrategy.ShuffleCubeAsync(shuffle);
+                    return Ok();
+                }
+                catch
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                await ShuffleStrategy.ShuffleCubeAsync();
+                return Ok();
+            }
         }
 
         [HttpPost("[action]")]
