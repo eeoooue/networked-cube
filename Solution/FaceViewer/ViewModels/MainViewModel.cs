@@ -25,7 +25,7 @@ public class MainViewModel : BaseViewModel
     void UpdateFace()
     {
         Face.Face = GetFaceEnum();
-        _ = Face.Update();
+        Face.Update();
     }
 
     CubeFace GetFaceEnum()
