@@ -86,10 +86,15 @@ public class CubeGame : Game
     private HubConnection GetHubConnection()
     {
         IHubConnectionBuilder builder = new HubConnectionBuilder();
-        builder = builder.WithUrl("http://localhost:5002/cubehub");
-        builder = builder.WithAutomaticReconnect();
 
+        string baseAddress = NetworkingConfiguration.GetBaseAddressForProject("CubeStatePublisher");
+        int portNumber = NetworkingConfiguration.GetPortForServer("CubeStatePublisher");
+        string cubeHubUrl = $"{baseAddress}:{portNumber}/cubehub";
+
+        builder = builder.WithUrl(cubeHubUrl);
+        builder = builder.WithAutomaticReconnect();
         HubConnection connection = builder.Build();
+
         connection.On<JsonFriendlyCubeState>("CubeStateUpdated", dto =>
         {
             var realState = dto.ToCubeState();

@@ -20,10 +20,14 @@ namespace CubeStatePublisher
 
         private static IHost BuildHost(string[] args)
         {
+            string baseAddress = NetworkingConfiguration.GetBaseAddressForProject("CubeStatePublisher");
+            int portNumber = NetworkingConfiguration.GetPortForServer("CubeStatePublisher");
+            string cubeHubUrl = $"{baseAddress}:{portNumber}";
+
             IHostBuilder builder = Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(web =>
                 {
-                    web.UseUrls("http://localhost:5002");
+                    web.UseUrls(cubeHubUrl);
                     web.ConfigureServices(services =>
                     {
                         services.AddSignalR();
