@@ -5,7 +5,7 @@ namespace CubeManipulator
     public class CubeManipulatorViewModel
     {
         //full path MoveViaApi
-        LibCubeIntegration.PerformMoveStrategies.MoveViaApiStrategy moveStrategy = new MoveViaApiStrategy();
+        LibCubeIntegration.PerformMoveStrategies.MoveViaApiStrategy moveStrategy = new MoveViaApiStrategy("CubeProxy");
 
         private RelayCommand moveCommand;
         public RelayCommand MoveCommand //Get command result
