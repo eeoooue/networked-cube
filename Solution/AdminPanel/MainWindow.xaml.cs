@@ -18,7 +18,7 @@ namespace AdminPanel
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IResetCubeStrategy ResetStrategy = new ResetCubeViaAPIStrategy("CubeService");
+        private IResetCubeStrategy ResetStrategy = new ResetCubeViaAPIStrategy("CubeProxy");
 
         public MainWindow()
         {
