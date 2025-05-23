@@ -28,7 +28,7 @@ namespace CubeService.Controllers
         {
             List<CubeMove> moves = new List<CubeMove>();
 
-            if (shuffle is string moveString)
+            if (shuffle is string moveString && moveString.Length > 0)
             {
                 try
                 {
