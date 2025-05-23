@@ -20,7 +20,7 @@ namespace CubeStatePublisher
         public PublishCubeService(IHubContext<CubeHub> hubContext)
         {
             _hubContext = hubContext;
-            _getCubeStrategy = new GetCubeViaApiStrategy("CubeService");
+            _getCubeStrategy = new GetCubeViaApiStrategy("CubeProxy");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
