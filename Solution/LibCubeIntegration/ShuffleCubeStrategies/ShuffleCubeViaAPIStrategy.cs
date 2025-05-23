@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibCubeIntegration.ShuffleCubeStrategies
 {
-    internal class ShuffleCubeViaAPIStrategy : IShuffleCubeStrategy
+    public class ShuffleCubeViaAPIStrategy : IShuffleCubeStrategy
     {
         private string ServerAddress;
         static readonly HttpClient Client = new();
