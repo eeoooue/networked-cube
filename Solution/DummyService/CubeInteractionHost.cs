@@ -66,6 +66,12 @@ namespace DummyService
                 return;
             }
 
+            if (moveString == "SHUFFLE")
+            {
+                ShuffleCube();
+                return;
+            }
+
             try
             {
                 Puzzle.ApplyMoveString(moveString);
@@ -79,6 +85,17 @@ namespace DummyService
         private void ResetCube()
         {
             Puzzle.Reset();
+        }
+
+        private void ShuffleCube()
+        {
+            ResetCube();
+
+            List<CubeMove> moves = ScrambleAlgorithm.GenerateScramble();
+            foreach(CubeMove move in moves)
+            {
+                Puzzle.PerformMove(move);
+            }
         }
 
         public byte[] CreateCubeResponse(CubeState state)
