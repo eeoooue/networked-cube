@@ -11,7 +11,7 @@ namespace CubeProxy.Controllers
 
     public class CubeController : Controller
     {
-        readonly CubeServiceFacade _cubeService = new CubeServiceFacade("DummyService");
+        readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
         readonly IShuffleCubeStrategy ShuffleStrategy = new ShuffleCubeViaAPIStrategy("CubeService");
 
         [HttpPost("[action]")]
