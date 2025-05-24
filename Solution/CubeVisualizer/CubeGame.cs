@@ -35,6 +35,9 @@ public class CubeGame : Game
     float _YRotation = MathHelper.ToRadians(225);
     float _XRotation = MathHelper.ToRadians(45);
 
+    bool _userInteracted = false;
+    KeyboardState _prevKeyboardState = Keyboard.GetState();
+
     private HubConnection _connection;
 
     public CubeGame(string pWindowName, int pWindowHeight, int pWindowWidth, Color pBGColour)
@@ -116,12 +119,35 @@ public class CubeGame : Game
         float rotation = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
 
         MouseState mouseState = Mouse.GetState();
-        if (mouseState.LeftButton == ButtonState.Pressed && _PrevMouseState.LeftButton == ButtonState.Pressed)
+
+        if (!_userInteracted && (mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed || mouseState.MiddleButton == ButtonState.Pressed))
         {
-            xDelta = mouseState.X - _PrevMouseState.X;
-            yDelta = _PrevMouseState.Y - mouseState.Y;
+            _userInteracted = true;
         }
-        _PrevMouseState = mouseState;
+
+        KeyboardState keyboardState = Keyboard.GetState();
+
+        if (keyboardState.IsKeyDown(Keys.Enter) && _prevKeyboardState.IsKeyUp(Keys.Enter))
+        {
+            _userInteracted = !_userInteracted;
+        }
+        _prevKeyboardState = keyboardState;
+
+        if (_userInteracted)
+        {
+            if (mouseState.LeftButton == ButtonState.Pressed && _PrevMouseState.LeftButton == ButtonState.Pressed)
+            {
+                xDelta = mouseState.X - _PrevMouseState.X;
+                yDelta = _PrevMouseState.Y - mouseState.Y;
+            }
+            _PrevMouseState = mouseState;
+        }
+        else
+        {
+            xDelta = 20f * rotation; // passive Y rotation speed
+            yDelta = 0.0f;
+        }
+
 
         _YRotation += xDelta * rotation * MouseSpeed;
         _XRotation += yDelta * rotation * MouseSpeed;
