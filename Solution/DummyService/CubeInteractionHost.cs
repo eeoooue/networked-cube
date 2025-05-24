@@ -36,7 +36,7 @@ namespace DummyService
                     string move = ReadFromStream(nStream);
 
                     Console.WriteLine("Received bytes: \"" + move + "\"");
-                    ApplyMove(move);
+                    ProcessMoveString(move);
 
                     // SEND CUBE STATE
 
@@ -58,9 +58,9 @@ namespace DummyService
             return Puzzle.GetState();
         }
 
-        public void ApplyMove(string move)
+        public void ProcessMoveString(string moveString)
         {
-            if (move == "RESET")
+            if (moveString == "RESET")
             {
                 ResetCube();
                 return;
@@ -68,7 +68,7 @@ namespace DummyService
 
             try
             {
-                Puzzle.PerformMove(move);
+                Puzzle.ApplyMoveString(moveString);
             }
             catch
             {
