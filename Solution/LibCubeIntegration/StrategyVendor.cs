@@ -1,5 +1,6 @@
 ﻿using LibCubeIntegration.GetCubeStrategies;
 using LibCubeIntegration.PerformMoveStrategies;
+using LibCubeIntegration.ResetCubeStrategies;
 using LibCubeIntegration.Services;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace LibCubeIntegration
             switch (service)
             {
                 case "CubeService":
+                case "CubeProxy":
                     return new GetCubeViaApiStrategy(service);
                 case "DummyService":
                     return new GetCubeViaSocketStrategy(service);
@@ -29,11 +31,26 @@ namespace LibCubeIntegration
             switch (service)
             {
                 case "CubeService":
+                case "CubeProxy":
                     return new MoveViaApiStrategy(service);
                 case "DummyService":
                     return new MoveViaSocketStrategy(service);
                 default:
                     return new MoveViaApiStrategy(service);
+            }
+        }
+
+        public static IResetCubeStrategy CreateResetStrategy(string service)
+        {
+            switch (service)
+            {
+                case "CubeService":
+                case "CubeProxy":
+                    return new ResetCubeViaAPIStrategy(service);
+                case "DummyService":
+                    return new ResetCubeViaSocketStrategy(service);
+                default:
+                    return new ResetCubeViaAPIStrategy(service);
             }
         }
     }

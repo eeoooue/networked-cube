@@ -12,13 +12,12 @@ namespace CubeProxy.Controllers
     public class CubeController : Controller
     {
         readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
-        readonly IResetCubeStrategy ResetStrategy = new ResetCubeViaAPIStrategy("CubeService");
         readonly IShuffleCubeStrategy ShuffleStrategy = new ShuffleCubeViaAPIStrategy("CubeService");
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Reset()
         {
-            await ResetStrategy.ResetCubeAsync();
+            await _cubeService.ResetCubeAsync();
             return Ok();
         }
 
