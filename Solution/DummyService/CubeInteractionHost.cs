@@ -60,6 +60,12 @@ namespace DummyService
 
         public void ApplyMove(string move)
         {
+            if (move == "RESET")
+            {
+                ResetCube();
+                return;
+            }
+
             try
             {
                 Puzzle.PerformMove(move);
@@ -68,6 +74,11 @@ namespace DummyService
             {
                 return;
             }
+        }
+
+        private void ResetCube()
+        {
+            Puzzle.Reset();
         }
 
         public byte[] CreateCubeResponse(CubeState state)
