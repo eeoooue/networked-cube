@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CubeManipulator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="450">
+        Title="MainWindow" Height="350" Width="450"
+        KeyDown="Window_KeyDown"
+        Focusable="True"
+        KeyUp="Window_KeyUp"
+        >
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
 
