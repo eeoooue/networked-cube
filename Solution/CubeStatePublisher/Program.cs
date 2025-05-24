@@ -31,7 +31,6 @@ namespace CubeStatePublisher
                     web.ConfigureServices(services =>
                     {
                         services.AddSignalR();
-                        services.AddHostedService<PublishCubeService>();
                     });
                     web.Configure(app =>
                     {

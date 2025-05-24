@@ -74,6 +74,7 @@ public class CubeGame : Game
             try
             {
                 await _connection.StartAsync();
+                await _connection.SendAsync("RequestState");
                 initialConnectionMade = true;
             }
             catch
