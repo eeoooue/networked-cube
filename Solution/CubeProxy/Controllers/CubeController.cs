@@ -1,8 +1,10 @@
-﻿using LibCubeIntegration.ResetCubeStrategies;
+﻿using LibCubeIntegration;
+using LibCubeIntegration.ResetCubeStrategies;
 using LibCubeIntegration.Services;
 using LibCubeIntegration.ShuffleCubeStrategies;
 using LibNetCube;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace CubeProxy.Controllers
 {
@@ -13,10 +15,35 @@ namespace CubeProxy.Controllers
     {
         readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
 
+        private async Task NotifyCubeStatePublisher()
+        {
+            HubConnection connection = CubePublisherService.CreateHubConnection();
+
+            try
+            {
+                await connection.StartAsync();
+
+                CubeState? state = await _cubeService.GetStateAsync();
+                if (state is not null)
+                {
+                    var dto = new JsonFriendlyCubeState(state); // if needed
+                    await connection.SendAsync("BroadcastState", dto);
+                }
+
+                await connection.StopAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to notify CubeStatePublisher: {ex.Message}");
+            }
+        }
+
+
         [HttpPost("[action]")]
         public async Task<IActionResult> Reset()
         {
             await _cubeService.ResetCubeAsync();
+            _ = NotifyCubeStatePublisher();
             return Ok();
         }
 
@@ -29,6 +56,8 @@ namespace CubeProxy.Controllers
                 {
                     List<CubeMove> moves = MoveParser.ParseMoveSequence(moveString);
                     await _cubeService.ShuffleCubeAsync(shuffle);
+                    _ = NotifyCubeStatePublisher();
+
                     return Ok();
                 }
                 catch
@@ -39,6 +68,8 @@ namespace CubeProxy.Controllers
             else
             {
                 await _cubeService.ShuffleCubeAsync();
+                _ = NotifyCubeStatePublisher();
+
                 return Ok();
             }
         }
@@ -53,6 +84,7 @@ namespace CubeProxy.Controllers
                     //attempt to parse move as Enum
                     CubeMove parsedMove = MoveParser.ParseMove(move)!;
                     await _cubeService.PerformMoveAsync(move);
+                    _ = NotifyCubeStatePublisher();
 
                     return Ok();
                 }
