@@ -12,7 +12,6 @@ namespace CubeProxy.Controllers
     public class CubeController : Controller
     {
         readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
-        readonly IShuffleCubeStrategy ShuffleStrategy = new ShuffleCubeViaAPIStrategy("CubeService");
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Reset()
@@ -29,7 +28,7 @@ namespace CubeProxy.Controllers
                 try
                 {
                     List<CubeMove> moves = MoveParser.ParseMoveSequence(moveString);
-                    await ShuffleStrategy.ShuffleCubeAsync(shuffle);
+                    await _cubeService.ShuffleCubeAsync(shuffle);
                     return Ok();
                 }
                 catch
@@ -39,7 +38,7 @@ namespace CubeProxy.Controllers
             }
             else
             {
-                await ShuffleStrategy.ShuffleCubeAsync();
+                await _cubeService.ShuffleCubeAsync();
                 return Ok();
             }
         }
