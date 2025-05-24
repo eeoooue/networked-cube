@@ -37,6 +37,7 @@ public class FaceViewModel : BaseViewModel
             try
             {
                 await _connection.StartAsync();
+                await _connection.SendAsync("RequestState");
                 connected = true;
             }
             catch
