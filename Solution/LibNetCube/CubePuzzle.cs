@@ -79,6 +79,28 @@
             }
         }
 
+        public bool ApplyMoveString(string moveString)
+        {
+            CubeState originalState = GetState();
+
+            try
+            {
+                List<CubeMove> moves = MoveParser.ParseMoveSequence(moveString);
+                foreach(CubeMove move in moves)
+                {
+                    PerformMove(move);
+                }
+
+                return true;
+            }
+            catch
+            {
+                SetState(originalState);
+                return false;
+            }
+        }
+
+
         public void PerformMove(CubeMove move)
         {
             if (IsTwoMove(move))
@@ -162,12 +184,6 @@
                 default:
                     throw new ArgumentException();
             }
-        }
-
-        public void PerformMove(string move)
-        {
-            CubeMove parsedMove = MoveParser.ParseMove(move);
-            PerformMove(parsedMove);
         }
 
         private void ReplaceEntireFace(CubeFace face, int[,] values)

@@ -64,7 +64,7 @@ namespace CubeService.Controllers
                 {
                     //attempt to parse move as Enum
                     CubeMove parsedMove = MoveParser.ParseMove(move)!;
-                    _cubePuzzle.PerformMove(move);
+                    _cubePuzzle.PerformMove(parsedMove);
                     return Ok();
                 }
                 catch

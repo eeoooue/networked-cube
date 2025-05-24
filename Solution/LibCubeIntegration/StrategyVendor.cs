@@ -2,6 +2,7 @@
 using LibCubeIntegration.PerformMoveStrategies;
 using LibCubeIntegration.ResetCubeStrategies;
 using LibCubeIntegration.Services;
+using LibCubeIntegration.ShuffleCubeStrategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,20 @@ namespace LibCubeIntegration
                     return new ResetCubeViaSocketStrategy(service);
                 default:
                     return new ResetCubeViaAPIStrategy(service);
+            }
+        }
+
+        public static IShuffleCubeStrategy CreateShuffleStrategy(string service)
+        {
+            switch (service)
+            {
+                case "CubeService":
+                case "CubeProxy":
+                    return new ShuffleCubeViaAPIStrategy(service);
+                case "DummyService":
+                    return new ShuffleCubeViaSocketStrategy(service);
+                default:
+                    return new ShuffleCubeViaAPIStrategy(service);
             }
         }
     }
