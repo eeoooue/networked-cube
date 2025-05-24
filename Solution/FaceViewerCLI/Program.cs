@@ -8,8 +8,7 @@ class Program
 {
     static readonly FacePresenter Presenter = new();
     static CubeState _cubeState = new(new CubePuzzle().GetState());
-
-    static readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeService");
+    static readonly CubeServiceFacade _cubeService = new CubeServiceFacade("CubeProxy");
 
     static async Task Main()
     {
