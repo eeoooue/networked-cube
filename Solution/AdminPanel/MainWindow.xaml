@@ -5,17 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdminPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="320"
+        Title="AdminPanel" Height="200" Width="320"
         KeyDown="Window_KeyDown"
         Focusable="True"
         KeyUp="Window_KeyUp"
         >
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-
         <Button Margin="5" Height="30" Width="150" Click="Reset_Click">Reset Cube</Button>
         <Button Margin="5" Height="30" Width="150" Click="Shuffle_Click">Shuffle Cube</Button>
-
     </StackPanel>
 
 </Window>
