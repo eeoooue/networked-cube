@@ -49,6 +49,8 @@ public class CubeGame : Game
         _graphics.PreferredBackBufferHeight = pWindowHeight;
         _graphics.PreferredBackBufferWidth = pWindowWidth;
         _BackgroundColour = pBGColour;
+
+        this.InactiveSleepTime = TimeSpan.Zero;
     }
 
     protected override void Initialize()
@@ -108,8 +110,8 @@ public class CubeGame : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (!IsActive)
-            return;
+        //if (!IsActive)
+        //    return;
 
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
@@ -133,7 +135,7 @@ public class CubeGame : Game
         }
         _prevKeyboardState = keyboardState;
 
-        if (_userInteracted)
+        if (_userInteracted && IsActive)
         {
             if (mouseState.LeftButton == ButtonState.Pressed && _PrevMouseState.LeftButton == ButtonState.Pressed)
             {
