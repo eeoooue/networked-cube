@@ -33,7 +33,7 @@ namespace CubeService
             lock (_lock)
             {
                 _cubePuzzle.PerformMove(move);
-                _repo.InsertMove(move.ToString());
+                _repo.InsertMove(move);
             }
         }
 
