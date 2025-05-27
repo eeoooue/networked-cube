@@ -9,10 +9,10 @@ namespace CubeService
         private readonly MoveTransactionRepository _repo;
         private readonly object _lock = new();
 
-        public CubeGameEngine(MoveTransactionRepository repo)
+        public CubeGameEngine()
         {
             _cubePuzzle = new CubePuzzle();
-            _repo = repo;
+            _repo = new MoveTransactionRepository();
             HydrateCubeState();
         }
 
