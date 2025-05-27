@@ -1,4 +1,5 @@
-﻿using LibNetCube;
+﻿using CubeService.Models;
+using LibNetCube;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -9,16 +10,18 @@ namespace CubeService.Controllers
     [Route("api/[controller]")]
     public class CubeController : Controller
     {
-        readonly CubePuzzle _cubePuzzle;
-        public CubeController(CubePuzzle cubePuzzle) : base() 
+        private CubeGameEngine _cubeEngine;
+
+        public CubeController(CubeGameEngine cubeEngine) : base() 
         { 
-            _cubePuzzle = cubePuzzle; 
+            _cubeEngine = cubeEngine;
         }
 
         [HttpPost("[action]")]
         public IActionResult Reset()
         {
-            _cubePuzzle.Reset();
+            _cubeEngine.Reset();
+
             return Ok();
         }
 
@@ -45,10 +48,10 @@ namespace CubeService.Controllers
                 moves = ScrambleAlgorithm.GenerateScramble();
             }
 
-            _cubePuzzle.Reset();
+            _cubeEngine.Reset();
             foreach(CubeMove move in moves)
             {
-                _cubePuzzle.PerformMove(move);
+                _cubeEngine.PerformMove(move);
             }
 
             return Ok();
@@ -64,7 +67,7 @@ namespace CubeService.Controllers
                 {
                     //attempt to parse move as Enum
                     CubeMove parsedMove = MoveParser.ParseMove(move)!;
-                    _cubePuzzle.PerformMove(parsedMove);
+                    _cubeEngine.PerformMove(parsedMove);
                     return Ok();
                 }
                 catch
@@ -82,16 +85,18 @@ namespace CubeService.Controllers
         [Route("[action]")]
         public IActionResult State()
         {
-            CubeState state = _cubePuzzle.GetState();
+            CubeState state = _cubeEngine.GetCubeState();
             Dictionary<string, int[]> faces = new Dictionary<string, int[]>();
             foreach (CubeFace face in CubeState.GetFaceNames())
             {
-                int[,] ints = _cubePuzzle.ReadFace(face);
+                int[,] ints = _cubeEngine.GetCubeFace(face);
                 int[] formattedInts = ints.Cast<int>().ToArray();
                 faces.Add(face.ToString(), formattedInts);
             }
             return Ok(faces);
         }
+
+
         [HttpGet("[action]")]
         public IActionResult Face([FromQuery] string? face = null)
         {
@@ -108,9 +113,9 @@ namespace CubeService.Controllers
                 //Not a valid face
                 return BadRequest();
             }
+
             //Is a valid face
-            CubeState state = _cubePuzzle.GetState();
-            int[,] ints = _cubePuzzle.ReadFace(parsedFace);
+            int[,] ints = _cubeEngine.GetCubeFace(parsedFace);
             int[] formattedInts = ints.Cast<int>().ToArray();
             return Ok(formattedInts);
         }
