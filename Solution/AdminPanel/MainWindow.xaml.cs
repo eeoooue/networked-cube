@@ -36,5 +36,22 @@ namespace AdminPanel
         {
             await ShuffleStrategy.ShuffleCubeAsync();
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.R)
+            {
+                Reset_Click(this, new RoutedEventArgs());
+            }
+            else if (e.Key == Key.S)
+            {
+                Shuffle_Click(this, new RoutedEventArgs());
+            }
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            return;
+        }
     }
 }

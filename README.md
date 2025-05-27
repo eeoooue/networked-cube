@@ -14,10 +14,6 @@ The puzzle is presented as a cube map in the same manner as in [Old Pochman](htt
 
 ![Image](./misc/netcube-system-design.png)
 
-> Note: The above diagram depicts the end goal, rather than the current state of the system.
-
-> Yet to be implemented: AdminPanel, CubeProxy
-
 ## Usage
 
 ### Setup
