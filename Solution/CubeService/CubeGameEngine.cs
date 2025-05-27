@@ -19,11 +19,15 @@ namespace CubeService
         private void HydrateCubeState()
         {
             IEnumerable<MoveTransaction> moves = _repo.GetAllMoves();
-            foreach (MoveTransaction move in moves)
+
+            lock (_lock)
             {
-                if (Enum.TryParse<CubeMove>(move.MovePerformed, out var parsed))
+                foreach (MoveTransaction move in moves)
                 {
-                    _cubePuzzle.PerformMove(parsed);
+                    if (Enum.TryParse<CubeMove>(move.MovePerformed, out var parsed))
+                    {
+                        _cubePuzzle.PerformMove(parsed);
+                    }
                 }
             }
         }
