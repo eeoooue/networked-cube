@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 //Adds a singleton for the cube puzzle, ensures only one is given
-builder.Services.AddSingleton<LibNetCube.CubePuzzle>();
+builder.Services.AddSingleton<CubeService.CubeGameEngine>();
 
 builder.Services.AddControllers();
 
