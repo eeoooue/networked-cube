@@ -49,10 +49,7 @@ namespace CubeService.Controllers
             }
 
             _cubeEngine.Reset();
-            foreach(CubeMove move in moves)
-            {
-                _cubeEngine.PerformMove(move);
-            }
+            _cubeEngine.PerformMoveSeries(moves);
 
             return Ok();
         }

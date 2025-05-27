@@ -37,6 +37,18 @@ namespace CubeService
             }
         }
 
+        public void PerformMoveSeries(IEnumerable<CubeMove> moves)
+        {
+            lock (_lock)
+            {
+                foreach(CubeMove move in moves)
+                {
+                    _cubePuzzle.PerformMove(move);
+                }
+                _repo.InsertMoves(moves);
+            }
+        }
+
         public void Reset()
         {
             lock (_lock)
