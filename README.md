@@ -51,3 +51,17 @@ If you know me personally, you are welcome to contribute to this project.
 
 Anticipated additions to the project are listed as [issues](https://github.com/eeoooue/netcube/issues). Let me know if you spot anything that interests you, or if you have any other ideas for the project.
 
+## Technologies
+
+![ASP.NET](https://img.shields.io/badge/ASP.NET-blue?style=for-the-badge)
+![Dapper](https://img.shields.io/badge/dapper-brown?style=for-the-badge)
+![Monogame](https://img.shields.io/badge/monogame-333?style=for-the-badge&logo=monogame)
+![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
+![WPF](https://img.shields.io/badge/wpf-rebeccapurple?style=for-the-badge)
+
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white)
+![SQL](https://img.shields.io/badge/sql-lightgrey?style=for-the-badge)
+
+
+
